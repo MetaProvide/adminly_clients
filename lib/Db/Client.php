@@ -1,10 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * Breeze Dark theme for Nextcloud
+ * Adminly Clients
  *
- * @copyright Copyright (C) 2020  Magnus Walbeck <mw@mwalbeck.org>
+ * @copyright Copyright (C) 2022  Magnus Walbeck <magnus@metaprovide.org>
  *
- * @author Magnus Walbeck <mw@mwalbeck.org>
+ * @author Magnus Walbeck <magnus@metaprovide.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,6 +26,24 @@
  *
  */
 
-return ['routes' => [
-	['name' => 'page#index', 'url' => '/', 'verb' => 'GET']
-]];
+namespace OCA\Adminly_Clients\Db;
+
+use OCP\AppFramework\Db\Entity;
+
+class Client extends Entity {
+
+	protected $providerId;
+
+	protected $email;
+
+	protected $name;
+
+	protected $description;
+
+	public function __construct() {
+        $this->addType('providerId', 'integer');
+		$this->addType('email', 'string');
+		$this->addType('name', 'string');
+		$this->addType('description', 'string');
+    }
+}

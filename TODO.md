@@ -1,0 +1,3 @@
+- [ ] setup view - hello world
+- [ ] define model
+- [ ] CRUD operations?

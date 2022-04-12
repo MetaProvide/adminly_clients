@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Adminly Clients
  *
@@ -22,5 +25,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
-<div id="app" data-clients="<?php p(json_encode($clients)); ?>"></div>
+
+namespace OCA\Adminly_Clients\Controller;
+
+use OCP\IRequest;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Controller;
+use OCP\Util;
+use OCA\Adminly_Clients\Db\ClientMapper;
+use OCP\IUserSession;
+
+class PageController extends Controller {
+
+	private $mapper;
+
+	private $userId;
+
+	public function __construct(string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession) {
+		parent::__construct($AppName, $request);
+		$this->mapper = $mapper;
+		$this->userId = $userSession->getUser()->getUID();
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Render default template
+	 */
+	public function index() {
+		$clients = (array) $this->mapper->findAll($this->userId)[0];
+
+		Util::addScript($this->appName, 'adminly_clients-main');
+		return new TemplateResponse('adminly_clients', 'main', ['clients' => $clients]);
+	}
+}

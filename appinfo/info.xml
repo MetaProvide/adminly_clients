@@ -18,7 +18,7 @@
     <navigations>
       <navigation>
         <name>Clients</name>
-        <route>adminly_clients.clients.index</route>
+        <route>adminly_clients.page.index</route>
         <icon>app.svg</icon>
         <order>1</order>
       </navigation>

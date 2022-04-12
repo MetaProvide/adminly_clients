@@ -65,7 +65,8 @@
 		"@nextcloud/router": "^2.0.0",
 		"@nextcloud/vue": "^4.4.0",
 		"sanitize-html": "^2.7.0",
-		"vue": "^2.6.14"
+		"vue": "^2.6.14",
+		"vue-linkify": "^1.0.1"
 	},
 	"browserslist": [
 		"extends @nextcloud/browserslist-config"
