@@ -1,6 +1,6 @@
 <?php
 /**
- * Adminly Dashboard
+ * Adminly Clients
  *
  * @copyright Copyright (C) 2022  Magnus Walbeck <magnus@metaprovide.org>
  *
