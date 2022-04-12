@@ -1,0 +1,11 @@
+.env
+.idea
+*.iml
+vendor/
+build/
+node_modules/
+.php_cs.cache
+js/
+cypress/screenshots/
+cypress/videos/
+*.cache
