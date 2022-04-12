@@ -40,28 +40,28 @@ class ClientMapper extends QBMapper {
 	}
 
 	public function find(int $id, string $providerId) {
-        $qb = $this->db->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 
-                    $qb->select('*')
-                             ->from($this->getTableName())
-                             ->where(
-                                     $qb->expr()->eq('id', $qb->createNamedParameter($id))
-                             )->andWhere(
-             $qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-           );
+		$qb->select('*')
+							 ->from($this->getTableName())
+							 ->where(
+									 $qb->expr()->eq('id', $qb->createNamedParameter($id))
+							 )->andWhere(
+			 $qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+		   );
 
-        return $this->findEntity($qb);
-    }
+		return $this->findEntity($qb);
+	}
 
-    public function findAll(string $providerId) {
-        $qb = $this->db->getQueryBuilder();
+	public function findAll(string $providerId) {
+		$qb = $this->db->getQueryBuilder();
 
-        $qb->select('*')
-           ->from($this->getTableName())
-           ->where(
-            $qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-           );
+		$qb->select('*')
+		   ->from($this->getTableName())
+		   ->where(
+			$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+		   );
 
-        return $this->findEntities($qb);
-    }
+		return $this->findEntities($qb);
+	}
 }

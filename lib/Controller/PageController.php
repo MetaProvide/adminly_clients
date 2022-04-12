@@ -37,8 +37,10 @@ use OCP\IUserSession;
 
 class PageController extends Controller {
 
+	/** @var ClientMapper */
 	private $mapper;
 
+	/** @var string */
 	private $userId;
 
 	public function __construct(string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession) {
@@ -53,7 +55,7 @@ class PageController extends Controller {
 	 *
 	 * Render default template
 	 */
-	public function index() {
+	public function index(): TemplateResponse {
 		$clients = $this->mapper->findAll($this->userId)[0];
 
 		Util::addScript($this->appName, 'adminly_clients-main');
