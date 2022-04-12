@@ -48,8 +48,8 @@ class Version0Date20220412110926 extends SimpleMigrationStep {
 				'default' => ''
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['email'], 'adminly_clients_unique_index');
-			$table->addIndex(['provider_id'], 'adminly_clients_provider_id_index');
+			$table->addUniqueIndex(['email'], 'adminly_clients_uq_idx');
+			$table->addIndex(['provider_id'], 'adminly_clients_pid_idx');
 		}
 
 		return $schema;
