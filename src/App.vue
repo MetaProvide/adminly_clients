@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<h1>Hello from clients</h1>
-		<span>{{ clients.id }}</span>
+		<span>{{ clients.name }}</span>
 	</main>
 </template>
 

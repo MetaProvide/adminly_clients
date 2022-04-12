@@ -14,8 +14,6 @@ use OCP\DB\Types;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version0Date20220412110926 extends SimpleMigrationStep {
-	const _TABLENAME = "adminly_clients";
-
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
@@ -26,8 +24,8 @@ class Version0Date20220412110926 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable(self::_TABLENAME)) {
-			$table = $schema->createTable(self::_TABLENAME);
+		if (!$schema->hasTable("adminly_clients")) {
+			$table = $schema->createTable("adminly_clients");
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -38,19 +36,22 @@ class Version0Date20220412110926 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 			$table->addColumn('email', Types::STRING, [
-				'notnull' => false,
+				'notnull' => true,
 				'length' => 250,
 			]);
 			$table->addColumn('name', Types::STRING, [
-				'notnull' => false,
+				'notnull' => true,
 				'length' => 250,
 			]);
 			$table->addColumn('description', Types::TEXT, [
-				'notnull' => false,
+				'notnull' => true,
+				'default' => ''
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['email'], 'email_index');
+			$table->addUniqueIndex(['email'], 'adminly_clients_unique_index');
+			$table->addIndex(['provider_id'], 'adminly_clients_provider_id_index');
 		}
+
 		return $schema;
 	}
 }
