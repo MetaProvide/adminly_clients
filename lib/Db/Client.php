@@ -46,7 +46,7 @@ class Client extends Entity {
 
 	public function __construct() {
 		$this->addType('id', 'integer');
-		$this->addType('providerId', 'integer');
+		$this->addType('providerId', 'string');
 		$this->addType('email', 'string');
 		$this->addType('name', 'string');
 		$this->addType('description', 'string');

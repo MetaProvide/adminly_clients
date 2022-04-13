@@ -33,14 +33,13 @@ export default new Vue({
 	el: "#app",
 	data() {
 		return {
-			clients: {},
+			clients: [],
 		};
 	},
 	beforeMount() {
 		// importing clients from backend
 		const dataset = document.querySelector("#app").dataset;
 		this.clients = JSON.parse(dataset.clients);
-		console.log(dataset);
 	},
 	render(h) {
 		return h(App, { props: { clients: this.clients } });

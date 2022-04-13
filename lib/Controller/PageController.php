@@ -56,9 +56,15 @@ class PageController extends Controller {
 	 * Render default template
 	 */
 	public function index(): TemplateResponse {
-		$clients = $this->mapper->findAll($this->userId)[0];
+		$clients = $this->mapper->findAll($this->userId);
+
+		$clientsArray = [];
+
+		foreach ($clients as $client) {
+			$clientsArray[] = $client->jsonSerialize();
+		}
 
 		Util::addScript($this->appName, 'adminly_clients-main');
-		return new TemplateResponse('adminly_clients', 'main', ['clients' => $clients]);
+		return new TemplateResponse('adminly_clients', 'main', ['clients' => $clientsArray]);
 	}
 }

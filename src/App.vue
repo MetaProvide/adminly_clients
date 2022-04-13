@@ -1,7 +1,9 @@
 <template>
 	<main>
 		<h1>Hello from clients</h1>
-		<span>{{ clients.name }}</span>
+		<ul v-for="client in clients" :key="client.key" class="clients">
+			<li>{{ client.name }}</li>
+		</ul>
 	</main>
 </template>
 
@@ -10,9 +12,9 @@ export default {
 	name: "App",
 	props: {
 		clients: {
-			type: Object,
+			type: Array,
 			default() {
-				return {};
+				return [];
 			},
 		},
 	},
@@ -20,7 +22,7 @@ export default {
 </script>
 
 <style scoped>
-.client {
+.clients {
 	font-weight: bold;
 }
 </style>
