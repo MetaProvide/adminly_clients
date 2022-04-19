@@ -1,15 +1,18 @@
 <template>
 	<main>
-		<h1>Hello from clients</h1>
-		<ul v-for="client in clients" :key="client.key" class="clients">
-			<li>{{ client.name }}</li>
-		</ul>
+		<div class="tableContent">
+			<ClientsTable :clients="clients" />
+		</div>
 	</main>
 </template>
 
 <script>
+import ClientsTable from "./components/ClientsTable.vue";
 export default {
 	name: "App",
+	components: {
+		ClientsTable,
+	},
 	props: {
 		clients: {
 			type: Array,
@@ -22,7 +25,23 @@ export default {
 </script>
 
 <style scoped>
+main {
+	width: 100%;
+	min-height: 100vh;
+	padding: 20px;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
+
 .clients {
 	font-weight: bold;
+}
+</style>
+
+<style scoped>
+.tableContent {
+	display: flex;
+	justify-content: center;
 }
 </style>
