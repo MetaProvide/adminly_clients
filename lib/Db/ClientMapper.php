@@ -31,6 +31,7 @@ namespace OCA\Adminly_Clients\Db;
 
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
+use Exception;
 
 class ClientMapper extends QBMapper {
 	public const TABLE_NAME = 'adminly_clients';
@@ -43,12 +44,12 @@ class ClientMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-							 ->from($this->getTableName())
-							 ->where(
-									 $qb->expr()->eq('id', $qb->createNamedParameter($id))
-							 )->andWhere(
-			 $qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-		   );
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id))
+			)->andWhere(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
 
 		return $this->findEntity($qb);
 	}
@@ -57,11 +58,28 @@ class ClientMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-		   ->from($this->getTableName())
-		   ->where(
-			$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-		   );
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
 
 		return $this->findEntities($qb);
+	}
+
+	public function create(Client $client) {
+		try {
+			$qb = $this->db->getQueryBuilder();
+
+			return $qb->insert($this->getTableName())
+				->values([
+					'provider_id' => $qb->createNamedParameter($client->getProviderId()),
+					'name' => $qb->createNamedParameter($client->getName()),
+					'email' => $qb->createNamedParameter($client->getEmail()),
+					'description' => $qb->createNamedParameter($client->getDescription())
+				])
+				->executeStatement();
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
 	}
 }
