@@ -79,9 +79,11 @@ export default {
 .modal-container {
 	width: 50vw;
 }
+
 input {
 	width: 100%;
 }
+
 .modal__content {
 	padding: 20px;
 }
