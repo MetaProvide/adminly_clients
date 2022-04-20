@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Adminly Clients
  *
@@ -22,5 +25,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-?>
-<div id="app" data-clients="<?php p(json_encode($clients)); ?>"></div>
+
+namespace OCA\Adminly_Clients\Db;
+
+use OCP\AppFramework\Db\Entity;
+
+class Client extends Entity {
+
+	/** @var int */
+	protected $providerId;
+
+	/** @var string */
+	protected $email;
+
+	/** @var string */
+	protected $name;
+
+	/** @var string */
+	protected $description;
+
+	public function __construct() {
+		$this->addType('id', 'integer');
+		$this->addType('providerId', 'string');
+		$this->addType('email', 'string');
+		$this->addType('name', 'string');
+		$this->addType('description', 'string');
+	}
+
+	public function jsonSerialize(): array {
+		return [
+			'id' => $this->id,
+			'providerId' => $this->providerId,
+			'email' => $this->email,
+			'name' => $this->name,
+			'description' => $this->description
+		];
+	}
+}
