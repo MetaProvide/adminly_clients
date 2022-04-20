@@ -14,7 +14,6 @@ use OCP\DB\Types;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version0Date20220420183111 extends SimpleMigrationStep {
-
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

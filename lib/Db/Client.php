@@ -44,12 +44,36 @@ class Client extends Entity {
 	/** @var string */
 	protected $description;
 
+	/** @var string */
+	protected $phoneNumber;
+
+	/** @var string */
+	protected $timezone;
+
+	/** @var string */
+	protected $country;
+
+	/** @var string */
+	protected $city;
+
+	/** @var int */
+	protected $age;
+
+	/** @var string */
+	protected $contacts;
+
 	public function __construct() {
 		$this->addType('id', 'integer');
 		$this->addType('providerId', 'string');
 		$this->addType('email', 'string');
 		$this->addType('name', 'string');
 		$this->addType('description', 'string');
+		$this->addType('phoneNumber', 'string');
+		$this->addType('timezone', 'string');
+		$this->addType('country', 'string');
+		$this->addType('city', 'string');
+		$this->addType('age', 'integer');
+		$this->addType('contacts', 'string');
 	}
 
 	public function jsonSerialize(): array {
@@ -58,7 +82,13 @@ class Client extends Entity {
 			'providerId' => $this->providerId,
 			'email' => $this->email,
 			'name' => $this->name,
-			'description' => $this->description
+			'description' => $this->description,
+			'phoneNumber' => $this->phoneNumber,
+			'timezone' => $this->timezone,
+			'country' => $this->country,
+			'city' => $this->city,
+			'age' => $this->age,
+			'contacts' => json_decode($this->contacts, true),
 		];
 	}
 }
