@@ -34,6 +34,8 @@ use OCP\AppFramework\Controller;
 use OCP\Util;
 use OCA\Adminly_Clients\Db\ClientMapper;
 use OCP\IUserSession;
+use OCA\Adminly_Clients\Db\Client;
+use Exception;
 
 class PageController extends Controller {
 
@@ -66,5 +68,26 @@ class PageController extends Controller {
 
 		Util::addScript($this->appName, 'adminly_clients-main');
 		return new TemplateResponse('adminly_clients', 'main', ['clients' => $clientsArray]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Creates a new client
+	 */
+	public function create(string $name, string $email, string $description): String {
+		$client = new Client();
+		$client->setName($name);
+		$client->setEmail($email);
+		$client->setDescription($description);
+		$client->setProviderId($this->userId);
+
+		try {
+			$this->mapper->insert($client);
+			return "Success";
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
 	}
 }

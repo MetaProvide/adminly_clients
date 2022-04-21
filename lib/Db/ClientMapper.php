@@ -43,12 +43,12 @@ class ClientMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-							 ->from($this->getTableName())
-							 ->where(
-									 $qb->expr()->eq('id', $qb->createNamedParameter($id))
-							 )->andWhere(
-			 $qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-		   );
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id))
+			)->andWhere(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
 
 		return $this->findEntity($qb);
 	}
@@ -57,10 +57,10 @@ class ClientMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
-		   ->from($this->getTableName())
-		   ->where(
-			$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-		   );
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
 
 		return $this->findEntities($qb);
 	}
