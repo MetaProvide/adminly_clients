@@ -35,6 +35,7 @@ use OCP\Util;
 use OCA\Adminly_Clients\Db\ClientMapper;
 use OCP\IUserSession;
 use OCA\Adminly_Clients\Db\Client;
+use Exception;
 
 class PageController extends Controller {
 
@@ -82,6 +83,11 @@ class PageController extends Controller {
 		$client->setDescription($description);
 		$client->setProviderId($this->userId);
 
-		return (string) $this->mapper->create($client);
+		try {
+			$this->mapper->insert($client);
+			return "Success";
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
 	}
 }
