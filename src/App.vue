@@ -2,12 +2,18 @@
 	<main>
 		<div class="flex">
 			<CreateClient />
-			<input v-model="searchName" v-on:input="search" />
+			<input v-model="searchName" @v-on:input="search" />
 		</div>
 		<ClientsTable :key="pageNumber" :clients="tableContent" />
-		<div class="tableNav">
-			<button @click="previousPage()">Prev</button>
-			<button @click="nextPage()">Next</button>
+		<div class="tableFooter">
+			<div class="pageInfo">
+				{{ pageNumber * clientsPerPage }} -
+				{{ (pageNumber + 1) * clientsPerPage }} of {{ totalClients }}
+			</div>
+			<div class="tableNav">
+				<button @click="previousPage()">Prev</button>
+				<button @click="nextPage()">Next</button>
+			</div>
 		</div>
 	</main>
 </template>
@@ -35,7 +41,7 @@ export default {
 			tableContent: [],
 			pageNumber: 0,
 			totalPages: 0,
-			clientsPerPage: 10,
+			clientsPerPage: 8,
 			totalClients: 0,
 			searchName: "",
 		};
@@ -72,14 +78,10 @@ export default {
 		},
 		search() {
 			this.tableContent = this.clients.filter((p) => {
-				// return true if the product should be visible
-
-				// in this example we just check if the search string
-				// is a substring of the product name (case insensitive)
 				return (
 					p.name
 						.toLowerCase()
-						.indexOf(this.searchName.toLowerCase()) != -1
+						.indexOf(this.searchName.toLowerCase()) !== -1
 				);
 			});
 		},
@@ -109,5 +111,14 @@ main {
 
 .flex {
 	display: flex;
+}
+
+.pageInfo {
+	justify-content: left;
+}
+
+.tableFooter {
+	display: flex;
+	justify-content: space-between;
 }
 </style>
