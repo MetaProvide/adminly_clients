@@ -1,5 +1,5 @@
 <template>
-	<div class="centered">
+	<div>
 		<table>
 			<thead>
 				<tr>
@@ -38,18 +38,10 @@ export default {
 </script>
 
 <style scoped>
-.centered {
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-content: center;
-}
-
 table {
 	font-family: "Open Sans", sans-serif;
-	max-width: 900px;
+	width: 100%;
 	border-collapse: collapse;
-	margin: 10px 10px 0 10px;
 	box-shadow: 0px 0px 9.68155px rgba(0, 0, 0, 0.15);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
@@ -63,7 +55,7 @@ table th {
 
 table td {
 	text-align: left;
-	padding: 0 20px;
+	padding: 10px 20px;
 }
 
 table tr {

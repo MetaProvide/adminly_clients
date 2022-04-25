@@ -2,17 +2,56 @@
 	<main>
 		<div class="flex">
 			<CreateClient />
-			<input v-model="searchName" @v-on:input="search" />
+			<input
+				v-model="searchName"
+				placeholder="Search Client"
+				@input="search"
+			/>
 		</div>
 		<ClientsTable :key="pageNumber" :clients="tableContent" />
 		<div class="tableFooter">
-			<div class="pageInfo">
+			<div v-if="pageNumber === totalPages - 1" class="pageInfo">
+				{{ pageNumber * clientsPerPage }} - {{ totalClients }} of
+				{{ totalClients }}
+			</div>
+			<div v-else class="pageInfo">
 				{{ pageNumber * clientsPerPage }} -
-				{{ (pageNumber + 1) * clientsPerPage }} of {{ totalClients }}
+				{{ (pageNumber + 1) * clientsPerPage }} of
+				{{ totalClients }} clients
 			</div>
 			<div class="tableNav">
-				<button @click="previousPage()">Prev</button>
-				<button @click="nextPage()">Next</button>
+				<button @click="previousPage()">
+					<svg
+						width="10"
+						height="15"
+						viewBox="0 0 10 15"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M3.02714 7.61528L9.14502 1.4974L8.10172 0.454102L0.940539 7.61528L8.10172 14.7765L9.14502 13.7332L3.02714 7.61528Z"
+							fill="#868C92"
+						/>
+					</svg>
+				</button>
+				<button @click="nextPage()">
+					<svg
+						width="9"
+						height="15"
+						viewBox="0 0 9 15"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M6.24508 7.61421L0.127197 13.7321L1.1705 14.7754L8.33168 7.61421L1.1705 0.453031L0.127197 1.49633L6.24508 7.61421Z"
+							fill="#8E8E8E"
+						/>
+					</svg>
+				</button>
 			</div>
 		</div>
 	</main>
@@ -91,13 +130,14 @@ export default {
 
 <style scoped>
 main {
-	width: 100%;
+	width: 80%;
+	margin: auto;
 	min-height: 100vh;
 	padding: 20px;
 	display: flex;
-	justify-content: center;
 	gap: 20px;
 	flex-direction: column;
+	align-content: center;
 }
 
 .clients {
@@ -109,15 +149,28 @@ main {
 	justify-content: right;
 }
 
+.tableNav button {
+	border: none;
+	background-color: white;
+}
+
+input {
+	box-shadow: 0px 0px 10.8184px rgba(0, 0, 0, 0.15);
+	border-radius: 8px;
+}
+
 .flex {
 	display: flex;
 }
 
 .pageInfo {
 	justify-content: left;
+	padding: 10px;
 }
 
 .tableFooter {
+	box-shadow: 0px 0px 9.68155px rgba(0, 0, 0, 0.15);
+	border-radius: 15px;
 	display: flex;
 	justify-content: space-between;
 }
