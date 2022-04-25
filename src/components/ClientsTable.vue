@@ -3,7 +3,9 @@
 		<table>
 			<thead>
 				<tr>
-					<th v-for="col in columns" :key="col.label">{{ col }}</th>
+					<th>Client Name</th>
+					<th>Email</th>
+					<th>Description</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,19 +50,31 @@ table {
 	max-width: 900px;
 	border-collapse: collapse;
 	margin: 10px 10px 0 10px;
-	box-shadow: 0px 0px 36px 15px rgba(0, 0, 0, 0.28);
-	border-radius: 20px;
+	box-shadow: 0px 0px 9.68155px rgba(0, 0, 0, 0.15);
+	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
 }
+
 table th {
 	font-weight: bold;
-	padding: 10px;
+	padding: 10px 20px;
+	border: 1 solid #eeeeee;
 }
+
 table td {
 	text-align: left;
-	padding: 8px;
+	padding: 0 20px;
 }
+
+table tr {
+	border-bottom: 1px solid #eeeeee;
+}
+
 table td:last-child {
 	border-right: none;
+}
+
+table td:first-child {
+	color: #238dda;
 }
 </style>
