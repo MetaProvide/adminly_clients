@@ -22,9 +22,9 @@
 					{{ totalClients }} clients
 				</span>
 				<select v-model="clientsPerPage" @change="updateTable()">
-					<option value="10" selected>10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
+					<option value="10" selected>10/page</option>
+					<option value="20">20/page</option>
+					<option value="30">30/page</option>
 				</select>
 			</div>
 			<div class="tableNav">
@@ -174,15 +174,24 @@ export default {
 .tableNav button {
 	border: none;
 	background-color: white;
+	font-weight: normal;
 }
 
 .tableNav p {
 	margin: 10px;
 }
 
+.tableNav button {
+	border-radius: 5px;
+}
+
 input {
-	box-shadow: 0px 0px 10.8184px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
+}
+
+.tableFooter input {
+	max-width: 60px;
 }
 
 .flex {
@@ -195,10 +204,11 @@ input {
 }
 
 .tableFooter {
-	box-shadow: 0px 0px 9.68155px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 15px;
 	display: flex;
 	justify-content: space-between;
+	padding: 0 20px;
 }
 
 .active {
@@ -207,5 +217,6 @@ input {
 
 select {
 	border: none;
+	font-size: unset;
 }
 </style>
