@@ -89,6 +89,5 @@ class PageController extends Controller {
 		} catch (Exception $e) {
 			return $e->getMessage();
 		}
-    
 	}
 }
