@@ -46,7 +46,6 @@ class Version0Date20220420183111 extends SimpleMigrationStep {
 		]);
 		$table->addColumn('contacts', Types::TEXT, [
 			'notnull' => false,
-			'default' => ''
 		]);
 
 		return $schema;

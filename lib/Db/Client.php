@@ -77,18 +77,23 @@ class Client extends Entity {
 	}
 
 	public function jsonSerialize(): array {
+		if ($this->contacts === null) {
+			$contacts = "";
+		} else
+			$contacts = json_decode($this->contacts, true);
+
 		return [
 			'id' => $this->id,
 			'providerId' => $this->providerId,
 			'email' => $this->email,
 			'name' => $this->name,
-			'description' => $this->description,
+			'description' => json_decode($this->description),
 			'phoneNumber' => $this->phoneNumber,
 			'timezone' => $this->timezone,
 			'country' => $this->country,
 			'city' => $this->city,
 			'age' => $this->age,
-			'contacts' => json_decode($this->contacts, true),
+			'contacts' => $contacts,
 		];
 	}
 }
