@@ -8,19 +8,27 @@
 				@input="search"
 			/>
 		</div>
-		<ClientsTable :key="pageNumber" :clients="tableContent" />
+		<ClientsTable :key="currentPage" :clients="tableContent" />
 		<div class="tableFooter">
-			<div v-if="pageNumber === totalPages - 1" class="pageInfo">
-				{{ pageNumber * clientsPerPage }} - {{ totalClients }} of
-				{{ totalClients }}
-			</div>
-			<div v-else class="pageInfo">
-				{{ pageNumber * clientsPerPage }} -
-				{{ (pageNumber + 1) * clientsPerPage }} of
-				{{ totalClients }} clients
+			<div class="pageInfo">
+				<span v-if="currentPage === totalPages">
+					{{ (currentPage - 1) * clientsPerPage }} -
+					{{ totalClients }} of
+					{{ totalClients }}
+				</span>
+				<span v-else>
+					{{ (currentPage - 1) * clientsPerPage }} -
+					{{ currentPage * clientsPerPage }} of
+					{{ totalClients }} clients
+				</span>
+				<select v-model="clientsPerPage" @change="updateTable()">
+					<option value="10" selected>10</option>
+					<option value="20">20</option>
+					<option value="30">30</option>
+				</select>
 			</div>
 			<div class="tableNav">
-				<button @click="previousPage()">
+				<button v-if="currentPage > 1" @click="previousPage()">
 					<svg
 						width="10"
 						height="15"
@@ -36,7 +44,17 @@
 						/>
 					</svg>
 				</button>
-				<button @click="nextPage()">
+				<div v-for="page in totalPages" :key="page">
+					<button
+						v-if="page === currentPage"
+						class="active"
+						@click="getPage(page)"
+					>
+						{{ page }}
+					</button>
+					<button v-else @click="getPage(page)">{{ page }}</button>
+				</div>
+				<button v-if="currentPage < totalPages" @click="nextPage()">
 					<svg
 						width="9"
 						height="15"
@@ -52,6 +70,12 @@
 						/>
 					</svg>
 				</button>
+				<p>Go to</p>
+				<input
+					v-model="goToPage"
+					type="number"
+					@input="getPage(goToPage)"
+				/>
 			</div>
 		</div>
 	</main>
@@ -78,42 +102,51 @@ export default {
 	data() {
 		return {
 			tableContent: [],
-			pageNumber: 0,
+			currentPage: 1,
 			totalPages: 0,
-			clientsPerPage: 8,
+			clientsPerPage: 10,
 			totalClients: 0,
 			searchName: "",
+			goToPage: "",
 		};
 	},
 	async mounted() {
-		this.tableContent = this.clients.slice(0, this.clientsPerPage);
-		this.totalClients = this.clients.length;
-		this.totalPages = Math.ceil(this.totalClients / this.clientsPerPage);
+		this.updateTable();
 	},
 	methods: {
+		updateTable() {
+			this.tableContent = this.clients.slice(0, this.clientsPerPage);
+			this.totalClients = this.clients.length;
+			this.totalPages = Math.ceil(
+				this.totalClients / this.clientsPerPage
+			);
+		},
 		nextPage() {
-			if (this.pageNumber === this.totalPages - 2) {
-				this.pageNumber += 1;
-				this.tableContent = this.clients.slice(
-					this.pageNumber * this.clientsPerPage,
+			this.currentPage += 1;
+			this.tableContent = this.clients.slice(
+				(this.currentPage - 1) * this.clientsPerPage,
+				Math.min(
+					this.currentPage * this.clientsPerPage,
 					this.totalClients
-				);
-			} else if (this.pageNumber < this.totalPages - 1) {
-				this.pageNumber += 1;
-				this.tableContent = this.clients.slice(
-					this.pageNumber * this.clientsPerPage,
-					(this.pageNumber + 1) * this.clientsPerPage
-				);
-			}
+				)
+			);
 		},
 		previousPage() {
-			if (this.pageNumber > 0) {
-				this.pageNumber -= 1;
-				this.tableContent = this.clients.slice(
-					this.pageNumber * this.clientsPerPage,
-					(this.pageNumber + 1) * this.clientsPerPage
-				);
-			}
+			this.currentPage -= 1;
+			this.tableContent = this.clients.slice(
+				(this.currentPage - 1) * this.clientsPerPage,
+				this.currentPage * this.clientsPerPage
+			);
+		},
+		getPage(pageNum) {
+			this.currentPage = pageNum;
+			this.tableContent = this.clients.slice(
+				(this.currentPage - 1) * this.clientsPerPage,
+				Math.min(
+					this.currentPage * this.clientsPerPage,
+					this.totalClients
+				)
+			);
 		},
 		search() {
 			this.tableContent = this.clients.filter((p) => {
@@ -173,5 +206,12 @@ input {
 	border-radius: 15px;
 	display: flex;
 	justify-content: space-between;
+}
+
+.active {
+	background-color: #eef4fc !important;
+}
+select {
+	border: none;
 }
 </style>
