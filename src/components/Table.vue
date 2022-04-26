@@ -39,7 +39,6 @@ export default {
 
 <style scoped>
 table {
-	font-family: 'Open Sans', sans-serif;
 	width: 100%;
 	border-collapse: collapse;
 	box-shadow: 0px 0px 9.68155px rgba(0, 0, 0, 0.15);
