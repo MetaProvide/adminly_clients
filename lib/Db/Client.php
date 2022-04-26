@@ -79,8 +79,9 @@ class Client extends Entity {
 	public function jsonSerialize(): array {
 		if ($this->contacts === null) {
 			$contacts = "";
-		} else
+		} else {
 			$contacts = json_decode($this->contacts, true);
+		}
 
 		return [
 			'id' => $this->id,
