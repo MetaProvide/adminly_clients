@@ -175,14 +175,11 @@ export default {
 	border: none;
 	background-color: white;
 	font-weight: normal;
+	border-radius: 5px;
 }
 
 .tableNav p {
 	margin: 10px;
-}
-
-.tableNav button {
-	border-radius: 5px;
 }
 
 input {
