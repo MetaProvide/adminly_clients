@@ -41,7 +41,7 @@ export default {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	box-shadow: 0px 0px 9.68155px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
 }

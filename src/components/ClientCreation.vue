@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<button id="show-modal" @click="modalShow = true">
+		<button @click="toggleModal()">
 			<svg
 				width="24"
 				height="18"
@@ -14,8 +14,8 @@
 				/>
 			</svg>
 		</button>
-		<Modal v-if="modalShow" @close="modalShow = false">
-			<div class="modal__content">
+		<Modal v-if="modal" @close="toggleModal()">
+			<div class="modal-content">
 				<form @submit.prevent="submitForm">
 					<div>
 						<label for="name">Name:</label><br />
@@ -59,7 +59,7 @@ export default {
 	},
 	data() {
 		return {
-			modalShow: false,
+			modal: false,
 			name: "",
 			email: "",
 			description: "",
@@ -75,7 +75,7 @@ export default {
 					description: this.description,
 				})
 				.then((response) => {
-					this.modalShow = false;
+					this.toggleModal();
 					this.name = "";
 					this.email = "";
 					this.description = "";
@@ -83,6 +83,9 @@ export default {
 				.catch((error) => {
 					alert(error);
 				});
+		},
+		toggleModal() {
+			this.modal = !this.modal;
 		},
 	},
 };
@@ -103,7 +106,7 @@ button {
 	background-color: white;
 }
 
-.modal__content {
+.modal-content {
 	padding: 20px;
 }
 </style>
