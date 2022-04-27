@@ -88,7 +88,7 @@ class Client extends Entity {
 			'providerId' => $this->providerId,
 			'email' => $this->email,
 			'name' => $this->name,
-			'description' => json_decode($this->description),
+			'description' => $this->description,
 			'phoneNumber' => $this->phoneNumber,
 			'timezone' => $this->timezone,
 			'country' => $this->country,
