@@ -2,24 +2,37 @@
 	<div>
 		<Modal @close="toggleModal()">
 			<div class="modal-content">
-				<div class="row">
-					<Avatar :username="client.name" :size="100" />
-					<div class="col ml-22">
-						<h1>
-							{{ client.name }}
-						</h1>
-						<p>{{ client.timezone }}</p>
-						<p>{{ age }}</p>
+				<div class="client-info">
+					<div class="col w-60">
+						<div class="row">
+							<Avatar :username="client.name" :size="100" />
+							<div class="col ml-22">
+								<h1>
+									{{ client.name }}
+								</h1>
+								<p>{{ client.timezone }}</p>
+								<p>{{ age }}</p>
+							</div>
+						</div>
+
+						<h3>About</h3>
+						<p>
+							{{ client.description }}
+						</p>
 					</div>
 					<div class="col ml-22">
 						<h3>Other Contacts</h3>
+						{{ client.contacts }}
 						<h3>Attachments</h3>
 					</div>
 				</div>
-				<h3>About</h3>
-				<p>
-					{{ client.description }}
-				</p>
+				<div class="sessions">
+					<SessionCard
+						v-for="session in sessions"
+						:key="session.id"
+						:session="session"
+					/>
+				</div>
 			</div>
 		</Modal>
 	</div>
@@ -28,11 +41,14 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
+import { SessionsUtil } from "../utils.js";
+import SessionCard from "./SessionCard";
 
 export default {
 	components: {
 		Modal,
 		Avatar,
+		SessionCard,
 	},
 
 	props: {
@@ -43,10 +59,16 @@ export default {
 			},
 		},
 	},
+	data() {
+		return { sessions: [] };
+	},
 	computed: {
 		age() {
 			return this.client.age + " Years Old";
 		},
+	},
+	async mounted() {
+		this.sessions = await SessionsUtil.fetchSessions();
 	},
 	methods: {
 		toggleModal() {
@@ -55,24 +77,24 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
+<style>
 .modal-container {
-	width: 50vw;
+	width: 80vw !important;
 }
-
+</style>
+<style scoped>
 input {
 	width: 100%;
 }
 
 button {
-	box-shadow: 0px 0px 10.8184px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
 	background-color: white;
 }
 
 .modal-content {
-	padding: 20px;
+	padding: 35px;
 }
 
 .client-main {
@@ -105,5 +127,15 @@ button {
 
 .ml-22 {
 	margin-left: 22px;
+}
+
+.w-60 {
+	width: 60%;
+}
+
+.client-info {
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1px solid lightgray;
 }
 </style>
