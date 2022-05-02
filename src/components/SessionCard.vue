@@ -4,7 +4,7 @@
 			<p class="blue">
 				<span>{{ session.date }} - {{ session.mainTitle }}</span>
 			</p>
-			<div v-if="session.paid">
+			<div v-if="session.paid" class="payment">
 				<svg
 					width="24"
 					height="24"
@@ -37,7 +37,7 @@
 						stroke-width="2"
 					/>
 				</svg>
-				<span class="text">Not Paid Yet</span>
+				<span class="payment">UNPAID</span>
 			</div>
 		</div>
 		<div class="description">{{ safeDescription }}</div>
@@ -76,7 +76,7 @@ export default {
 }
 
 svg {
-	padding: 0 5px 0 10px;
+	padding: 0 5px 0 20px;
 }
 
 .session {
@@ -85,5 +85,14 @@ svg {
 
 .description {
 	margin-bottom: 10px;
+}
+
+.payment {
+	display: flex;
+	flex-direction: row;
+}
+
+.payment span {
+	font-weight: 500;
 }
 </style>

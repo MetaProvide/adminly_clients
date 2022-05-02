@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<table>
+		<div v-if="!clients.length">No results</div>
+		<table v-else>
 			<thead>
 				<tr>
 					<th>Client Name</th>

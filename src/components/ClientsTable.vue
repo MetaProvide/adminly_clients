@@ -9,7 +9,7 @@
 			/>
 		</div>
 		<Table :key="currentPage" :clients="tableContent" />
-		<div class="tableFooter">
+		<div v-if="tableContent.length" class="tableFooter">
 			<div class="pageInfo">
 				<span v-if="currentPage === totalPages">
 					{{ (currentPage - 1) * clientsPerPage }} -
