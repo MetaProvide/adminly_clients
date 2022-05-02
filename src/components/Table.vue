@@ -12,7 +12,15 @@
 			<tbody>
 				<tr v-for="client in clients" :key="client.username">
 					<td v-for="col in columns" :key="col.label">
-						{{ client[col] }}
+						<div class="row">
+							<Avatar
+								v-if="col === 'name'"
+								:username="client.name"
+								:size="30"
+								class="mr-10"
+							/>
+							{{ client[col] }}
+						</div>
 					</td>
 					<td>
 						<button @click="updateClientModal(client)">
@@ -73,10 +81,12 @@
 
 <script>
 import ClientModal from "./ClientModal";
+import Avatar from "vue-avatar";
 
 export default {
 	components: {
 		ClientModal,
+		Avatar,
 	},
 	props: {
 		clients: {
@@ -140,5 +150,14 @@ table td:first-child {
 table button {
 	background: none;
 	border: none;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.mr-10 {
+	margin-right: 10px;
 }
 </style>
