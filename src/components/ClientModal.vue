@@ -10,7 +10,10 @@
 								<h1>
 									{{ client.name }}
 								</h1>
-								<p>{{ client.timezone }}</p>
+								<p>
+									{{ client.city }},
+									<span>{{ client.timezone }}</span>
+								</p>
 								<p>{{ age }}</p>
 							</div>
 						</div>
@@ -26,6 +29,7 @@
 						<h3>Attachments</h3>
 					</div>
 				</div>
+				<div class="line"></div>
 				<div class="sessions">
 					<SessionCard
 						v-for="session in sessions"
@@ -93,8 +97,8 @@ button {
 	background-color: white;
 }
 
-.modal-content {
-	padding: 35px;
+.sessions {
+	padding: 0 35px 35px 35px;
 }
 
 .client-main {
@@ -134,8 +138,17 @@ button {
 }
 
 .client-info {
+	padding: 35px 35px 10px 35px;
 	display: flex;
 	flex-direction: row;
+}
+
+.line {
 	border-bottom: 1px solid lightgray;
+	padding: 0 !important;
+}
+
+p span {
+	color: #346188;
 }
 </style>
