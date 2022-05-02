@@ -19,9 +19,9 @@
 					/>
 				</svg>
 
-				<span class="text"> Payment Done</span>
+				<span> PAID {{ session.value }}</span>
 			</div>
-			<div v-else>
+			<div v-else class="payment">
 				<svg
 					width="23"
 					height="23"
