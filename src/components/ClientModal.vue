@@ -2,30 +2,43 @@
 	<div>
 		<Modal @close="toggleModal()">
 			<div class="modal-content">
+				<button class="edit-button" @click="editClient()">
+					{{ editText }}
+				</button>
 				<div class="client-info">
 					<div class="col w-60">
 						<div class="row">
-							<Avatar :username="client.name" :size="100" />
-							<div class="col ml-22">
+							<Avatar :username="name" :size="100" />
+							<div v-if="editMode" class="col ml-22">
+								<input v-model="name" />
+								<div class="row">
+									<input v-model="city" />
+									<input v-model="timezone" />
+								</div>
+								<input v-model="age" />
+							</div>
+							<div v-else class="col ml-22">
 								<h1>
-									{{ client.name }}
+									{{ name }}
 								</h1>
 								<p>
-									{{ client.city }},
-									<span>{{ client.timezone }}</span>
+									{{ city }},
+									<span>{{ timezone }}</span>
 								</p>
-								<p>{{ age }}</p>
+								<p>{{ textAge }}</p>
 							</div>
 						</div>
 
 						<h3>About</h3>
-						<p>
-							{{ client.description }}
+						<textarea v-if="editMode" v-model="description" />
+						<p v-else>
+							{{ description }}
 						</p>
 					</div>
 					<div class="col ml-22">
 						<h3>Other Contacts</h3>
-						{{ client.contacts }}
+						<textarea v-if="editMode" v-model="contacts" />
+						<span v-else> {{ contacts }}</span>
 						<h3>Attachments</h3>
 					</div>
 				</div>
@@ -64,11 +77,23 @@ export default {
 		},
 	},
 	data() {
-		return { sessions: [] };
+		return {
+			sessions: [],
+			editMode: false,
+			name: this.client.name,
+			description: this.client.description,
+			city: this.client.city,
+			timezone: this.client.timezone,
+			age: this.client.age,
+			contacts: this.client.contacts,
+		};
 	},
 	computed: {
-		age() {
-			return this.client.age + " Years Old";
+		textAge() {
+			return this.age + " Years Old";
+		},
+		editText() {
+			return this.editMode ? "Save Changes" : "Edit";
 		},
 	},
 	async mounted() {
@@ -77,6 +102,9 @@ export default {
 	methods: {
 		toggleModal() {
 			this.$emit("toggle-modal", false);
+		},
+		editClient() {
+			this.editMode = !this.editMode;
 		},
 	},
 };
@@ -150,5 +178,12 @@ button {
 
 p span {
 	color: #346188;
+}
+
+.edit-button {
+	margin-left: auto;
+	display: flex;
+	border: none;
+	box-shadow: none;
 }
 </style>
