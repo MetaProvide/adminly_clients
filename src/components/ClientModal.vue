@@ -8,37 +8,46 @@
 				<div class="client-info">
 					<div class="col w-60">
 						<div class="row">
-							<Avatar :username="name" :size="100" />
+							<Avatar
+								:username="mutableClient.name"
+								:size="100"
+							/>
 							<div v-if="editMode" class="col ml-22">
-								<input v-model="name" />
+								<input v-model="mutableClient.name" />
 								<div class="row">
-									<input v-model="city" />
-									<input v-model="timezone" />
+									<input v-model="mutableClient.city" />
+									<input v-model="mutableClient.timezone" />
 								</div>
-								<input v-model="age" />
+								<input v-model="mutableClient.age" />
 							</div>
 							<div v-else class="col ml-22">
 								<h1>
-									{{ name }}
+									{{ mutableClient.name }}
 								</h1>
 								<p>
-									{{ city }},
-									<span>{{ timezone }}</span>
+									{{ mutableClient.city }},
+									<span>{{ mutableClient.timezone }}</span>
 								</p>
 								<p>{{ textAge }}</p>
 							</div>
 						</div>
 
 						<h3>About</h3>
-						<textarea v-if="editMode" v-model="description" />
+						<textarea
+							v-if="editMode"
+							v-model="mutableClient.description"
+						/>
 						<p v-else>
-							{{ description }}
+							{{ mutableClient.description }}
 						</p>
 					</div>
 					<div class="col ml-22">
 						<h3>Other Contacts</h3>
-						<textarea v-if="editMode" v-model="contacts" />
-						<span v-else> {{ contacts }}</span>
+						<textarea
+							v-if="editMode"
+							v-model="mutableClient.contacts"
+						/>
+						<span v-else> {{ mutableClient.contacts }}</span>
 						<h3>Attachments</h3>
 					</div>
 				</div>
@@ -58,7 +67,7 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
-import { SessionsUtil } from "../utils.js";
+import { SessionsUtil, ClientsUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
 
 export default {
@@ -80,17 +89,21 @@ export default {
 		return {
 			sessions: [],
 			editMode: false,
-			name: this.client.name,
-			description: this.client.description,
-			city: this.client.city,
-			timezone: this.client.timezone,
-			age: this.client.age,
-			contacts: this.client.contacts,
+			mutableClient: {
+				id: this.client.id,
+				name: this.client.name,
+				description: this.client.description,
+				city: this.client.city,
+				country: this.client.country,
+				timezone: this.client.timezone,
+				age: this.client.age,
+				contacts: this.client.contacts,
+			},
 		};
 	},
 	computed: {
 		textAge() {
-			return this.age + " Years Old";
+			return this.mutableClient.age + " Years Old";
 		},
 		editText() {
 			return this.editMode ? "Save Changes" : "Edit";
@@ -105,6 +118,7 @@ export default {
 		},
 		editClient() {
 			this.editMode = !this.editMode;
+			if (!this.editMode) ClientsUtil.updateClient(this.mutableClient);
 		},
 	},
 };

@@ -108,8 +108,7 @@ class PageController extends Controller
 		string $timezone,
 		string $country,
 		string $city,
-		int $age,
-		string $contacts
+		int $age
 	): String {
 		$client = new Client();
 		$client->setId($id);
@@ -119,8 +118,6 @@ class PageController extends Controller
 		$client->setCountry($country);
 		$client->setCity($city);
 		$client->setAge($age);
-		$client->setContacts($contacts);
-
 		try {
 			$this->mapper->update($client);
 			return "Success";
