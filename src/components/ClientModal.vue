@@ -18,7 +18,10 @@
 									<input v-model="mutableClient.city" />
 									<input v-model="mutableClient.timezone" />
 								</div>
-								<input v-model="mutableClient.age" />
+								<input
+									v-model="mutableClient.age"
+									type="number"
+								/>
 							</div>
 							<div v-else class="col ml-22">
 								<h1>
@@ -199,5 +202,9 @@ p span {
 	display: flex;
 	border: none;
 	box-shadow: none;
+}
+
+input[type="number"] {
+	width: 50px;
 }
 </style>

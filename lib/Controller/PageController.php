@@ -36,10 +36,8 @@ use OCA\Adminly_Clients\Db\ClientMapper;
 use OCP\IUserSession;
 use OCA\Adminly_Clients\Db\Client;
 use Exception;
-use StringBackedEnum;
 
-class PageController extends Controller
-{
+class PageController extends Controller {
 
 	/** @var ClientMapper */
 	private $mapper;
@@ -47,8 +45,7 @@ class PageController extends Controller
 	/** @var string */
 	private $userId;
 
-	public function __construct(string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession)
-	{
+	public function __construct(string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession) {
 		parent::__construct($AppName, $request);
 		$this->mapper = $mapper;
 		$this->userId = $userSession->getUser()->getUID();
@@ -60,8 +57,7 @@ class PageController extends Controller
 	 *
 	 * Render default template
 	 */
-	public function index(): TemplateResponse
-	{
+	public function index(): TemplateResponse {
 		$clients = $this->mapper->findAll($this->userId);
 
 		$clientsArray = [];
@@ -80,8 +76,7 @@ class PageController extends Controller
 	 *
 	 * Creates a new client
 	 */
-	public function create(string $name, string $email, string $description): String
-	{
+	public function create(string $name, string $email, string $description): String {
 		$client = new Client();
 		$client->setName($name);
 		$client->setEmail($email);
@@ -108,7 +103,8 @@ class PageController extends Controller
 		string $timezone,
 		string $country,
 		string $city,
-		int $age
+		int $age,
+		string $contacts
 	): String {
 		$client = new Client();
 		$client->setId($id);
@@ -118,6 +114,7 @@ class PageController extends Controller
 		$client->setCountry($country);
 		$client->setCity($city);
 		$client->setAge($age);
+		$client->setContacts($contacts);
 		try {
 			$this->mapper->update($client);
 			return "Success";
