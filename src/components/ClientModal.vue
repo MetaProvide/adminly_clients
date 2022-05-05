@@ -20,6 +20,7 @@
 								</div>
 								<input
 									v-model="mutableClient.age"
+									class="age-input"
 									type="number"
 								/>
 							</div>
@@ -204,7 +205,7 @@ p span {
 	box-shadow: none;
 }
 
-input[type="number"] {
+.age-input {
 	width: 50px;
 }
 </style>
