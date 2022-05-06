@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<ClientsTable :key="clientsList" :clients="clientsList" />
+		<ClientsTable :clients="clientsList" />
 	</main>
 </template>
 
@@ -14,9 +14,9 @@ export default {
 		ClientsTable,
 	},
 	data() {
-		return { clientsList: [] };
+		return { clientsList: null };
 	},
-	async mounted() {
+	async created() {
 		this.clientsList = await ClientsUtil.fetchClients();
 	},
 };
