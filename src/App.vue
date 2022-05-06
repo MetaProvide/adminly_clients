@@ -1,24 +1,23 @@
 <template>
 	<main>
-		<ClientsTable :clients="clients" />
+		<ClientsTable :key="clientsList" :clients="clientsList" />
 	</main>
 </template>
 
 <script>
 import ClientsTable from "./components/ClientsTable";
+import { ClientsUtil } from "./utils";
 
 export default {
 	name: "App",
 	components: {
 		ClientsTable,
 	},
-	props: {
-		clients: {
-			type: Array,
-			default() {
-				return [];
-			},
-		},
+	data() {
+		return { clientsList: [] };
+	},
+	async mounted() {
+		this.clientsList = await ClientsUtil.fetchClients();
 	},
 };
 </script>
