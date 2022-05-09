@@ -83,7 +83,7 @@ export default {
 </script>
 <style>
 .modal-container {
-	width: 80vw !important;
+	width: 80vw;
 }
 </style>
 <style scoped>
@@ -145,7 +145,7 @@ button {
 
 .line {
 	border-bottom: 1px solid lightgray;
-	padding: 0 !important;
+	padding: 0;
 }
 
 p span {
