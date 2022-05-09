@@ -105,21 +105,19 @@ class PageController extends Controller {
 		string $city,
 		int $age,
 		string $contacts
-	): String {
-		$client = new Client();
-		$client->setId($id);
-		$client->setName($name);
-		$client->setDescription($description);
-		$client->setTimezone($timezone);
-		$client->setCountry($country);
-		$client->setCity($city);
-		$client->setAge($age);
-		$client->setContacts($contacts);
+	) {
 		try {
-			$this->mapper->update($client);
-			return "Success";
+			$client = $this->mapper->find($id, $this->userId);
+			$client->setName($name);
+			$client->setDescription($description);
+			$client->setTimezone($timezone);
+			$client->setCountry($country);
+			$client->setCity($city);
+			$client->setAge($age);
+			$client->setContacts($contacts);
+			return $this->mapper->update($client);
 		} catch (Exception $e) {
-			return $e->getMessage();
+			$this->handleException($e);
 		}
 	}
 }
