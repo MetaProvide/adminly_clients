@@ -87,9 +87,9 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * List all clients from the current user
+	 * Get all clients from the current user
 	 */
-	public function list(): array {
+	public function get(): array {
 		$clients = $this->mapper->findAll($this->userId);
 
 		$clientsArray = [];

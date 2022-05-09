@@ -27,5 +27,5 @@
 return ['routes' => [
 	['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	['name' => 'page#create', 'url' => '/create', 'verb' => 'POST'],
-	['name' => 'page#list', 'url' => '/list', 'verb' => 'GET'],
+	['name' => 'page#get', 'url' => '/get', 'verb' => 'GET'],
 ]];

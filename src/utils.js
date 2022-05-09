@@ -2,7 +2,7 @@ import axios from "@nextcloud/axios";
 
 export const ClientsUtil = {
 	fetchClients: async () => {
-		const url = "/apps/adminly_clients/list";
+		const url = "/apps/adminly_clients/get";
 		return axios
 			.get(url)
 			.then((resp) => {
