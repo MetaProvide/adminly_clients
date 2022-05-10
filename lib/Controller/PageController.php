@@ -112,9 +112,9 @@ class PageController extends Controller {
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
-  }
-    
-  /**
+	}
+	
+	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *

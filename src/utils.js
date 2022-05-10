@@ -40,8 +40,8 @@ export const ClientsUtil = {
 			})
 			.then((resp) => {
 				if (resp.status !== 200)
-					throw new Error("Error updating client");			
-    })
+					throw new Error("Error updating client");
+			})
 			.catch((err) => console.error(err));
 	},
 	fetchClients: async () => {

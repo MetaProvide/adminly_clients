@@ -54,7 +54,6 @@
 									<span>{{ mutableClient.timezone }}</span>
 								</p>
 								<p>{{ textAge }}</p>
-
 							</div>
 						</div>
 
@@ -65,7 +64,6 @@
 						/>
 						<p v-else>
 							{{ mutableClient.description }}
-
 						</p>
 					</div>
 					<div class="col ml-22">
@@ -131,6 +129,7 @@ export default {
 	computed: {
 		textAge() {
 			return this.mutableClient.age + " Years Old";
+		},
 	},
 	async mounted() {
 		this.sessions = await SessionsUtil.fetchSessions();
