@@ -58,16 +58,8 @@ class PageController extends Controller {
 	 * Render default template
 	 */
 	public function index(): TemplateResponse {
-		$clients = $this->mapper->findAll($this->userId);
-
-		$clientsArray = [];
-
-		foreach ($clients as $client) {
-			$clientsArray[] = $client->jsonSerialize();
-		}
-
 		Util::addScript($this->appName, 'adminly_clients-main');
-		return new TemplateResponse('adminly_clients', 'main', ['clients' => $clientsArray]);
+		return new TemplateResponse('adminly_clients', 'main');
 	}
 
 	/**
@@ -90,6 +82,7 @@ class PageController extends Controller {
 			return $e->getMessage();
 		}
 	}
+  
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -119,5 +112,22 @@ class PageController extends Controller {
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
+  }
+    
+  /**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get all clients from the current user
+	 */
+	public function get(): array {
+		$clients = $this->mapper->findAll($this->userId);
+
+		$clientsArray = [];
+
+		foreach ($clients as $client) {
+			$clientsArray[] = $client->jsonSerialize();
+		}
+		return $clientsArray;
 	}
 }

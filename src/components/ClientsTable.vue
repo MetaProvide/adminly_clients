@@ -109,8 +109,10 @@ export default {
 			goToPage: "",
 		};
 	},
-	async mounted() {
-		this.updateTable();
+	watch: {
+		clients() {
+			this.updateTable();
+		},
 	},
 	methods: {
 		updateTable() {

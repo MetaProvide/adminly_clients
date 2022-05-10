@@ -31,17 +31,7 @@ __webpack_public_path__ = generateFilePath("adminly_clients", "", "js/");
 
 export default new Vue({
 	el: "#app",
-	data() {
-		return {
-			clients: [],
-		};
-	},
-	beforeMount() {
-		// importing clients from backend
-		const dataset = document.querySelector("#app").dataset;
-		this.clients = JSON.parse(dataset.clients);
-	},
 	render(h) {
-		return h(App, { props: { clients: this.clients } });
+		return h(App);
 	},
 });
