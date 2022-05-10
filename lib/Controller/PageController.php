@@ -82,7 +82,38 @@ class PageController extends Controller {
 			return $e->getMessage();
 		}
 	}
-
+  
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Updates a client
+	 */
+	public function update(
+		int $id,
+		string $name,
+		string $description,
+		string $timezone,
+		string $country,
+		string $city,
+		int $age,
+		string $contacts
+	) {
+		try {
+			$client = $this->mapper->find($id, $this->userId);
+			$client->setName($name);
+			$client->setDescription($description);
+			$client->setTimezone($timezone);
+			$client->setCountry($country);
+			$client->setCity($city);
+			$client->setAge($age);
+			$client->setContacts($contacts);
+			return $this->mapper->update($client);
+		} catch (Exception $e) {
+			$this->handleException($e);
+		}
+	}
+	
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired

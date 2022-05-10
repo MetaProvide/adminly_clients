@@ -2,30 +2,77 @@
 	<div>
 		<Modal @close="toggleModal()">
 			<div class="modal-content">
+				<button class="edit-button" @click="editClient()">
+					<span v-if="editMode">Save Changes</span>
+					<svg
+						v-else
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="19"
+						viewBox="0 0 18 19"
+						fill="none"
+					>
+						<path
+							d="M15.5613 0.900391L17.9153 3.25444L9.67656 11.4932L7.32251 9.13915L15.5613 0.900391Z"
+							fill="#8E8E8E"
+						/>
+						<path
+							d="M6.94895 9.68283L6.0454 11.7911L5.14186 13.8994L9.35842 12.0923L6.94895 9.68283Z"
+							fill="#8E8E8E"
+						/>
+						<path
+							d="M16.1049 7.15289V16.4293H2.61192V2.93633H11.8884V1.2497H2.61192C1.68042 1.2497 0.925293 2.00483 0.925293 2.93633V16.4293C0.925293 17.3608 1.68042 18.116 2.61192 18.116H16.1049C17.0364 18.116 17.7915 17.3608 17.7915 16.4293V7.15289H16.1049Z"
+							fill="#8E8E8E"
+						/>
+					</svg>
+				</button>
 				<div class="client-info">
 					<div class="col w-60">
 						<div class="row">
-							<Avatar :username="client.name" :size="100" />
-							<div class="col ml-22">
+							<Avatar
+								:username="mutableClient.name"
+								:size="100"
+							/>
+							<div v-if="editMode" class="col ml-22">
+								<input v-model="mutableClient.name" />
+								<div class="row">
+									<input v-model="mutableClient.city" />
+									<input v-model="mutableClient.timezone" />
+								</div>
+								<input
+									v-model="mutableClient.age"
+									class="age-input"
+									type="number"
+								/>
+							</div>
+							<div v-else class="col ml-22">
 								<h1>
-									{{ client.name }}
+									{{ mutableClient.name }}
 								</h1>
 								<p>
-									{{ client.city }},
-									<span>{{ client.timezone }}</span>
+									{{ mutableClient.city }},
+									<span>{{ mutableClient.timezone }}</span>
 								</p>
-								<p>{{ age }}</p>
+								<p>{{ textAge }}</p>
 							</div>
 						</div>
 
 						<h3>About</h3>
-						<p>
-							{{ client.description }}
+						<textarea
+							v-if="editMode"
+							v-model="mutableClient.description"
+						/>
+						<p v-else>
+							{{ mutableClient.description }}
 						</p>
 					</div>
 					<div class="col ml-22">
 						<h3>Other Contacts</h3>
-						{{ client.contacts }}
+						<textarea
+							v-if="editMode"
+							v-model="mutableClient.contacts"
+						/>
+						<span v-else> {{ mutableClient.contacts }}</span>
 						<h3>Attachments</h3>
 					</div>
 				</div>
@@ -45,7 +92,7 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
-import { SessionsUtil } from "../utils.js";
+import { SessionsUtil, ClientsUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
 
 export default {
@@ -64,11 +111,24 @@ export default {
 		},
 	},
 	data() {
-		return { sessions: [] };
+		return {
+			sessions: [],
+			editMode: false,
+			mutableClient: {
+				id: this.client.id,
+				name: this.client.name,
+				description: this.client.description,
+				city: this.client.city,
+				country: this.client.country,
+				timezone: this.client.timezone,
+				age: this.client.age,
+				contacts: this.client.contacts,
+			},
+		};
 	},
 	computed: {
-		age() {
-			return this.client.age + " Years Old";
+		textAge() {
+			return this.mutableClient.age + " Years Old";
 		},
 	},
 	async mounted() {
@@ -77,6 +137,10 @@ export default {
 	methods: {
 		toggleModal() {
 			this.$emit("toggle-modal", false);
+		},
+		editClient() {
+			this.editMode = !this.editMode;
+			if (!this.editMode) ClientsUtil.updateClient(this.mutableClient);
 		},
 	},
 };
@@ -150,5 +214,16 @@ button {
 
 p span {
 	color: #346188;
+}
+
+.edit-button {
+	margin-left: auto;
+	display: flex;
+	border: none;
+	box-shadow: none;
+}
+
+.age-input {
+	width: 50px;
 }
 </style>
