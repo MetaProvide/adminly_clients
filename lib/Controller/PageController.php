@@ -36,8 +36,12 @@ use OCA\Adminly_Clients\Db\ClientMapper;
 use OCP\IUserSession;
 use OCA\Adminly_Clients\Db\Client;
 use Exception;
+use OCP\Activity\IManager as IActivityManager;
 
 class PageController extends Controller {
+
+	/** @var IActivityManager */
+	protected $activityManager;
 
 	/** @var ClientMapper */
 	private $mapper;
@@ -45,8 +49,9 @@ class PageController extends Controller {
 	/** @var string */
 	private $userId;
 
-	public function __construct(string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession) {
+	public function __construct(IActivityManager $activityManager, string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession) {
 		parent::__construct($AppName, $request);
+		$this->activityManager = $activityManager;
 		$this->mapper = $mapper;
 		$this->userId = $userSession->getUser()->getUID();
 	}
@@ -69,14 +74,33 @@ class PageController extends Controller {
 	 * Creates a new client
 	 */
 	public function create(string $name, string $email, string $description): String {
-		$client = new Client();
-		$client->setName($name);
-		$client->setEmail($email);
-		$client->setDescription($description);
-		$client->setProviderId($this->userId);
-
 		try {
+			$client = new Client();
+			$client->setName($name);
+			$client->setEmail($email);
+			$client->setDescription($description);
+			$client->setProviderId($this->userId);
+
 			$this->mapper->insert($client);
+
+			$event = $this->activityManager->generateEvent();
+			$event->setApp('adminly_clients')
+				->setObject('client', $client->getId())
+				->setType('client')
+				->setAffectedUser($this->userId)
+				->setSubject(
+					"New Client added",
+					[
+						'actor' => $this->userId,
+						'client' => [
+							'id' => $client->getId()
+						],
+					]
+				);
+			;
+
+			$this->activityManager->publish($event);
+
 			return "Success";
 		} catch (Exception $e) {
 			return $e->getMessage();
