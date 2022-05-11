@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\Clients\Activity;
+namespace OCA\Adminly_Clients\Activity;
 
 use OCP\Activity\ISetting;
 use OCP\IL10N;

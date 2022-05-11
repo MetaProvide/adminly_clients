@@ -23,4 +23,13 @@
         <order>1</order>
       </navigation>
 	</navigations>
+	<activity>
+		<settings>
+			<setting>OCA\Adminly_Clients\Activity\Setting</setting>
+		</settings>
+
+		<filters>
+			<filter>OCA\Adminly_Clients\Activity\Filter</filter>
+		</filters>
+	</activity>
 </info>

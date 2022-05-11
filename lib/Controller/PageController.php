@@ -97,7 +97,6 @@ class PageController extends Controller {
 						],
 					]
 				);
-			;
 
 			$this->activityManager->publish($event);
 
