@@ -86,7 +86,7 @@ class PageController extends Controller {
 			$event = $this->activityManager->generateEvent();
 			$event->setApp('adminly_clients')
 				->setObject('client', $client->getId())
-				->setType('client')
+				->setType('clients')
 				->setAffectedUser($this->userId)
 				->setSubject(
 					"New Client added",
