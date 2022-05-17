@@ -89,12 +89,9 @@ class PageController extends Controller {
 				->setType('clients')
 				->setAffectedUser($this->userId)
 				->setSubject(
-					"New Client added",
+					"client_add",
 					[
-						'actor' => $this->userId,
-						'client' => [
-							'id' => $client->getId()
-						],
+						'client' => $client->getName(),
 					]
 				);
 

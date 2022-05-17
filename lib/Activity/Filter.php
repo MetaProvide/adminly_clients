@@ -88,6 +88,6 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function allowedApps() {
-		return ['clients'];
+		return ['adminly_clients'];
 	}
 }
