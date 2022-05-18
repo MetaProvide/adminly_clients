@@ -91,7 +91,11 @@ class PageController extends Controller {
 				->setSubject(
 					"client_add",
 					[
-						'client' => $client->getName(),
+						'client' => [
+							'type' => 'addressbook-contact',
+							'id' => $client->getId(),
+							'name' => $client->getName()
+						],
 					]
 				);
 

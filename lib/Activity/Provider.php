@@ -92,19 +92,16 @@ class Provider implements IProvider {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
-			$subject = 'You created client {client}';
+			$subject = $this->l->t('You created client {client}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
-			$subject = 'You deleted client {client}';
+			$subject = $this->l->t('You deleted client {client}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
-			$subject = 'You updated client {client}';
+			$subject = $this->l->t('You updated client {client}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
 
-		$event->setParsedSubject(str_replace("{client}", $subjectParameters['client'], $subject));
-		// ->setRichSubject($subject, $subjectParameters);
-
-		$event = $this->eventMerger->mergeEvents('clients', $event, $previousEvent);
+		$event->setParsedSubject(str_replace(["{client}"], $subjectParameters['client'], $subject))->setRichSubject($subject, $subjectParameters);
 
 		return $event;
 	}
