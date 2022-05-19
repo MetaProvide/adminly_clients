@@ -140,7 +140,10 @@ export default {
 		},
 		editClient() {
 			this.editMode = !this.editMode;
-			if (!this.editMode) ClientsUtil.updateClient(this.mutableClient);
+			if (!this.editMode) {
+				ClientsUtil.updateClient(this.mutableClient);
+				this.$emit("update-clients", true);
+			}
 		},
 	},
 };

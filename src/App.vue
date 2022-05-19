@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<ClientsTable :clients="clientsList" />
+		<ClientsTable :clients="clientsList" @update-clients="updateClients" />
 	</main>
 </template>
 
@@ -18,6 +18,11 @@ export default {
 	},
 	async created() {
 		this.clientsList = await ClientsUtil.fetchClients();
+	},
+	methods: {
+		async updateClients() {
+			this.clientsList = await ClientsUtil.fetchClients();
+		},
 	},
 };
 </script>
