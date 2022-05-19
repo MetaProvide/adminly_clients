@@ -75,6 +75,7 @@ export default {
 					description: this.description,
 				})
 				.then((response) => {
+					this.$emit("update-clients", true);
 					this.toggleModal();
 					this.name = "";
 					this.email = "";

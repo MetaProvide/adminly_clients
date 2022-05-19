@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<div class="flex">
-			<ClientCreation />
+			<ClientCreation @update-clients="updateClients" />
 			<input
 				v-model="searchName"
 				placeholder="Search Client"
