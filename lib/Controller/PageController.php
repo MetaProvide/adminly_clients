@@ -73,19 +73,19 @@ class PageController extends Controller {
 	 *
 	 * Creates a new client
 	 */
-	public function create(string $name, string $email, string $description): String {
+	public function create(string $name, string $email, string $description) {
 		try {
-			$new_client = new Client();
-			$new_client->setName($name);
-			$new_client->setEmail($email);
-			$new_client->setDescription($description);
-			$new_client->setProviderId($this->userId);
+			$client = new Client();
+			$client->setName($name);
+			$client->setEmail($email);
+			$client->setDescription($description);
+			$client->setProviderId($this->userId);
 
-			$this->mapper->insert($client);
+			$new_client = $this->mapper->insert($client);
 
 			$event = $this->activityManager->generateEvent();
 			$event->setApp('adminly_clients')
-				->setObject('client', $new_client->getId())
+				->setObject('client', $client->getId())
 				->setType('clients')
 				->setAffectedUser($this->userId)
 				->setSubject(
@@ -93,8 +93,8 @@ class PageController extends Controller {
 					[
 						'client' => [
 							'type' => 'addressbook-contact',
-							'id' => $new_client->getId(),
-							'name' => $new_client->getName()
+							'id' => $client->getId(),
+							'name' => $client->getName()
 						],
 					]
 				);
