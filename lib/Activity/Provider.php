@@ -92,11 +92,11 @@ class Provider implements IProvider {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
-			$subject = $this->l->t('You created client {client}');
+			$subject = $this->l->t('You created the client {client}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
-			$subject = $this->l->t('You deleted client {client}');
+			$subject = $this->l->t('You deleted the client {client}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
-			$subject = $this->l->t('You updated client {client}');
+			$subject = $this->l->t('You updated the client {client}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
