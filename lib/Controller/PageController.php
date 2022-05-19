@@ -75,17 +75,17 @@ class PageController extends Controller {
 	 */
 	public function create(string $name, string $email, string $description): String {
 		try {
-			$client = new Client();
-			$client->setName($name);
-			$client->setEmail($email);
-			$client->setDescription($description);
-			$client->setProviderId($this->userId);
+			$new_client = new Client();
+			$new_client->setName($name);
+			$new_client->setEmail($email);
+			$new_client->setDescription($description);
+			$new_client->setProviderId($this->userId);
 
 			$this->mapper->insert($client);
 
 			$event = $this->activityManager->generateEvent();
 			$event->setApp('adminly_clients')
-				->setObject('client', $client->getId())
+				->setObject('client', $new_client->getId())
 				->setType('clients')
 				->setAffectedUser($this->userId)
 				->setSubject(
@@ -93,17 +93,17 @@ class PageController extends Controller {
 					[
 						'client' => [
 							'type' => 'addressbook-contact',
-							'id' => $client->getId(),
-							'name' => $client->getName()
+							'id' => $new_client->getId(),
+							'name' => $new_client->getName()
 						],
 					]
 				);
 
 			$this->activityManager->publish($event);
 
-			return "Success";
+			return $new_client;
 		} catch (Exception $e) {
-			return $e->getMessage();
+			throw $e;
 		}
 	}
 

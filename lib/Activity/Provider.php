@@ -30,7 +30,6 @@ use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
-use OCP\Activity\IEventMerger;
 
 class Provider implements IProvider {
 	public const SUBJECT_ADD = 'client_add';
@@ -50,18 +49,12 @@ class Provider implements IProvider {
 
 	protected $url;
 
-	/** @var IEventMerger */
-
-	protected $eventMerger;
-
 	/**
 	 * @param IFactory $languageFactory
 	 * @param IURLGenerator $url
 	 * @param IManager $activityManager
-	 * @param IGroupManager $groupManager
-	 * @param IEventMerger $eventMerger
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IEventMerger $eventMerger) {
+	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -77,11 +70,11 @@ class Provider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
-		$subjectParameters = $event->getSubjectParameters();
-
 		if ($event->getApp() !== 'adminly_clients' || $event->getType() !== 'clients') {
 			throw new \InvalidArgumentException();
 		}
+
+		$subjectParameters = $event->getSubjectParameters();
 
 		$this->l = $this->languageFactory->get('adminly_clients', $language);
 
