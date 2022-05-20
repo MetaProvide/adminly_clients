@@ -1,5 +1,6 @@
 <template>
 	<main>
+		<Overview />
 		<ClientsTable :clients="clientsList" />
 	</main>
 </template>
@@ -7,10 +8,11 @@
 <script>
 import ClientsTable from "./components/ClientsTable";
 import { ClientsUtil } from "./utils";
-
+import Overview from "./components/Overview";
 export default {
 	name: "App",
 	components: {
+		Overview,
 		ClientsTable,
 	},
 	data() {
@@ -26,7 +28,6 @@ export default {
 main {
 	width: 80%;
 	margin: auto;
-	min-height: 100vh;
 	padding: 20px;
 	display: flex;
 	gap: 20px;
