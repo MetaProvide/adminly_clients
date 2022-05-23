@@ -1,14 +1,18 @@
 <template>
 	<div class="clientsTable">
 		<div class="flex">
-			<ClientCreation />
+			<ClientCreation @update-clients="updateClients" />
 			<input
 				v-model="searchName"
 				placeholder="Search Client"
 				@input="search"
 			/>
 		</div>
-		<Table :key="currentPage" :clients="tableContent" />
+		<Table
+			:key="currentPage"
+			:clients="tableContent"
+			@update-clients="updateClients"
+		/>
 		<div v-if="tableContent.length" class="tableFooter">
 			<div class="pageInfo">
 				<span v-if="currentPage === totalPages">
@@ -157,6 +161,9 @@ export default {
 						.indexOf(this.searchName.toLowerCase()) !== -1
 				);
 			});
+		},
+		updateClients() {
+			this.$emit("update-clients", true);
 		},
 	},
 };

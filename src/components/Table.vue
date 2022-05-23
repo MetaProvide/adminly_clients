@@ -76,6 +76,7 @@
 			v-if="modal"
 			:client="currentClient"
 			@toggle-modal="toggleModal"
+			@update-clients="updateClients"
 		/>
 	</div>
 </template>
@@ -111,6 +112,9 @@ export default {
 		},
 		toggleModal() {
 			this.modal = !this.modal;
+		},
+		updateClients() {
+			this.$emit("update-clients", true);
 		},
 	},
 };
