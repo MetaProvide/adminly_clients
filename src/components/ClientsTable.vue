@@ -1,5 +1,5 @@
 <template>
-	<main>
+	<div class="clientsTable">
 		<div class="flex">
 			<ClientCreation @update-clients="updateClients" />
 			<input
@@ -82,7 +82,7 @@
 				/>
 			</div>
 		</div>
-	</main>
+	</div>
 </template>
 
 <script>
@@ -224,5 +224,16 @@ input {
 select {
 	border: none;
 	font-size: unset;
+}
+
+.clientsTable {
+	width: 80%;
+	margin: auto;
+	min-height: 100vh;
+	padding: 20px;
+	display: flex;
+	gap: 20px;
+	flex-direction: column;
+	align-content: center;
 }
 </style>
