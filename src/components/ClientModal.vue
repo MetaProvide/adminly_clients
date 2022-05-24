@@ -57,15 +57,15 @@
 								/>
 							</div>
 							<div v-else class="col ml-22">
-								<h1>
+								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
-								<p>
+								<p @dblclick="editClient()">
 									{{ mutableClient.city }}
 									{{ commaCityTimezone }}
 									<span>{{ mutableClient.timezone }}</span>
 								</p>
-								<p>{{ textAge }}</p>
+								<p @dblclick="editClient()">{{ textAge }}</p>
 							</div>
 						</div>
 
@@ -75,7 +75,7 @@
 							v-model="mutableClient.description"
 							placeholder="Description"
 						/>
-						<p v-else>
+						<p v-else @dblclick="editClient()">
 							{{ mutableClient.description }}
 						</p>
 					</div>
@@ -86,7 +86,9 @@
 							v-model="mutableClient.contacts"
 							placeholder="Contacts List"
 						/>
-						<span v-else> {{ mutableClient.contacts }}</span>
+						<span v-else @dblclick="editClient()">
+							{{ mutableClient.contacts }}</span
+						>
 						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
