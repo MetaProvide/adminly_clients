@@ -34,15 +34,26 @@
 								:size="100"
 							/>
 							<div v-if="editMode" class="col ml-22">
-								<input v-model="mutableClient.name" />
+								<input
+									v-model="mutableClient.name"
+									placeholder="Name"
+									required
+								/>
 								<div class="row">
-									<input v-model="mutableClient.city" />
-									<input v-model="mutableClient.timezone" />
+									<input
+										v-model="mutableClient.city"
+										placeholder="City"
+									/>
+									<input
+										v-model="mutableClient.timezone"
+										placeholder="Timezone"
+									/>
 								</div>
 								<input
 									v-model="mutableClient.age"
 									class="age-input"
 									type="number"
+									placeholder="Age"
 								/>
 							</div>
 							<div v-else class="col ml-22">
@@ -50,7 +61,8 @@
 									{{ mutableClient.name }}
 								</h1>
 								<p>
-									{{ mutableClient.city }},
+									{{ mutableClient.city }}
+									{{ commaCityTimezone }}
 									<span>{{ mutableClient.timezone }}</span>
 								</p>
 								<p>{{ textAge }}</p>
@@ -61,6 +73,7 @@
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.description"
+							placeholder="Description"
 						/>
 						<p v-else>
 							{{ mutableClient.description }}
@@ -71,9 +84,10 @@
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.contacts"
+							placeholder="Contacts List"
 						/>
 						<span v-else> {{ mutableClient.contacts }}</span>
-						<h3>Attachments</h3>
+						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
 				<div class="line"></div>
@@ -128,7 +142,14 @@ export default {
 	},
 	computed: {
 		textAge() {
-			return this.mutableClient.age + " Years Old";
+			return this.mutableClient.age
+				? this.mutableClient.age + " Years Old"
+				: "";
+		},
+		commaCityTimezone() {
+			return this.mutableClient.city && this.mutableClient.timezone
+				? ","
+				: "";
 		},
 	},
 	async mounted() {
@@ -227,6 +248,6 @@ p span {
 }
 
 .age-input {
-	width: 50px;
+	width: 55px;
 }
 </style>

@@ -4,7 +4,7 @@
 			<p class="blue">
 				<span>{{ session.date }} - {{ session.mainTitle }}</span>
 			</p>
-			<div v-if="session.paid" class="payment">
+			<!-- <div v-if="session.paid" class="payment">
 				<svg
 					width="24"
 					height="24"
@@ -38,7 +38,7 @@
 					/>
 				</svg>
 				<span class="payment">UNPAID</span>
-			</div>
+			</div> -->
 		</div>
 		<div class="description">{{ safeDescription }}</div>
 	</div>
