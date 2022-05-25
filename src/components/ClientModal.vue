@@ -44,10 +44,17 @@
 										v-model="mutableClient.city"
 										placeholder="City"
 									/>
-									<input
-										v-model="mutableClient.timezone"
-										placeholder="Timezone"
-									/>
+									<select v-model="mutableClient.timezone">
+										<option
+											v-for="(
+												option, index
+											) in timezoneNames"
+											:key="index"
+											:value="option"
+										>
+											{{ option }}
+										</option>
+									</select>
 								</div>
 								<input
 									v-model="mutableClient.age"
@@ -108,7 +115,7 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
-import { SessionsUtil, ClientsUtil } from "../utils.js";
+import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
 
 export default {
@@ -140,6 +147,7 @@ export default {
 				age: this.client.age,
 				contacts: this.client.contacts,
 			},
+			timezoneNames: [],
 		};
 	},
 	computed: {
@@ -156,6 +164,7 @@ export default {
 	},
 	async mounted() {
 		this.sessions = await SessionsUtil.fetchSessions();
+		this.timezoneNames = TimezoneUtil.getTimezoneNames();
 	},
 	methods: {
 		toggleModal() {
@@ -164,6 +173,7 @@ export default {
 		editClient() {
 			this.editMode = !this.editMode;
 			if (!this.editMode) {
+				console.log(this.mutableClient);
 				ClientsUtil.updateClient(this.mutableClient);
 				this.$emit("update-clients", true);
 			}
