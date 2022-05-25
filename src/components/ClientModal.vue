@@ -61,8 +61,8 @@
 									{{ mutableClient.name }}
 								</h1>
 								<p @dblclick="editClient()">
-									{{ mutableClient.city }}
-									{{ commaCityTimezone }}
+									{{ mutableClient.city
+									}}{{ commaCityTimezone }}
 									<span>{{ mutableClient.timezone }}</span>
 								</p>
 								<p @dblclick="editClient()">{{ textAge }}</p>
