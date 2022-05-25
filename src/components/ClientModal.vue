@@ -247,6 +247,7 @@ p span {
 	display: flex;
 	border: none;
 	box-shadow: none;
+	padding: 15px;
 }
 
 .age-input {
