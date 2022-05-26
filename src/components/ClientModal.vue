@@ -44,17 +44,9 @@
 										v-model="mutableClient.city"
 										placeholder="City"
 									/>
-									<select v-model="mutableClient.timezone">
-										<option
-											v-for="(
-												option, index
-											) in timezoneNames"
-											:key="index"
-											:value="option"
-										>
-											{{ option }}
-										</option>
-									</select>
+									<TimezonePicker
+										v-model="mutableClient.timezone"
+									/>
 								</div>
 								<input
 									v-model="mutableClient.age"
@@ -70,7 +62,7 @@
 								<p @dblclick="editClient()">
 									{{ mutableClient.city
 									}}{{ commaCityTimezone }}
-									<span>{{ mutableClient.timezone }}</span>
+									<span>{{ displayTimezone }}</span>
 								</p>
 								<p @dblclick="editClient()">{{ textAge }}</p>
 							</div>
@@ -115,14 +107,16 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
-import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
+import { SessionsUtil, ClientsUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
+import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
 
 export default {
 	components: {
 		Modal,
 		Avatar,
 		SessionCard,
+		TimezonePicker,
 	},
 
 	props: {
@@ -147,7 +141,6 @@ export default {
 				age: this.client.age,
 				contacts: this.client.contacts,
 			},
-			timezoneNames: [],
 		};
 	},
 	computed: {
@@ -161,10 +154,12 @@ export default {
 				? ","
 				: "";
 		},
+		displayTimezone() {
+			return this.mutableClient.timezone.slice(0).replace("_", " ");
+		},
 	},
 	async mounted() {
 		this.sessions = await SessionsUtil.fetchSessions();
-		this.timezoneNames = TimezoneUtil.getTimezoneNames();
 	},
 	methods: {
 		toggleModal() {
@@ -173,7 +168,6 @@ export default {
 		editClient() {
 			this.editMode = !this.editMode;
 			if (!this.editMode) {
-				console.log(this.mutableClient);
 				ClientsUtil.updateClient(this.mutableClient);
 				this.$emit("update-clients", true);
 			}
