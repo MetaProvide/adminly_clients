@@ -179,6 +179,14 @@ export default {
 .modal-container {
 	width: 80vw;
 }
+
+.multiselect__input:focus {
+	border: 1px solid var(--color-border-dark) !important;
+}
+
+.multiselect__single {
+	border: 1px solid var(--color-border-dark);
+}
 </style>
 <style scoped>
 input {
