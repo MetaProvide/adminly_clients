@@ -186,6 +186,12 @@ export default {
 
 .multiselect__single {
 	border: 1px solid var(--color-border-dark);
+	border-radius: var(--border-radius);
+}
+
+.multiselect__content-wrapper {
+	top: 40px;
+	bottom: auto !important;
 }
 </style>
 <style scoped>
