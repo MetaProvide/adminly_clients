@@ -15,15 +15,8 @@
 		/>
 		<div v-if="tableContent.length" class="tableFooter">
 			<div class="pageInfo">
-				<span v-if="currentPage === totalPages">
-					{{ (currentPage - 1) * clientsPerPage }} -
-					{{ totalClients }} of
-					{{ totalClients }}
-				</span>
-				<span v-else>
-					{{ (currentPage - 1) * clientsPerPage }} -
-					{{ currentPage * clientsPerPage }} of
-					{{ totalClients }} clients
+				<span>
+					{{ paginationInfo }}
 				</span>
 				<select v-model="clientsPerPage" @change="updateTable()">
 					<option value="10" selected>10/page</option>
@@ -113,6 +106,23 @@ export default {
 			goToPage: "",
 			clientSearchList: [],
 		};
+	},
+	computed: {
+		paginationInfo() {
+			return this.currentPage === this.totalPages
+				? (this.currentPage - 1) * this.clientsPerPage +
+						" - " +
+						this.totalClients +
+						" of " +
+						this.totalClients +
+						" clients"
+				: (this.currentPage - 1) * this.clientsPerPage +
+						" - " +
+						this.currentPage * this.clientsPerPage +
+						" of " +
+						this.totalClients +
+						" clients";
+		},
 	},
 	watch: {
 		clients() {
