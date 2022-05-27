@@ -142,6 +142,7 @@ export default {
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
 			);
+			if (this.currentPage > this.totalPages) this.currentPage = 1;
 		},
 		nextPage() {
 			this.currentPage += 1;
