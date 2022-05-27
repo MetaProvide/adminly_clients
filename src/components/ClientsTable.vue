@@ -111,6 +111,7 @@ export default {
 			totalClients: 0,
 			searchName: "",
 			goToPage: "",
+			clientSearchList: [],
 		};
 	},
 	watch: {
@@ -120,47 +121,77 @@ export default {
 	},
 	methods: {
 		updateTable() {
-			this.tableContent = this.clients.slice(0, this.clientsPerPage);
-			this.totalClients = this.clients.length;
+			this.tableContent = this.searchName
+				? this.clientSearchList.slice(0, this.clientsPerPage)
+				: this.clients.slice(0, this.clientsPerPage);
+
+			this.totalClients = this.searchName
+				? this.clientSearchList.length
+				: this.clients.length;
+
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
 			);
 		},
 		nextPage() {
 			this.currentPage += 1;
-			this.tableContent = this.clients.slice(
-				(this.currentPage - 1) * this.clientsPerPage,
-				Math.min(
-					this.currentPage * this.clientsPerPage,
-					this.totalClients
-				)
-			);
+			this.tableContent = this.searchName
+				? this.clientSearchList.slice(
+						(this.currentPage - 1) * this.clientsPerPage,
+						Math.min(
+							this.currentPage * this.clientsPerPage,
+							this.totalClients
+						)
+				  )
+				: this.clients.slice(
+						(this.currentPage - 1) * this.clientsPerPage,
+						Math.min(
+							this.currentPage * this.clientsPerPage,
+							this.totalClients
+						)
+				  );
 		},
 		previousPage() {
 			this.currentPage -= 1;
-			this.tableContent = this.clients.slice(
-				(this.currentPage - 1) * this.clientsPerPage,
-				this.currentPage * this.clientsPerPage
-			);
+			this.tableContent = this.searchName
+				? this.clientSearchList.slice(
+						(this.currentPage - 1) * this.clientsPerPage,
+						this.currentPage * this.clientsPerPage
+				  )
+				: this.clients.slice(
+						(this.currentPage - 1) * this.clientsPerPage,
+						this.currentPage * this.clientsPerPage
+				  );
 		},
 		getPage(pageNum) {
-			this.currentPage = pageNum;
-			this.tableContent = this.clients.slice(
-				(this.currentPage - 1) * this.clientsPerPage,
-				Math.min(
-					this.currentPage * this.clientsPerPage,
-					this.totalClients
-				)
-			);
+			if (pageNum <= this.totalPages && pageNum) {
+				this.currentPage = pageNum;
+				this.tableContent = this.searchName
+					? this.clientSearchList.slice(
+							(this.currentPage - 1) * this.clientsPerPage,
+							Math.min(
+								this.currentPage * this.clientsPerPage,
+								this.totalClients
+							)
+					  )
+					: this.clients.slice(
+							(this.currentPage - 1) * this.clientsPerPage,
+							Math.min(
+								this.currentPage * this.clientsPerPage,
+								this.totalClients
+							)
+					  );
+			}
 		},
 		search() {
-			this.tableContent = this.clients.filter((p) => {
+			this.clientSearchList = this.clients.filter((p) => {
 				return (
 					p.name
 						.toLowerCase()
 						.indexOf(this.searchName.toLowerCase()) !== -1
 				);
 			});
+			this.updateTable();
 		},
 		updateClients() {
 			this.$emit("update-clients", true);
