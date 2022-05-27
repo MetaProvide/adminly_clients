@@ -137,7 +137,7 @@ export default {
 				description: this.client.description,
 				city: this.client.city,
 				country: this.client.country,
-				timezone: this.client.timezone,
+				timezone: this.client.timezone ? this.client.timezone : "UTC",
 				age: this.client.age,
 				contacts: this.client.contacts,
 			},
@@ -184,21 +184,16 @@ export default {
 	border: 1px solid var(--color-border-dark) !important;
 }
 
-.multiselect__single {
-	border: 1px solid var(--color-border-dark);
-	border-radius: var(--border-radius);
-}
-
 .multiselect__content-wrapper {
 	top: 40px;
 	bottom: auto !important;
 }
+
+.multiselect__tags {
+	max-width: 200px;
+}
 </style>
 <style scoped>
-input {
-	width: 100%;
-}
-
 button {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
