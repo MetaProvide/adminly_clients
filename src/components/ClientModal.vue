@@ -73,6 +73,7 @@
 							v-if="editMode"
 							v-model="mutableClient.description"
 							placeholder="Description"
+							class="client-description"
 						/>
 						<p v-else @dblclick="editClient()">
 							{{ mutableClient.description }}
@@ -84,6 +85,7 @@
 							v-if="editMode"
 							v-model="mutableClient.contacts"
 							placeholder="Contacts List"
+							class="contacts-list"
 						/>
 						<span v-else @dblclick="editClient()">
 							{{ mutableClient.contacts }}</span
@@ -267,7 +269,15 @@ p span {
 	width: 55px;
 }
 
-textarea {
+.client-description {
 	width: 100%;
+	height: 75px;
+	resize: none;
+}
+
+.contacts-list {
+	width: 100%;
+	height: 100px;
+	resize: none;
 }
 </style>
