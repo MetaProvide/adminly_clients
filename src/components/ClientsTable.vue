@@ -43,7 +43,7 @@
 				</button>
 				<div v-for="page in totalPages" :key="page">
 					<button
-						v-if="page === currentPage"
+						v-if="page == currentPage"
 						class="active"
 						@click="getPage(page)"
 					>
