@@ -171,6 +171,21 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * Updates a client
+	 */
+	public function delete(int $id) {
+		try {
+			$client = $this->mapper->find($id, $this->userId);
+			return $this->mapper->delete($client);
+		} catch (Exception $e) {
+			$this->handleException($e);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
 	 * Get all sessions for a specific client
 	 */
 	public function getClientSessions(int $clientId): array {
