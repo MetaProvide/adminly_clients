@@ -127,6 +127,9 @@ export default {
 						this.totalClients +
 						" clients";
 		},
+		tableData() {
+			return this.searchName ? this.clientSearchList : this.clients;
+		},
 	},
 	watch: {
 		clients() {
@@ -135,13 +138,9 @@ export default {
 	},
 	methods: {
 		updateTable() {
-			this.tableContent = this.searchName
-				? this.clientSearchList.slice(0, this.clientsPerPage)
-				: this.clients.slice(0, this.clientsPerPage);
+			this.tableContent = this.tableData.slice(0, this.clientsPerPage);
 
-			this.totalClients = this.searchName
-				? this.clientSearchList.length
-				: this.clients.length;
+			this.totalClients = this.tableData.length;
 
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
@@ -150,52 +149,31 @@ export default {
 		},
 		nextPage() {
 			this.currentPage += 1;
-			this.tableContent = this.searchName
-				? this.clientSearchList.slice(
-						(this.currentPage - 1) * this.clientsPerPage,
-						Math.min(
-							this.currentPage * this.clientsPerPage,
-							this.totalClients
-						)
-				  )
-				: this.clients.slice(
-						(this.currentPage - 1) * this.clientsPerPage,
-						Math.min(
-							this.currentPage * this.clientsPerPage,
-							this.totalClients
-						)
-				  );
+			this.tableContent = this.tableData(
+				(this.currentPage - 1) * this.clientsPerPage,
+				Math.min(
+					this.currentPage * this.clientsPerPage,
+					this.totalClients
+				)
+			);
 		},
 		previousPage() {
 			this.currentPage -= 1;
-			this.tableContent = this.searchName
-				? this.clientSearchList.slice(
-						(this.currentPage - 1) * this.clientsPerPage,
-						this.currentPage * this.clientsPerPage
-				  )
-				: this.clients.slice(
-						(this.currentPage - 1) * this.clientsPerPage,
-						this.currentPage * this.clientsPerPage
-				  );
+			this.tableContent = this.tableData.slice(
+				(this.currentPage - 1) * this.clientsPerPage,
+				this.currentPage * this.clientsPerPage
+			);
 		},
 		getPage(pageNum) {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
 				this.currentPage = pageNum;
-				this.tableContent = this.searchName
-					? this.clientSearchList.slice(
-							(this.currentPage - 1) * this.clientsPerPage,
-							Math.min(
-								this.currentPage * this.clientsPerPage,
-								this.totalClients
-							)
-					  )
-					: this.clients.slice(
-							(this.currentPage - 1) * this.clientsPerPage,
-							Math.min(
-								this.currentPage * this.clientsPerPage,
-								this.totalClients
-							)
-					  );
+				this.tableContent = this.tableData.slice(
+					(this.currentPage - 1) * this.clientsPerPage,
+					Math.min(
+						this.currentPage * this.clientsPerPage,
+						this.totalClients
+					)
+				);
 			}
 		},
 		search() {
