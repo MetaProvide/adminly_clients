@@ -266,4 +266,8 @@ p span {
 .age-input {
 	width: 55px;
 }
+
+textarea {
+	width: 100%;
+}
 </style>
