@@ -1,5 +1,5 @@
 <template>
-	<div class="clientsTable">
+	<div class="clients-table">
 		<div class="flex">
 			<ClientCreation @update-clients="updateClients" />
 			<input
@@ -13,8 +13,8 @@
 			:clients="tableContent"
 			@update-clients="updateClients"
 		/>
-		<div v-if="tableContent.length" class="tableFooter">
-			<div class="pageInfo">
+		<div v-if="tableContent.length" class="table-footer">
+			<div class="page-info">
 				<span>
 					{{ paginationInfo }}
 				</span>
@@ -24,7 +24,7 @@
 					<option value="30">30/page</option>
 				</select>
 			</div>
-			<div class="tableNav">
+			<div class="table-nav">
 				<button v-if="currentPage > 1" @click="previousPage()">
 					<svg
 						width="10"
@@ -220,20 +220,20 @@ export default {
 	font-weight: bold;
 }
 
-.tableNav {
+.table-nav {
 	display: flex;
 	justify-content: right;
 	align-items: center;
 }
 
-.tableNav button {
+.table-nav button {
 	border: none;
 	background-color: white;
 	font-weight: normal;
 	border-radius: 5px;
 }
 
-.tableNav p {
+.table-nav p {
 	margin: 10px;
 }
 
@@ -242,7 +242,7 @@ input {
 	border-radius: 8px;
 }
 
-.tableFooter input {
+.table-footer input {
 	max-width: 60px;
 }
 
@@ -250,12 +250,12 @@ input {
 	display: flex;
 }
 
-.pageInfo {
+.page-info {
 	justify-content: left;
 	padding: 10px;
 }
 
-.tableFooter {
+.table-footer {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 15px;
 	display: flex;
@@ -272,7 +272,7 @@ select {
 	font-size: unset;
 }
 
-.clientsTable {
+.clients-table {
 	width: 80%;
 	margin: auto;
 	min-height: 100vh;
