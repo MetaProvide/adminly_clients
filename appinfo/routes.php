@@ -29,4 +29,5 @@ return ['routes' => [
 	['name' => 'page#create', 'url' => '/create', 'verb' => 'POST'],
 	['name' => 'page#update', 'url' => '/update', 'verb' => 'POST'],
 	['name' => 'page#get', 'url' => '/get', 'verb' => 'GET'],
+	['name' => 'page#getClientSessions', 'url' => '/sessions', 'verb' => 'GET'],
 ]];

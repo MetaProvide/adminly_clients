@@ -37,6 +37,7 @@ use OCP\IUserSession;
 use OCA\Adminly_Clients\Db\Client;
 use Exception;
 use OCP\Activity\IManager as IActivityManager;
+use OCA\DAV\CalDAV\CalDavBackend;
 
 class PageController extends Controller {
 
@@ -49,11 +50,15 @@ class PageController extends Controller {
 	/** @var string */
 	private $userId;
 
-	public function __construct(IActivityManager $activityManager, string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession) {
+	/** @var CalDavBackend */
+	private $caldavBackend;
+
+	public function __construct(IActivityManager $activityManager, string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession, CalDavBackend $calDavBackend) {
 		parent::__construct($AppName, $request);
 		$this->activityManager = $activityManager;
 		$this->mapper = $mapper;
 		$this->userId = $userSession->getUser()->getUID();
+		$this->caldavBackend = $calDavBackend;
 	}
 
 	/**
@@ -153,5 +158,48 @@ class PageController extends Controller {
 			$clientsArray[] = $client->jsonSerialize();
 		}
 		return $clientsArray;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get all clients from the current user
+	 */
+	public function getClientSessions(): array {
+		$clientEmail = "test@example.com";
+
+		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
+
+		$filters = [
+			'name' => 'VCALENDAR',
+			'comp-filters' => [
+				[
+					'name' => 'VEVENT',
+					'comp-filters' => [],
+					'prop-filters' => [
+						[
+							'name' => 'ATTENDEE',
+							'is-not-defined' => false,
+							'param-filters' => [],
+							'text-match' => [
+								'collation' => 'i;unicode-casemap',
+								'negate-condition' => false,
+								'value' => $clientEmail,
+							],
+						]
+					],
+					'is-not-defined' => false,
+					'time-range' => null,
+				]
+			],
+			'prop-filters' => [],
+			'is-not-defined' => false,
+			'time-range' => null,
+		];
+
+		$sessions = $this->caldavBackend->calendarQuery($calendarId, $filters);
+
+		return $sessions;
 	}
 }
