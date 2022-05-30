@@ -182,12 +182,26 @@ export default {
 	width: 80vw;
 }
 
+.client-info .multiselect .multiselect__tags input.multiselect__input {
+	font-size: 0.8rem !important;
+	height: 34px !important;
+	margin-top: 3px;
+	border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+}
+
 .multiselect__input:focus {
 	border: 1px solid var(--color-border-dark) !important;
 }
 
+.multiselect__single {
+	box-sizing: border-box;
+	font-size: 0.8rem !important;
+	height: 34px;
+	margin: 3px;
+}
+
 .multiselect__content-wrapper {
-	top: 40px;
+	top: 38px;
 	bottom: auto !important;
 }
 
