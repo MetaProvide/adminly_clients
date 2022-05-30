@@ -1,5 +1,5 @@
 <template>
-	<div class="clientsTable">
+	<div class="clients-table">
 		<div class="flex">
 			<ClientCreation @update-clients="updateClients" />
 			<input
@@ -13,17 +13,10 @@
 			:clients="tableContent"
 			@update-clients="updateClients"
 		/>
-		<div v-if="tableContent.length" class="tableFooter">
-			<div class="pageInfo">
-				<span v-if="currentPage === totalPages">
-					{{ (currentPage - 1) * clientsPerPage }} -
-					{{ totalClients }} of
-					{{ totalClients }}
-				</span>
-				<span v-else>
-					{{ (currentPage - 1) * clientsPerPage }} -
-					{{ currentPage * clientsPerPage }} of
-					{{ totalClients }} clients
+		<div v-if="tableContent.length" class="table-footer">
+			<div class="page-info">
+				<span>
+					{{ paginationInfo }}
 				</span>
 				<select v-model="clientsPerPage" @change="updateTable()">
 					<option value="10" selected>10/page</option>
@@ -31,7 +24,7 @@
 					<option value="30">30/page</option>
 				</select>
 			</div>
-			<div class="tableNav">
+			<div class="table-nav">
 				<button v-if="currentPage > 1" @click="previousPage()">
 					<svg
 						width="10"
@@ -50,13 +43,15 @@
 				</button>
 				<div v-for="page in totalPages" :key="page">
 					<button
-						v-if="page === currentPage"
+						v-if="page == currentPage"
 						class="active"
 						@click="getPage(page)"
 					>
 						{{ page }}
 					</button>
-					<button v-else @click="getPage(page)">{{ page }}</button>
+					<button v-else @click="getPage(page)">
+						{{ page }}
+					</button>
 				</div>
 				<button v-if="currentPage < totalPages" @click="nextPage()">
 					<svg
@@ -77,6 +72,8 @@
 				<p>Go to</p>
 				<input
 					v-model="goToPage"
+					:min="1"
+					:max="totalPages"
 					type="number"
 					@input="getPage(goToPage)"
 				/>
@@ -111,7 +108,28 @@ export default {
 			totalClients: 0,
 			searchName: "",
 			goToPage: "",
+			clientSearchList: [],
 		};
+	},
+	computed: {
+		paginationInfo() {
+			return this.currentPage === this.totalPages
+				? (this.currentPage - 1) * this.clientsPerPage +
+						" - " +
+						this.totalClients +
+						" of " +
+						this.totalClients +
+						" clients"
+				: (this.currentPage - 1) * this.clientsPerPage +
+						" - " +
+						this.currentPage * this.clientsPerPage +
+						" of " +
+						this.totalClients +
+						" clients";
+		},
+		tableData() {
+			return this.searchName ? this.clientSearchList : this.clients;
+		},
 	},
 	watch: {
 		clients() {
@@ -120,15 +138,18 @@ export default {
 	},
 	methods: {
 		updateTable() {
-			this.tableContent = this.clients.slice(0, this.clientsPerPage);
-			this.totalClients = this.clients.length;
+			this.tableContent = this.tableData.slice(0, this.clientsPerPage);
+
+			this.totalClients = this.tableData.length;
+
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
 			);
+			if (this.currentPage > this.totalPages) this.currentPage = 1;
 		},
 		nextPage() {
 			this.currentPage += 1;
-			this.tableContent = this.clients.slice(
+			this.tableContent = this.tableData(
 				(this.currentPage - 1) * this.clientsPerPage,
 				Math.min(
 					this.currentPage * this.clientsPerPage,
@@ -138,29 +159,32 @@ export default {
 		},
 		previousPage() {
 			this.currentPage -= 1;
-			this.tableContent = this.clients.slice(
+			this.tableContent = this.tableData.slice(
 				(this.currentPage - 1) * this.clientsPerPage,
 				this.currentPage * this.clientsPerPage
 			);
 		},
 		getPage(pageNum) {
-			this.currentPage = pageNum;
-			this.tableContent = this.clients.slice(
-				(this.currentPage - 1) * this.clientsPerPage,
-				Math.min(
-					this.currentPage * this.clientsPerPage,
-					this.totalClients
-				)
-			);
+			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
+				this.currentPage = pageNum;
+				this.tableContent = this.tableData.slice(
+					(this.currentPage - 1) * this.clientsPerPage,
+					Math.min(
+						this.currentPage * this.clientsPerPage,
+						this.totalClients
+					)
+				);
+			}
 		},
 		search() {
-			this.tableContent = this.clients.filter((p) => {
+			this.clientSearchList = this.clients.filter((p) => {
 				return (
 					p.name
 						.toLowerCase()
 						.indexOf(this.searchName.toLowerCase()) !== -1
 				);
 			});
+			this.updateTable();
 		},
 		updateClients() {
 			this.$emit("update-clients", true);
@@ -174,20 +198,20 @@ export default {
 	font-weight: bold;
 }
 
-.tableNav {
+.table-nav {
 	display: flex;
 	justify-content: right;
 	align-items: center;
 }
 
-.tableNav button {
+.table-nav button {
 	border: none;
 	background-color: white;
 	font-weight: normal;
 	border-radius: 5px;
 }
 
-.tableNav p {
+.table-nav p {
 	margin: 10px;
 }
 
@@ -196,7 +220,7 @@ input {
 	border-radius: 8px;
 }
 
-.tableFooter input {
+.table-footer input {
 	max-width: 60px;
 }
 
@@ -204,12 +228,12 @@ input {
 	display: flex;
 }
 
-.pageInfo {
+.page-info {
 	justify-content: left;
 	padding: 10px;
 }
 
-.tableFooter {
+.table-footer {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 15px;
 	display: flex;
@@ -226,7 +250,7 @@ select {
 	font-size: unset;
 }
 
-.clientsTable {
+.clients-table {
 	width: 80%;
 	margin: auto;
 	min-height: 100vh;
