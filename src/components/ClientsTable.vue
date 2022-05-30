@@ -49,7 +49,9 @@
 					>
 						{{ page }}
 					</button>
-					<button v-else @click="getPage(page)">{{ page }}</button>
+					<button v-else @click="getPage(page)">
+						{{ page }}
+					</button>
 				</div>
 				<button v-if="currentPage < totalPages" @click="nextPage()">
 					<svg
@@ -70,6 +72,8 @@
 				<p>Go to</p>
 				<input
 					v-model="goToPage"
+					:min="1"
+					:max="totalPages"
 					type="number"
 					@input="getPage(goToPage)"
 				/>
@@ -175,7 +179,7 @@ export default {
 				  );
 		},
 		getPage(pageNum) {
-			if (pageNum <= this.totalPages && pageNum) {
+			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
 				this.currentPage = pageNum;
 				this.tableContent = this.searchName
 					? this.clientSearchList.slice(
