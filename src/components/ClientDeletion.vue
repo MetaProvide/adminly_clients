@@ -2,9 +2,14 @@
 	<div>
 		<Modal @close="toggleModal()">
 			<div class="modal-content">
-				<p>Do you want to delete {{ client.name }}?</p>
-				<button @click="toggleModal()">No</button>
-				<button @click="deleteClient()">Yes</button>
+				<p>
+					Do you want to delete client <span>{{ client.name }}</span
+					>?
+				</p>
+				<div class="button-options">
+					<button @click="toggleModal()">No</button>
+					<button @click="deleteClient()">Yes</button>
+				</div>
 			</div>
 		</Modal>
 	</div>
@@ -51,12 +56,12 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
+<style>
 .modal-container {
-	width: 50vw;
+	width: 350px;
 }
-
+</style>
+<style scoped>
 input {
 	width: 100%;
 }
@@ -69,5 +74,18 @@ button {
 
 .modal-content {
 	padding: 20px;
+}
+
+p {
+	margin: 20px;
+}
+
+p span {
+	font-weight: bold;
+}
+
+.button-options {
+	display: flex;
+	justify-content: flex-end;
 }
 </style>
