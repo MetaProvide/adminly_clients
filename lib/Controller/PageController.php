@@ -106,7 +106,7 @@ class PageController extends Controller {
 			throw $e;
 		}
 	}
-  
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
@@ -116,12 +116,12 @@ class PageController extends Controller {
 	public function update(
 		int $id,
 		string $name,
-		string $description,
-		string $timezone,
-		string $country,
-		string $city,
-		int $age,
-		string $contacts
+		string $description = "",
+		string $timezone = "",
+		string $country = "",
+		string $city = "",
+		int $age = null,
+		string $contacts = ""
 	) {
 		try {
 			$client = $this->mapper->find($id, $this->userId);
@@ -137,7 +137,7 @@ class PageController extends Controller {
 			$this->handleException($e);
 		}
 	}
-	
+
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired

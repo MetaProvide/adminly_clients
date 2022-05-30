@@ -9,6 +9,7 @@
 import ClientsTable from "./components/ClientsTable";
 import { ClientsUtil } from "./utils";
 import Overview from "./components/Overview";
+
 export default {
 	name: "App",
 	components: {

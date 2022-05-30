@@ -34,26 +34,37 @@
 								:size="100"
 							/>
 							<div v-if="editMode" class="col ml-22">
-								<input v-model="mutableClient.name" />
+								<input
+									v-model="mutableClient.name"
+									placeholder="Name"
+									required
+								/>
 								<div class="row">
-									<input v-model="mutableClient.city" />
-									<input v-model="mutableClient.timezone" />
+									<input
+										v-model="mutableClient.city"
+										placeholder="City"
+									/>
+									<TimezonePicker
+										v-model="mutableClient.timezone"
+									/>
 								</div>
 								<input
 									v-model="mutableClient.age"
 									class="age-input"
 									type="number"
+									placeholder="Age"
 								/>
 							</div>
 							<div v-else class="col ml-22">
-								<h1>
+								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
-								<p>
-									{{ mutableClient.city }},
-									<span>{{ mutableClient.timezone }}</span>
+								<p @dblclick="editClient()">
+									{{ mutableClient.city
+									}}{{ commaCityTimezone }}
+									<span>{{ displayTimezone }}</span>
 								</p>
-								<p>{{ textAge }}</p>
+								<p @dblclick="editClient()">{{ textAge }}</p>
 							</div>
 						</div>
 
@@ -61,8 +72,10 @@
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.description"
+							placeholder="Description"
+							class="client-description"
 						/>
-						<p v-else>
+						<p v-else @dblclick="editClient()">
 							{{ mutableClient.description }}
 						</p>
 					</div>
@@ -71,9 +84,13 @@
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.contacts"
+							placeholder="Contacts List"
+							class="contacts-list"
 						/>
-						<span v-else> {{ mutableClient.contacts }}</span>
-						<h3>Attachments</h3>
+						<span v-else @dblclick="editClient()">
+							{{ mutableClient.contacts }}</span
+						>
+						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
 				<div class="line"></div>
@@ -94,12 +111,14 @@ import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
 import { SessionsUtil, ClientsUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
+import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
 
 export default {
 	components: {
 		Modal,
 		Avatar,
 		SessionCard,
+		TimezonePicker,
 	},
 
 	props: {
@@ -120,7 +139,7 @@ export default {
 				description: this.client.description,
 				city: this.client.city,
 				country: this.client.country,
-				timezone: this.client.timezone,
+				timezone: this.client.timezone ? this.client.timezone : "UTC",
 				age: this.client.age,
 				contacts: this.client.contacts,
 			},
@@ -128,7 +147,17 @@ export default {
 	},
 	computed: {
 		textAge() {
-			return this.mutableClient.age + " Years Old";
+			return this.mutableClient.age
+				? this.mutableClient.age + " Years Old"
+				: "";
+		},
+		commaCityTimezone() {
+			return this.mutableClient.city && this.mutableClient.timezone
+				? ","
+				: "";
+		},
+		displayTimezone() {
+			return this.mutableClient.timezone.slice(0).replace("_", " ");
 		},
 	},
 	async mounted() {
@@ -152,12 +181,35 @@ export default {
 .modal-container {
 	width: 80vw;
 }
-</style>
-<style scoped>
-input {
-	width: 100%;
+
+.client-info .multiselect .multiselect__tags input.multiselect__input {
+	font-size: 0.8rem !important;
+	height: 34px !important;
+	margin-top: 3px;
+	border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
 }
 
+.multiselect__input:focus {
+	border: 1px solid var(--color-border-dark) !important;
+}
+
+.multiselect__single {
+	box-sizing: border-box;
+	font-size: 0.8rem !important;
+	height: 34px;
+	margin: 3px;
+}
+
+.multiselect__content-wrapper {
+	top: 38px;
+	bottom: auto !important;
+}
+
+.multiselect__tags {
+	max-width: 200px;
+}
+</style>
+<style scoped>
 button {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
@@ -224,9 +276,22 @@ p span {
 	display: flex;
 	border: none;
 	box-shadow: none;
+	padding: 15px;
 }
 
 .age-input {
-	width: 50px;
+	width: 55px;
+}
+
+.client-description {
+	width: 100%;
+	height: 75px;
+	resize: none;
+}
+
+.contacts-list {
+	width: 100%;
+	height: 100px;
+	resize: none;
 }
 </style>
