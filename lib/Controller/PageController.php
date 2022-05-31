@@ -211,12 +211,19 @@ class PageController extends Controller {
 			$eventData = Reader::read($event["calendardata"]);
 			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
 			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+			$description = $eventData->vevent->description->jsonSerialize()[3];
 
 			$sessions[] = [
 				"title" => "Session",
 				"date" => $date->format(DateTime::ISO8601),
+				"description" => $description,
 			];
 		}
+
+		// Sort sessions in descending order.
+		usort($sessions, function($a, $b) {
+			return $b['date'] <=> $a['date'];
+		});
 
 		return $sessions;
 	}
