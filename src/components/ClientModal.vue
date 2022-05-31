@@ -32,6 +32,7 @@
 							<Avatar
 								:username="mutableClient.name"
 								:size="100"
+								class="avatar"
 							/>
 							<div v-if="editMode" class="col ml-22">
 								<input
@@ -43,6 +44,7 @@
 									<input
 										v-model="mutableClient.email"
 										placeholder="Email"
+										type="email"
 										required
 									/>
 									<input
@@ -312,5 +314,13 @@ p span {
 	width: 100%;
 	height: 100px;
 	resize: none;
+}
+
+input[type="email"] {
+	min-width: 180px;
+}
+
+.avatar {
+	min-width: 100px;
 }
 </style>
