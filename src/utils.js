@@ -8,7 +8,11 @@ export const SessionsUtil = {
 			.then((resp) => {
 				if (resp.status !== 200)
 					throw new Error("Error fetching clients");
-				return resp.data;
+
+				return resp.data.map((elm) => ({
+					...elm,
+					date: new Date(elm.date).toLocaleString(),
+				}));
 			})
 			.catch((err) => console.error(err));
 	},
