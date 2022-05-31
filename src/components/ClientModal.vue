@@ -41,6 +41,19 @@
 								/>
 								<div class="row">
 									<input
+										v-model="mutableClient.email"
+										placeholder="Email"
+										required
+									/>
+									<input
+										v-model="mutableClient.phoneNumber"
+										placeholder="Phone Number"
+										type="tel"
+										required
+									/>
+								</div>
+								<div class="row">
+									<input
 										v-model="mutableClient.city"
 										placeholder="City"
 									/>
@@ -59,6 +72,10 @@
 								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
+								<p @dblclick="editClient()">
+									{{ mutableClient.email }}
+									<span>{{ mutableClient.phoneNumber }}</span>
+								</p>
 								<p @dblclick="editClient()">
 									{{ mutableClient.city
 									}}{{ commaCityTimezone }}
@@ -142,6 +159,8 @@ export default {
 				timezone: this.client.timezone ? this.client.timezone : "UTC",
 				age: this.client.age,
 				contacts: this.client.contacts,
+				email: this.client.email,
+				phoneNumber: this.client.phoneNumber,
 			},
 		};
 	},

@@ -6,7 +6,8 @@
 				<tr>
 					<th>Client Name</th>
 					<th>Email</th>
-					<th>Description</th>
+					<th>Phone Number</th>
+					<th>Timezone</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -100,7 +101,7 @@ export default {
 	},
 	data() {
 		return {
-			columns: ["name", "email", "description"],
+			columns: ["name", "email", "phoneNumber", "timezone"],
 			currentClient: {},
 			modal: false,
 		};

@@ -37,6 +37,8 @@ export const ClientsUtil = {
 				city: client.city,
 				age: client.age,
 				contacts: client.contacts,
+				email: client.email,
+				phoneNumber: client.phoneNumber,
 			})
 			.then((resp) => {
 				if (resp.status !== 200)
