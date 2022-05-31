@@ -316,7 +316,7 @@ p span {
 	resize: none;
 }
 
-input[type="email"] {
+input[type='email'] {
 	min-width: 180px;
 }
 
