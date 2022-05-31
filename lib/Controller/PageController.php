@@ -28,6 +28,8 @@ declare(strict_types=1);
 
 namespace OCA\Adminly_Clients\Controller;
 
+use DateTime;
+use DateTimeZone;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Controller;
@@ -38,6 +40,7 @@ use OCA\Adminly_Clients\Db\Client;
 use Exception;
 use OCP\Activity\IManager as IActivityManager;
 use OCA\DAV\CalDAV\CalDavBackend;
+use Sabre\VObject\Reader;
 
 class PageController extends Controller {
 
@@ -164,10 +167,10 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * Get all clients from the current user
+	 * Get all sessions for a specific client
 	 */
-	public function getClientSessions(): array {
-		$clientEmail = "test@example.com";
+	public function getClientSessions(int $clientId): array {
+		$client = $this->mapper->find($clientId, $this->userId);
 
 		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
 
@@ -185,7 +188,7 @@ class PageController extends Controller {
 							'text-match' => [
 								'collation' => 'i;unicode-casemap',
 								'negate-condition' => false,
-								'value' => $clientEmail,
+								'value' => $client->getEmail(),
 							],
 						]
 					],
@@ -198,7 +201,22 @@ class PageController extends Controller {
 			'time-range' => null,
 		];
 
-		$sessions = $this->caldavBackend->calendarQuery($calendarId, $filters);
+		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
+
+		$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
+
+		$sessions = [];
+
+		foreach ($events as $event) {
+			$eventData = Reader::read($event["calendardata"]);
+			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
+			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+
+			$sessions[] = [
+				"title" => "Session",
+				"date" => $date->format(DateTime::ISO8601),
+			];
+		}
 
 		return $sessions;
 	}
