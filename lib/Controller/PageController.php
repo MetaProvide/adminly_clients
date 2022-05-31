@@ -221,8 +221,8 @@ class PageController extends Controller {
 		}
 
 		// Sort sessions in descending order.
-		usort($sessions, function($a, $b) {
-			return $b['date'] <=> $a['date'];
+		usort($sessions, function ($a, $b) {
+			return $b["date"] <=> $a["date"];
 		});
 
 		return $sessions;
