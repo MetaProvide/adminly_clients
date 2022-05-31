@@ -45,6 +45,7 @@
 										v-model="mutableClient.email"
 										placeholder="Email"
 										type="email"
+										class="email"
 										required
 									/>
 									<input
@@ -316,7 +317,7 @@ p span {
 	resize: none;
 }
 
-input[type='email'] {
+.email {
 	min-width: 180px;
 }
 
