@@ -2,7 +2,7 @@
 	<div class="session">
 		<div class="session-header">
 			<p class="blue">
-				<span>{{ session.date }} - {{ session.mainTitle }}</span>
+				<span>{{ session.date }} - {{ session.title }}</span>
 			</p>
 			<!-- <div v-if="session.paid" class="payment">
 				<svg
@@ -58,7 +58,9 @@ export default {
 	},
 	computed: {
 		safeDescription() {
-			return sanitizeHtml(this.session.description);
+			return this.session.description
+				? sanitizeHtml(this.session.description)
+				: "";
 		},
 	},
 };
