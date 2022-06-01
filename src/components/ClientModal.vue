@@ -35,12 +35,14 @@
 								class="avatar"
 							/>
 							<div v-if="editMode" class="col ml-22">
-								<input
-									v-model="mutableClient.name"
-									placeholder="Name"
-									class="name-input"
-									required
-								/>
+								<div class="row">
+									<input
+										v-model="mutableClient.name"
+										placeholder="Name"
+										class="name-input"
+										required
+									/>
+								</div>
 								<div class="row">
 									<input
 										v-model="mutableClient.email"
@@ -307,7 +309,7 @@ p span {
 }
 
 .name-input {
-	min-width: 20em;
+	width: 100%;
 }
 
 .client-description {
@@ -323,7 +325,7 @@ p span {
 }
 
 .email {
-	min-width: 180px;
+	width: 60%;
 }
 
 .avatar {
