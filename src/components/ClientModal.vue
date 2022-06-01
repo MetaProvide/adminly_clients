@@ -38,6 +38,7 @@
 								<input
 									v-model="mutableClient.name"
 									placeholder="Name"
+									class="name-input"
 									required
 								/>
 								<div class="row">
@@ -303,6 +304,10 @@ p span {
 
 .age-input {
 	width: 55px;
+}
+
+.name-input {
+	min-width: 20em;
 }
 
 .client-description {
