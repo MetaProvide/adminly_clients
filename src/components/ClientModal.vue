@@ -87,9 +87,19 @@
 							placeholder="Contacts List"
 							class="contacts-list"
 						/>
-						<span v-else @dblclick="editClient()">
-							{{ mutableClient.contacts }}</span
-						>
+						<div v-else @dblclick="editClient()">
+							<ul>
+								<li
+									v-for="(contact, index) in contactsList"
+									:key="index"
+								>
+									<a :href="'tel:' + contact.split(' ')[0]">{{
+										contact.split(" ")[0]
+									}}</a>
+									{{ getContactName(contact) }}
+								</li>
+							</ul>
+						</div>
 						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
@@ -159,6 +169,9 @@ export default {
 		displayTimezone() {
 			return this.mutableClient.timezone.slice(0).replace("_", " ");
 		},
+		contactsList() {
+			return this.mutableClient.contacts.split(",");
+		},
 	},
 	async mounted() {
 		this.sessions = await SessionsUtil.fetchSessions();
@@ -173,6 +186,9 @@ export default {
 				ClientsUtil.updateClient(this.mutableClient);
 				this.$emit("update-clients", true);
 			}
+		},
+		getContactName(contact) {
+			return contact.split(" ").slice(1).join(" ");
 		},
 	},
 };
@@ -267,7 +283,8 @@ button {
 	padding: 0;
 }
 
-p span {
+p span,
+li a {
 	color: #346188;
 }
 
@@ -293,5 +310,9 @@ p span {
 	width: 100%;
 	height: 100px;
 	resize: none;
+}
+
+li::before {
+	content: '•';
 }
 </style>
