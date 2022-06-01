@@ -41,6 +41,7 @@
 			</div> -->
 		</div>
 		<div class="description">{{ safeDescription }}</div>
+		<a :href="mainLink" class="link blue">{{ mainLink }}</a>
 	</div>
 </template>
 
@@ -57,10 +58,28 @@ export default {
 		},
 	},
 	computed: {
+		mainLink() {
+			// Find last link in description
+			const links = [
+				...(this.linkify(this.session.description || "") || []),
+			].filter(Boolean);
+
+			return links.pop();
+		},
 		safeDescription() {
 			return this.session.description
-				? sanitizeHtml(this.session.description)
+				? sanitizeHtml(this.session.description).replace(
+						this.mainLink,
+						""
+				  )
 				: "";
+		},
+	},
+	methods: {
+		linkify(text) {
+			const urlRegex =
+				/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi; // eslint-disable-line
+			return text.match(urlRegex);
 		},
 	},
 };
@@ -96,5 +115,9 @@ svg {
 
 .payment span {
 	font-weight: 500;
+}
+
+.link {
+	text-decoration: underline;
 }
 </style>
