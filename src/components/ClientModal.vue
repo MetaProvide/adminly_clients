@@ -55,6 +55,7 @@
 										v-model="mutableClient.phoneNumber"
 										placeholder="Phone Number"
 										type="tel"
+										class="phone"
 										required
 									/>
 								</div>
@@ -62,6 +63,7 @@
 									<input
 										v-model="mutableClient.city"
 										placeholder="City"
+										class="city"
 									/>
 									<TimezonePicker
 										v-model="mutableClient.timezone"
@@ -326,6 +328,14 @@ p span {
 
 .email {
 	width: 60%;
+}
+
+.phone {
+	width: 40%;
+}
+
+.city {
+	width: 50%;
 }
 
 .avatar {
