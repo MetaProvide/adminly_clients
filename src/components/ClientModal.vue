@@ -93,7 +93,7 @@
 						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
-				<div class="line"></div>
+				<div v-if="sessions.length" class="line"></div>
 				<div class="sessions">
 					<SessionCard
 						v-for="session in sessions"
@@ -161,7 +161,7 @@ export default {
 		},
 	},
 	async mounted() {
-		this.sessions = await SessionsUtil.fetchSessions();
+		this.sessions = await SessionsUtil.fetchSessions(this.client.id);
 	},
 	methods: {
 		toggleModal() {

@@ -2,7 +2,7 @@
 	<div class="session">
 		<div class="session-header">
 			<p class="blue">
-				<span>{{ session.date }} - {{ session.mainTitle }}</span>
+				<span>{{ session.date }} - {{ session.title }}</span>
 			</p>
 			<!-- <div v-if="session.paid" class="payment">
 				<svg
@@ -40,7 +40,11 @@
 				<span class="payment">UNPAID</span>
 			</div> -->
 		</div>
-		<div class="description">{{ safeDescription }}</div>
+		<div class="description">
+			{{ safeDescription }}
+
+			<a :href="mainLink" class="link blue">{{ mainLink }}</a>
+		</div>
 	</div>
 </template>
 
@@ -57,8 +61,28 @@ export default {
 		},
 	},
 	computed: {
+		mainLink() {
+			// Find last link in description
+			const links = [
+				...(this.linkify(this.session.description || "") || []),
+			].filter(Boolean);
+
+			return links.pop();
+		},
 		safeDescription() {
-			return sanitizeHtml(this.session.description);
+			return this.session.description
+				? sanitizeHtml(this.session.description).replace(
+						this.mainLink,
+						""
+				  )
+				: "";
+		},
+	},
+	methods: {
+		linkify(text) {
+			const urlRegex =
+				/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi; // eslint-disable-line
+			return text.match(urlRegex);
 		},
 	},
 };
@@ -84,7 +108,7 @@ svg {
 }
 
 .description {
-	margin-bottom: 10px;
+	margin-bottom: 0.75rem;
 }
 
 .payment {
@@ -94,5 +118,9 @@ svg {
 
 .payment span {
 	font-weight: 500;
+}
+
+.link {
+	text-decoration: underline;
 }
 </style>
