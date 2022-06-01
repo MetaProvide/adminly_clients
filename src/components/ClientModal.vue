@@ -32,17 +32,38 @@
 							<Avatar
 								:username="mutableClient.name"
 								:size="100"
+								class="avatar"
 							/>
 							<div v-if="editMode" class="col ml-22">
-								<input
-									v-model="mutableClient.name"
-									placeholder="Name"
-									required
-								/>
+								<div class="row">
+									<input
+										v-model="mutableClient.name"
+										placeholder="Name"
+										class="name-input"
+										required
+									/>
+								</div>
+								<div class="row">
+									<input
+										v-model="mutableClient.email"
+										placeholder="Email"
+										type="email"
+										class="email"
+										required
+									/>
+									<input
+										v-model="mutableClient.phoneNumber"
+										placeholder="Phone Number"
+										type="tel"
+										class="phone"
+										required
+									/>
+								</div>
 								<div class="row">
 									<input
 										v-model="mutableClient.city"
 										placeholder="City"
+										class="city"
 									/>
 									<TimezonePicker
 										v-model="mutableClient.timezone"
@@ -59,6 +80,10 @@
 								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
+								<p @dblclick="editClient()">
+									{{ mutableClient.email }}
+									<span>{{ mutableClient.phoneNumber }}</span>
+								</p>
 								<p @dblclick="editClient()">
 									{{ mutableClient.city
 									}}{{ commaCityTimezone }}
@@ -142,6 +167,8 @@ export default {
 				timezone: this.client.timezone ? this.client.timezone : "UTC",
 				age: this.client.age,
 				contacts: this.client.contacts,
+				email: this.client.email,
+				phoneNumber: this.client.phoneNumber,
 			},
 		};
 	},
@@ -283,6 +310,10 @@ p span {
 	width: 55px;
 }
 
+.name-input {
+	width: 100%;
+}
+
 .client-description {
 	width: 100%;
 	height: 75px;
@@ -293,5 +324,21 @@ p span {
 	width: 100%;
 	height: 100px;
 	resize: none;
+}
+
+.email {
+	width: 60%;
+}
+
+.phone {
+	width: 40%;
+}
+
+.city {
+	width: 50%;
+}
+
+.avatar {
+	min-width: 100px;
 }
 </style>

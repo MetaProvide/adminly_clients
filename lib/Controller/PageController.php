@@ -129,7 +129,9 @@ class PageController extends Controller {
 		string $country = "",
 		string $city = "",
 		int $age = null,
-		string $contacts = ""
+		string $contacts = "",
+		string $phoneNumber = "",
+		string $email = ""
 	) {
 		try {
 			$client = $this->mapper->find($id, $this->userId);
@@ -140,6 +142,8 @@ class PageController extends Controller {
 			$client->setCity($city);
 			$client->setAge($age);
 			$client->setContacts($contacts);
+			$client->setPhoneNumber($phoneNumber);
+			$client->setEmail($email);
 			return $this->mapper->update($client);
 		} catch (Exception $e) {
 			$this->handleException($e);

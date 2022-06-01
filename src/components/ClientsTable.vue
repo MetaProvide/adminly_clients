@@ -251,7 +251,7 @@ select {
 }
 
 .clients-table {
-	width: 80%;
+	min-width: 80%;
 	margin: auto;
 	min-height: 100vh;
 	padding: 20px;
