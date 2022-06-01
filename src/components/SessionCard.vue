@@ -40,8 +40,11 @@
 				<span class="payment">UNPAID</span>
 			</div> -->
 		</div>
-		<div class="description">{{ safeDescription }}</div>
-		<a :href="mainLink" class="link blue">{{ mainLink }}</a>
+		<div class="description">
+			{{ safeDescription }}
+
+			<a :href="mainLink" class="link blue">{{ mainLink }}</a>
+		</div>
 	</div>
 </template>
 
@@ -105,7 +108,7 @@ svg {
 }
 
 .description {
-	margin-bottom: 10px;
+	margin-bottom: 0.75rem;
 }
 
 .payment {
