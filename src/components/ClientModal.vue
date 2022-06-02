@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Modal @close="toggleModal()">
+		<Modal :size="'large'" @close="toggleModal()">
 			<div class="modal-content">
 				<button class="edit-button" @click="editClient()">
 					<span v-if="editMode">Save Changes</span>
@@ -121,7 +121,7 @@
 									<a :href="'tel:' + contact.split(' ')[0]">{{
 										contact.split(" ")[0]
 									}}</a>
-									{{ getContactName(contact) }}
+									{{ linkfyPhone(contact) }}
 								</li>
 							</ul>
 						</div>
@@ -217,14 +217,16 @@ export default {
 		getContactName(contact) {
 			return contact.split(" ").slice(1).join(" ");
 		},
+		linkfyPhone(text) {
+			const phoneRegex =
+				/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/g; // eslint-disable-line
+			console.log(text.match(phoneRegex));
+			return text.match(phoneRegex);
+		},
 	},
 };
 </script>
 <style>
-.modal-container {
-	width: 80vw;
-}
-
 .client-info .multiselect .multiselect__tags input.multiselect__input {
 	font-size: 0.8rem !important;
 	height: 34px !important;
@@ -279,6 +281,11 @@ button {
 	font-size: 18px;
 	line-height: 22px;
 	color: #346188;
+}
+
+.modal-content {
+	min-width: 60vw;
+	max-width: 900px;
 }
 
 .col {
@@ -344,7 +351,7 @@ li a {
 }
 
 li::before {
-	content: "•";
+	content: "•"; /*  eslint-disable-line */
 }
 
 .email {

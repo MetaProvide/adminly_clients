@@ -76,10 +76,6 @@ export default {
 </script>
 
 <style scoped>
-.modal-container {
-	width: 50vw;
-}
-
 input {
 	width: 100%;
 }

@@ -56,11 +56,6 @@ export default {
 	},
 };
 </script>
-<style>
-.modal-container {
-	width: 350px;
-}
-</style>
 <style scoped>
 input {
 	width: 100%;
