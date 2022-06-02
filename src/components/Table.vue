@@ -21,7 +21,16 @@
 								:size="30"
 								class="mr-10"
 							/>
-							{{ client[col] }}
+							<p v-if="col === 'timezone'">
+								{{
+									client.timezone
+										? timezoneWithUTC(client.timezone)
+										: ""
+								}}
+							</p>
+							<p v-else>
+								{{ client[col] }}
+							</p>
 						</div>
 					</td>
 					<td>
@@ -84,6 +93,7 @@
 import ClientModal from "./ClientModal";
 import Avatar from "vue-avatar";
 import ClientDeletion from "./ClientDeletion";
+import { TimezoneUtil } from "../utils";
 
 export default {
 	components: {
@@ -124,6 +134,9 @@ export default {
 		deleteClientModal(client) {
 			this.currentClient = client;
 			this.toggleDeleteModal();
+		},
+		timezoneWithUTC(timezone) {
+			return TimezoneUtil.timezoneWithUTC(timezone);
 		},
 	},
 };
