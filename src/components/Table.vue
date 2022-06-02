@@ -6,7 +6,8 @@
 				<tr>
 					<th>Client Name</th>
 					<th>Email</th>
-					<th>Description</th>
+					<th>Phone Number</th>
+					<th>Timezone</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -46,26 +47,18 @@
 								/>
 							</svg>
 						</button>
-						<button>
+						<button @click="deleteClientModal(client)">
 							<svg
-								width="4"
-								height="16"
-								viewBox="0 0 4 16"
+								width="19"
+								height="19"
+								viewBox="0 0 30 30"
 								fill="none"
 								xmlns="http://www.w3.org/2000/svg"
 							>
 								<path
-									d="M0.270549 1.7794C0.270549 2.7109 1.02568 3.46602 1.95717 3.46602C2.88867 3.46602 3.6438 2.7109 3.6438 1.7794C3.6438 0.847901 2.88867 0.0927734 1.95717 0.0927734C1.02568 0.0927733 0.270549 0.847901 0.270549 1.7794Z"
+									d="M 13 3 A 1.0001 1.0001 0 0 0 11.986328 4 L 6 4 A 1.0001 1.0001 0 1 0 6 6 L 24 6 A 1.0001 1.0001 0 1 0 24 4 L 18.013672 4 A 1.0001 1.0001 0 0 0 17 3 L 13 3 z M 6 8 L 6 24 C 6 25.105 6.895 26 8 26 L 22 26 C 23.105 26 24 25.105 24 24 L 24 8 L 6 8 z"
 									fill="#8E8E8E"
-								/>
-								<path
-									d="M1.95717 9.36921C1.02568 9.36921 0.270548 8.61408 0.270548 7.68259C0.270549 6.75109 1.02568 5.99596 1.95717 5.99596C2.88867 5.99596 3.6438 6.75109 3.6438 7.68259C3.6438 8.61408 2.88867 9.36921 1.95717 9.36921Z"
-									fill="#8E8E8E"
-								/>
-								<path
-									d="M1.95717 15.2724C1.02568 15.2724 0.270548 14.5173 0.270548 13.5858C0.270548 12.6543 1.02568 11.8991 1.95717 11.8991C2.88867 11.8991 3.6438 12.6543 3.6438 13.5858C3.6438 14.5173 2.88867 15.2724 1.95717 15.2724Z"
-									fill="#8E8E8E"
-								/>
+								></path>
 							</svg>
 						</button>
 					</td>
@@ -73,9 +66,15 @@
 			</tbody>
 		</table>
 		<ClientModal
-			v-if="modal"
+			v-if="clientModal"
 			:client="currentClient"
-			@toggle-modal="toggleModal"
+			@toggle-modal="toggleClientModal"
+			@update-clients="updateClients"
+		/>
+		<ClientDeletion
+			v-if="deleteModal"
+			:client="currentClient"
+			@toggle-modal="toggleDeleteModal"
 			@update-clients="updateClients"
 		/>
 	</div>
@@ -84,11 +83,13 @@
 <script>
 import ClientModal from "./ClientModal";
 import Avatar from "vue-avatar";
+import ClientDeletion from "./ClientDeletion";
 
 export default {
 	components: {
 		ClientModal,
 		Avatar,
+		ClientDeletion,
 	},
 	props: {
 		clients: {
@@ -100,21 +101,29 @@ export default {
 	},
 	data() {
 		return {
-			columns: ["name", "email", "description"],
+			columns: ["name", "email", "phoneNumber", "timezone"],
 			currentClient: {},
-			modal: false,
+			clientModal: false,
+			deleteModal: false,
 		};
 	},
 	methods: {
 		updateClientModal(client) {
 			this.currentClient = client;
-			this.toggleModal();
+			this.toggleClientModal();
 		},
-		toggleModal() {
-			this.modal = !this.modal;
+		toggleClientModal() {
+			this.clientModal = !this.clientModal;
+		},
+		toggleDeleteModal() {
+			this.deleteModal = !this.deleteModal;
 		},
 		updateClients() {
 			this.$emit("update-clients", true);
+		},
+		deleteClientModal(client) {
+			this.currentClient = client;
+			this.toggleDeleteModal();
 		},
 	},
 };

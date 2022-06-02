@@ -1,26 +1,20 @@
 import axios from "@nextcloud/axios";
 
 export const SessionsUtil = {
-	fetchSessions: () => {
-		// TODO
-		return [
-			{
-				description: "Hi, This is a sample session description",
-				date: "06/04/2022",
-				mainTitle: "Therapy Session",
-				paid: true,
-				id: 1,
-				value: "50€/50€",
-			},
-			{
-				description: "Hi, This is a sample session description",
-				mainTitle: "Therapy Session",
-				date: "07/04/2022",
-				paid: false,
-				id: 2,
-				value: "20€/50€",
-			},
-		];
+	fetchSessions: async (id) => {
+		const url = `/apps/adminly_clients/client/${id}/sessions`;
+		return axios
+			.get(url)
+			.then((resp) => {
+				if (resp.status !== 200)
+					throw new Error("Error fetching clients");
+
+				return resp.data.map((elm) => ({
+					...elm,
+					date: new Date(elm.date).toLocaleString(),
+				}));
+			})
+			.catch((err) => console.error(err));
 	},
 };
 
@@ -37,6 +31,8 @@ export const ClientsUtil = {
 				city: client.city,
 				age: client.age,
 				contacts: client.contacts,
+				email: client.email,
+				phoneNumber: client.phoneNumber,
 			})
 			.then((resp) => {
 				if (resp.status !== 200)
