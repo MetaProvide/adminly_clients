@@ -82,7 +82,12 @@
 								</h1>
 								<p @dblclick="editClient()">
 									{{ mutableClient.email }}
-									<span>{{ mutableClient.phoneNumber }}</span>
+									<a
+										:href="
+											'tel:' + mutableClient.phoneNumber
+										"
+										>{{ mutableClient.phoneNumber }}</a
+									>
 								</p>
 								<p @dblclick="editClient()">
 									{{ mutableClient.city
@@ -118,10 +123,15 @@
 									v-for="(contact, index) in contactsList"
 									:key="index"
 								>
-									<a :href="'tel:' + contact.split(' ')[0]">{{
-										contact.split(" ")[0]
+									<a :href="'tel:' + linkfyPhone(contact)">{{
+										linkfyPhone(contact)
 									}}</a>
-									{{ linkfyPhone(contact) }}
+									{{
+										contact.replace(
+											linkfyPhone(contact),
+											""
+										)
+									}}
 								</li>
 							</ul>
 						</div>
@@ -218,10 +228,8 @@ export default {
 			return contact.split(" ").slice(1).join(" ");
 		},
 		linkfyPhone(text) {
-			const phoneRegex =
-				/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/g; // eslint-disable-line
-			console.log(text.match(phoneRegex));
-			return text.match(phoneRegex);
+			const phoneRegex = /\+?[1-9][0-9]{7,14}/g; // eslint-disable-line
+			return text.match(phoneRegex)[0];
 		},
 	},
 };
@@ -317,6 +325,7 @@ button {
 	padding: 0;
 }
 
+p a,
 p span,
 li a {
 	color: #346188;
