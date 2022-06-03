@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Modal @close="toggleModal()">
+		<Modal :size="'large'" @close="toggleModal()">
 			<div class="modal-content">
 				<button class="edit-button" @click="editClient()">
 					<span v-if="editMode">Save Changes</span>
@@ -82,7 +82,12 @@
 								</h1>
 								<p @dblclick="editClient()">
 									{{ mutableClient.email }}
-									<span>{{ mutableClient.phoneNumber }}</span>
+									<a
+										:href="
+											'tel:' + mutableClient.phoneNumber
+										"
+										>{{ mutableClient.phoneNumber }}</a
+									>
 								</p>
 								<p @dblclick="editClient()">
 									{{ mutableClient.city
@@ -105,16 +110,33 @@
 						</p>
 					</div>
 					<div class="col ml-22">
-						<h3>Other Contacts</h3>
+						<h3 v-if="mutableClient.contacts || editMode">
+							Other Contacts
+						</h3>
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.contacts"
 							placeholder="Contacts List"
 							class="contacts-list"
 						/>
-						<span v-else @dblclick="editClient()">
-							{{ mutableClient.contacts }}</span
-						>
+						<div v-else @dblclick="editClient()">
+							<ul>
+								<li
+									v-for="(contact, index) in contactsList"
+									:key="index"
+								>
+									<a :href="'tel:' + linkfyPhone(contact)">{{
+										linkfyPhone(contact)
+									}}</a>
+									{{
+										contact.replace(
+											linkfyPhone(contact),
+											""
+										)
+									}}
+								</li>
+							</ul>
+						</div>
 						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
@@ -188,6 +210,11 @@ export default {
 				this.mutableClient.timezone.slice(0)
 			);
 		},
+		contactsList() {
+			return this.mutableClient.contacts
+				? this.mutableClient.contacts.split(",")
+				: "";
+		},
 	},
 	async mounted() {
 		this.sessions = await SessionsUtil.fetchSessions(this.client.id);
@@ -203,14 +230,17 @@ export default {
 				this.$emit("update-clients", true);
 			}
 		},
+		getContactName(contact) {
+			return contact.split(" ").slice(1).join(" ");
+		},
+		linkfyPhone(text) {
+			const phoneRegex = /\+?[1-9][0-9]{7,14}/g; // eslint-disable-line
+			return text.match(phoneRegex) ? text.match(phoneRegex)[0] : "";
+		},
 	},
 };
 </script>
 <style>
-.modal-container {
-	width: 80vw;
-}
-
 .client-info .multiselect .multiselect__tags input.multiselect__input {
 	font-size: 0.8rem !important;
 	height: 34px !important;
@@ -267,6 +297,11 @@ button {
 	color: #346188;
 }
 
+.modal-content {
+	min-width: 60vw;
+	max-width: 900px;
+}
+
 .col {
 	display: flex;
 	flex-direction: column;
@@ -296,7 +331,9 @@ button {
 	padding: 0;
 }
 
-p span {
+p a,
+p span,
+li a {
 	color: #346188;
 }
 
@@ -326,6 +363,10 @@ p span {
 	width: 100%;
 	height: 100px;
 	resize: none;
+}
+
+li::before {
+	content: "•";
 }
 
 .email {
