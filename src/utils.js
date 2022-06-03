@@ -57,11 +57,11 @@ export const ClientsUtil = {
 export const TimezoneUtil = {
 	timezoneWithUTC: (timezone) => {
 		const offset = getTimezoneOffset(timezone) / 3600000;
-		let offsetWithsignal = offset > 0 ? `+${offset}` : offset;
+		let offsetWithSign = offset > 0 ? `+${offset}` : offset;
 		const location = timezone === "UTC" ? "" : timezone.replace("_", " ");
 
-		if (offset === 0) offsetWithsignal = "";
+		if (offset === 0) offsetWithSign = "";
 
-		return `${location} UTC${offsetWithsignal}`;
+		return `${location} UTC${offsetWithSign}`;
 	},
 };
