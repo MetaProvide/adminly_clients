@@ -110,7 +110,9 @@
 						</p>
 					</div>
 					<div class="col ml-22">
-						<h3>Other Contacts</h3>
+						<h3 v-if="client.contacts || editMode">
+							Other Contacts
+						</h3>
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.contacts"
@@ -207,7 +209,9 @@ export default {
 			return this.mutableClient.timezone.slice(0).replace("_", " ");
 		},
 		contactsList() {
-			return this.mutableClient.contacts.split(",");
+			return this.mutableClient.contacts
+				? this.mutableClient.contacts.split(",")
+				: "";
 		},
 	},
 	async mounted() {
