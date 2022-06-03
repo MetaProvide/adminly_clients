@@ -110,7 +110,7 @@
 						</p>
 					</div>
 					<div class="col ml-22">
-						<h3 v-if="client.contacts || editMode">
+						<h3 v-if="mutableClient.contacts || editMode">
 							Other Contacts
 						</h3>
 						<textarea
