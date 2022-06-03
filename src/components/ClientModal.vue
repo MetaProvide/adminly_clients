@@ -360,7 +360,7 @@ li a {
 }
 
 li::before {
-	content: '•';
+	content: "•";
 }
 
 .email {
