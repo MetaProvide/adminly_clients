@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<Overview />
+		<!-- <Overview /> -->
 		<ClientsTable :clients="clientsList" @update-clients="updateClients" />
 	</main>
 </template>
@@ -8,12 +8,12 @@
 <script>
 import ClientsTable from "./components/ClientsTable";
 import { ClientsUtil } from "./utils";
-import Overview from "./components/Overview";
+// import Overview from "./components/Overview";
 
 export default {
 	name: "App",
 	components: {
-		Overview,
+		// Overview,
 		ClientsTable,
 	},
 	data() {

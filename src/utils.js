@@ -1,4 +1,5 @@
 import axios from "@nextcloud/axios";
+import { getTimezoneOffset } from "date-fns-tz";
 
 export const SessionsUtil = {
 	fetchSessions: async (id) => {
@@ -50,5 +51,17 @@ export const ClientsUtil = {
 				return resp.data;
 			})
 			.catch((err) => console.error(err));
+	},
+};
+
+export const TimezoneUtil = {
+	timezoneWithUTC: (timezone) => {
+		const offset = getTimezoneOffset(timezone) / 3600000;
+		let offsetWithSign = offset > 0 ? `+${offset}` : offset;
+		const location = timezone === "UTC" ? "" : timezone.replace("_", " ");
+
+		if (offset === 0) offsetWithSign = "";
+
+		return `${location} UTC${offsetWithSign}`;
 	},
 };

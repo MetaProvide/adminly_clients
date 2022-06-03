@@ -134,7 +134,7 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
-import { SessionsUtil, ClientsUtil } from "../utils.js";
+import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
 import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
 
@@ -184,7 +184,9 @@ export default {
 				: "";
 		},
 		displayTimezone() {
-			return this.mutableClient.timezone.slice(0).replace("_", " ");
+			return TimezoneUtil.timezoneWithUTC(
+				this.mutableClient.timezone.slice(0)
+			);
 		},
 	},
 	async mounted() {
