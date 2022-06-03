@@ -233,7 +233,7 @@ export default {
 		},
 		linkfyPhone(text) {
 			const phoneRegex = /\+?[1-9][0-9]{7,14}/g; // eslint-disable-line
-			return text.match(phoneRegex)[0];
+			return text.match(phoneRegex) ? text.match(phoneRegex)[0] : "";
 		},
 	},
 };
