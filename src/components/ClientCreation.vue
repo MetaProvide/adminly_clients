@@ -16,6 +16,21 @@
 		</button>
 		<Modal v-if="modal" @close="toggleModal()">
 			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" @click="toggleModal()">
+						<svg
+							fill="#8E8E8E"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							class="material-design-icon__svg"
+						>
+							<path
+								d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+							></path>
+						</svg>
+					</button>
+				</div>
 				<form @submit.prevent="submitForm">
 					<div>
 						<label for="name">Name:</label><br />
@@ -40,9 +55,7 @@
 							required
 						/>
 					</div>
-					<button :class="[name ? activeClass : '']" type="submit">
-						Submit
-					</button>
+					<button class="submit" type="submit">Submit</button>
 				</form>
 			</div>
 		</Modal>
@@ -63,7 +76,6 @@ export default {
 			name: "",
 			email: "",
 			description: "",
-			activeClass: "active",
 		};
 	},
 	methods: {
@@ -102,12 +114,36 @@ input {
 }
 
 button {
-	box-shadow: 0px 0px 10.8184px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
 	background-color: white;
 }
 
+.submit {
+	background-color: #346188;
+	color: white;
+	margin-top: 15px;
+	margin-left: auto;
+	display: flex;
+	justify-content: end;
+}
+
+.modal-header {
+	margin-left: auto;
+	display: flex;
+	justify-content: end;
+}
+
+.modal-header button {
+	border: none;
+	box-shadow: none;
+}
+
 .modal-content {
 	padding: 20px;
+}
+
+form div {
+	margin: 0px 20px;
 }
 </style>
