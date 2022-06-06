@@ -156,6 +156,7 @@ table th {
 	font-weight: bold;
 	padding: 10px 20px;
 	border: 1 solid #eeeeee;
+	text-align: center;
 }
 
 table td {
