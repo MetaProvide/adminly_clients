@@ -41,3 +41,11 @@ main {
 	align-content: center;
 }
 </style>
+<style>
+.app-adminly_clients {
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	background-size: contain;
+	background-image: url("./assets/clientsBackground.svg");
+}
+</style>

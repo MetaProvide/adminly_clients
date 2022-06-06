@@ -239,6 +239,7 @@ input {
 	display: flex;
 	justify-content: space-between;
 	padding: 0 20px;
+	background-color: white;
 }
 
 .active {

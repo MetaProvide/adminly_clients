@@ -149,6 +149,7 @@ table {
 	box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
+	background-color: white;
 }
 
 table th {
