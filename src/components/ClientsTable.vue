@@ -113,14 +113,19 @@ export default {
 	},
 	computed: {
 		paginationInfo() {
+			const firstClientOfPage =
+				this.currentPage - 1 === 0
+					? 1
+					: (this.currentPage - 1) * this.clientsPerPage;
+
 			return this.currentPage === this.totalPages
-				? (this.currentPage - 1) * this.clientsPerPage +
+				? firstClientOfPage +
 						" - " +
 						this.totalClients +
 						" of " +
 						this.totalClients +
 						" clients"
-				: (this.currentPage - 1) * this.clientsPerPage +
+				: firstClientOfPage +
 						" - " +
 						this.currentPage * this.clientsPerPage +
 						" of " +
@@ -134,6 +139,7 @@ export default {
 	watch: {
 		clients() {
 			this.updateTable();
+			if (this.searchName) this.search();
 		},
 	},
 	methods: {
