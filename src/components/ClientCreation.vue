@@ -150,6 +150,6 @@ form div {
 .create-btn {
 	width: 43px;
 	height: 43px;
-	padding: 11px 10px;
+	padding: 0.7rem 0.7rem;
 }
 </style>
