@@ -4,7 +4,7 @@
 			<ClientCreation @update-clients="updateClients" />
 			<input
 				v-model="searchName"
-				placeholder="   Search Client"
+				placeholder="Search Client"
 				@input="search"
 			/>
 		</div>
@@ -236,6 +236,11 @@ input {
 
 .top-bar input {
 	height: 43px !important;
+	width: 170px;
+	background-color: white;
+	padding: 12px 20px 12px 40px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
 	background-image: url("../assets/search.svg");
 	background-repeat: no-repeat;
 }
