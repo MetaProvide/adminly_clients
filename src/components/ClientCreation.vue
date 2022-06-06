@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<button @click="toggleModal()">
+		<button class="create-btn" @click="toggleModal()">
 			<svg
 				width="24"
 				height="18"
@@ -40,9 +40,7 @@
 							required
 						/>
 					</div>
-					<button :class="[name ? activeClass : '']" type="submit">
-						Submit
-					</button>
+					<button type="submit">Submit</button>
 				</form>
 			</div>
 		</Modal>
@@ -102,12 +100,18 @@ input {
 }
 
 button {
-	box-shadow: 0px 0px 10.8184px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.15);
 	border-radius: 8px;
 	background-color: white;
 }
 
 .modal-content {
 	padding: 20px;
+}
+
+.create-btn {
+	width: 43px;
+	height: 43px;
+	padding: 11px 10px;
 }
 </style>

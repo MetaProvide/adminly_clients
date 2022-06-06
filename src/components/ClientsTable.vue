@@ -1,10 +1,10 @@
 <template>
 	<div class="clients-table">
-		<div class="flex">
+		<div class="top-bar">
 			<ClientCreation @update-clients="updateClients" />
 			<input
 				v-model="searchName"
-				placeholder="Search Client"
+				placeholder="   Search Client"
 				@input="search"
 			/>
 		</div>
@@ -224,8 +224,14 @@ input {
 	max-width: 60px;
 }
 
-.flex {
+.top-bar {
 	display: flex;
+}
+
+.top-bar input {
+	height: 43px !important;
+	background-image: url("../assets/search.svg");
+	background-repeat: no-repeat;
 }
 
 .page-info {
