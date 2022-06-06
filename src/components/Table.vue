@@ -158,14 +158,14 @@ table {
 
 table th {
 	font-weight: bold;
-	padding: 10px 20px;
+	padding: 0.7rem 1.25rem;
 	border: 1 solid #eeeeee;
 	text-align: center;
 }
 
 table td {
 	text-align: left;
-	padding: 10px 20px;
+	padding: 0.7rem 1.25rem;
 }
 
 table tr {
