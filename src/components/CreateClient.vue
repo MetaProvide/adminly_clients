@@ -81,6 +81,6 @@ input {
 }
 
 .modal__content {
-	padding: 20px;
+	padding: 1.25rem;
 }
 </style>
