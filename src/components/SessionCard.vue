@@ -94,7 +94,7 @@ export default {
 }
 
 .session-header {
-	margin-top: 20px;
+	margin-top: 1.25rem;
 	display: flex;
 	flex-direction: row;
 }

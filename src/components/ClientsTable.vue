@@ -212,7 +212,7 @@ export default {
 }
 
 .table-nav p {
-	margin: 10px;
+	margin: 0.7rem;
 }
 
 input {
@@ -230,7 +230,7 @@ input {
 
 .page-info {
 	justify-content: left;
-	padding: 10px;
+	padding: 0.7rem;
 }
 
 .table-footer {
@@ -238,7 +238,7 @@ input {
 	border-radius: 15px;
 	display: flex;
 	justify-content: space-between;
-	padding: 0 20px;
+	padding: 0 1.25rem;
 }
 
 .active {

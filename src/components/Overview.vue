@@ -31,6 +31,6 @@ export default {
 	display: flex;
 	width: 80%;
 	margin: auto;
-	padding: 20px;
+	padding: 1.25rem;
 }
 </style>

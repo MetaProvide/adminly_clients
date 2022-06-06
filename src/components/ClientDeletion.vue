@@ -83,11 +83,11 @@ button {
 }
 
 .modal-content {
-	padding: 20px;
+	padding: 1.25rem;
 }
 
 p {
-	margin: 20px 20px 35px;
+	margin: 1.25rem 1.25rem 2.25rem;
 }
 
 p span {

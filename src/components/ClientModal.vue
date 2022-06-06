@@ -291,7 +291,7 @@ button {
 }
 
 .sessions {
-	padding: 0 35px 35px 35px;
+	padding: 0 2.25rem 2.25rem 2.25rem;
 }
 
 .client-main {
@@ -301,14 +301,14 @@ button {
 .modal-content h1 {
 	font-weight: 500;
 	font-size: 33px;
-	line-height: 41px;
+	line-height: 2.5rem;
 	color: #346188;
 }
 
 .modal-content h3 {
 	font-weight: 600;
 	font-size: 18px;
-	line-height: 22px;
+	line-height: 2.2rem;
 	color: #346188;
 }
 
@@ -336,7 +336,7 @@ button {
 }
 
 .client-info {
-	padding: 35px 35px 10px 35px;
+	padding: 2.25rem 2.25rem 0.7rem 2.25rem;
 	display: flex;
 	flex-direction: row;
 }
@@ -359,7 +359,7 @@ li a {
 }
 
 .modal-header button {
-	padding: 15px;
+	padding: 1rem;
 	border: none;
 	box-shadow: none;
 }

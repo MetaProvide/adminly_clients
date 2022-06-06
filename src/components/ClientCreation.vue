@@ -122,10 +122,10 @@ button {
 .submit {
 	background-color: #346188;
 	color: white;
-	margin-top: 15px;
-	margin-left: auto;
+	margin-top: 1rem;
+	margin-inline: auto;
 	display: flex;
-	justify-content: end;
+	line-height: 1.25rem;
 }
 
 .modal-header {
@@ -140,10 +140,10 @@ button {
 }
 
 .modal-content {
-	padding: 20px;
+	padding: 1.25rem;
 }
 
 form div {
-	margin: 0px 20px;
+	margin: 0 1.25rem;
 }
 </style>
