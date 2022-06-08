@@ -168,6 +168,11 @@ table td {
 	padding: 0.7rem 1.25rem;
 }
 
+table td p {
+	display: flex;
+	align-items: center;
+}
+
 table tr {
 	border-bottom: 1px solid #eeeeee;
 }
