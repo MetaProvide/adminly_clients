@@ -155,7 +155,7 @@ export default {
 		},
 		nextPage() {
 			this.currentPage += 1;
-			this.tableContent = this.tableData(
+			this.tableContent = this.tableData.slice(
 				(this.currentPage - 1) * this.clientsPerPage,
 				Math.min(
 					this.currentPage * this.clientsPerPage,
