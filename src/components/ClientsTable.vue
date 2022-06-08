@@ -270,7 +270,6 @@ select {
 .clients-table {
 	min-width: 80%;
 	margin: auto;
-	min-height: 100vh;
 	padding: 20px;
 	display: flex;
 	gap: 20px;

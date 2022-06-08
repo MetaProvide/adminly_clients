@@ -33,7 +33,8 @@ export default {
 <style scoped>
 main {
 	width: 80%;
-	margin: auto;
+	margin-inline: auto;
+	margin-block-end: auto;
 	padding: 20px;
 	display: flex;
 	gap: 20px;
