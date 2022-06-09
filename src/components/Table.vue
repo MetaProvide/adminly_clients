@@ -160,8 +160,7 @@ table {
 table th {
 	font-weight: bold;
 	padding: 0.7rem 1.25rem;
-	border: 1 solid #eeeeee;
-	text-align: center;
+	border: 1 solid var(--adminly-line-color);
 }
 
 table td {
@@ -169,13 +168,8 @@ table td {
 	padding: 0.7rem 1.25rem;
 }
 
-table td p {
-	display: flex;
-	align-items: center;
-}
-
 table tr {
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid var(--adminly-line-color);
 }
 
 table td:last-child {
@@ -184,6 +178,10 @@ table td:last-child {
 
 table td:first-child {
 	color: var(--adminly-light-blue);
+}
+
+table td:first-child p {
+	line-height: 30px;
 }
 
 table button {
