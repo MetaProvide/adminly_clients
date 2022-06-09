@@ -70,8 +70,7 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIcon() {
-		// TODO
-		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg'));
+		return $this->url->getAbsoluteURL($this->url->imagePath('/custom_apps/adminly_clients/', 'app-dark.svg'));
 	}
 
 	/**
