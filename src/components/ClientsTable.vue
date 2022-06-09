@@ -241,7 +241,7 @@ input {
 	padding: 12px 20px 12px 40px;
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
-	background-image: url("../assets/search.svg");
+	background-image: url("../../img/search.svg");
 }
 
 .page-info {
