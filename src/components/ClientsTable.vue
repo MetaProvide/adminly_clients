@@ -75,6 +75,7 @@
 					:min="1"
 					:max="totalPages"
 					type="number"
+					placeholder="Page"
 					@input="getPage(goToPage)"
 				/>
 			</div>
@@ -208,6 +209,7 @@ export default {
 	display: flex;
 	justify-content: right;
 	align-items: center;
+	color: var(--neutral-600);
 }
 
 .table-nav button {
@@ -222,7 +224,7 @@ export default {
 }
 
 input {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px var(--adminly-grey);
 	border-radius: 8px;
 }
 
@@ -247,10 +249,11 @@ input {
 .page-info {
 	justify-content: left;
 	padding: 0.7rem;
+	color: var(--neutral-500);
 }
 
 .table-footer {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px var(--adminly-grey);
 	border-radius: 15px;
 	display: flex;
 	justify-content: space-between;
@@ -265,6 +268,7 @@ input {
 select {
 	border: none;
 	font-size: unset;
+	color: var(--neutral-500);
 }
 
 .clients-table {

@@ -29,7 +29,17 @@ export default {
 	},
 };
 </script>
-
+<style>
+:root {
+	--adminly-light-blue: #238dda;
+	--adminly-dark-blue: #346188;
+	--adminly-link-blue: #1364af;
+	--neutral-600: #4b4b4b;
+	--neutral-500: #8e8e8e;
+	--adminly-light-grey: rgba(196, 196, 196, 0.1);
+	--adminly-grey: rgba(0, 0, 0, 0.15);
+}
+</style>
 <style scoped>
 main {
 	width: 80%;

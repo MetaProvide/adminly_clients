@@ -77,7 +77,7 @@ input {
 }
 
 button {
-	box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 11px var(--adminly-grey);
 	border-radius: 8px;
 	background-color: white;
 }
@@ -111,7 +111,7 @@ p span {
 }
 
 .btn-yes {
-	background-color: #346188;
+	background-color: var(--adminly-dark-blue);
 	color: white;
 }
 </style>

@@ -150,10 +150,11 @@ export default {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 9px var(--adminly-grey);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
 	background-color: white;
+	color: var(--neutral-600);
 }
 
 table th {
@@ -182,7 +183,7 @@ table td:last-child {
 }
 
 table td:first-child {
-	color: #238dda;
+	color: var(--adminly-light-blue);
 }
 
 table button {
