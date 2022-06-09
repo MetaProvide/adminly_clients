@@ -79,9 +79,9 @@ class Provider implements IProvider {
 		$this->l = $this->languageFactory->get('adminly_clients', $language);
 
 		if ($this->activityManager->getRequirePNG()) {
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar-dark.png')));
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('adminly_clients', 'app-dark.png')));
 		} else {
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/calendar.svg')));
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('adminly_clients', 'app-dark.svg')));
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {

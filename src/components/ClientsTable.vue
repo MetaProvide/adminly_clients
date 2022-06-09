@@ -1,6 +1,6 @@
 <template>
 	<div class="clients-table">
-		<div class="flex">
+		<div class="top-bar">
 			<ClientCreation @update-clients="updateClients" />
 			<input
 				v-model="searchName"
@@ -75,6 +75,7 @@
 					:min="1"
 					:max="totalPages"
 					type="number"
+					placeholder="Page"
 					@input="getPage(goToPage)"
 				/>
 			</div>
@@ -155,7 +156,7 @@ export default {
 		},
 		nextPage() {
 			this.currentPage += 1;
-			this.tableContent = this.tableData(
+			this.tableContent = this.tableData.slice(
 				(this.currentPage - 1) * this.clientsPerPage,
 				Math.min(
 					this.currentPage * this.clientsPerPage,
@@ -208,6 +209,7 @@ export default {
 	display: flex;
 	justify-content: right;
 	align-items: center;
+	color: var(--neutral-600);
 }
 
 .table-nav button {
@@ -222,7 +224,7 @@ export default {
 }
 
 input {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px var(--adminly-grey);
 	border-radius: 8px;
 }
 
@@ -230,20 +232,32 @@ input {
 	max-width: 60px;
 }
 
-.flex {
+.top-bar {
 	display: flex;
+}
+
+.top-bar input {
+	height: 43px !important;
+	width: 170px;
+	background-color: white;
+	padding: 12px 20px 12px 40px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	background-image: url("../../img/search.svg");
 }
 
 .page-info {
 	justify-content: left;
 	padding: 0.7rem;
+	color: var(--neutral-500);
 }
 
 .table-footer {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px var(--adminly-grey);
 	border-radius: 15px;
 	display: flex;
 	justify-content: space-between;
+	background-color: white;
 	padding: 0 1.25rem;
 }
 
@@ -254,12 +268,12 @@ input {
 select {
 	border: none;
 	font-size: unset;
+	color: var(--neutral-500);
 }
 
 .clients-table {
 	min-width: 80%;
 	margin: auto;
-	min-height: 100vh;
 	padding: 20px;
 	display: flex;
 	gap: 20px;

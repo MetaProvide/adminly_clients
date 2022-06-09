@@ -285,7 +285,7 @@ export default {
 </style>
 <style scoped>
 button {
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 10px var(--adminly-grey);
 	border-radius: 8px;
 	background-color: white;
 }
@@ -302,14 +302,14 @@ button {
 	font-weight: 500;
 	font-size: 33px;
 	line-height: 2.5rem;
-	color: #346188;
+	color: var(--adminly-dark-blue);
 }
 
 .modal-content h3 {
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 2.2rem;
-	color: #346188;
+	color: var(--adminly-dark-blue);
 }
 
 .modal-content {
@@ -349,7 +349,11 @@ button {
 p a,
 p span,
 li a {
-	color: #346188;
+	color: var(--adminly-dark-blue);
+}
+
+li a {
+	color: var(--adminly-link-blue);
 }
 
 .modal-header {
@@ -362,6 +366,10 @@ li a {
 	padding: 1rem;
 	border: none;
 	box-shadow: none;
+}
+
+.modal-header span {
+	color: var(--adminly-dark-blue);
 }
 
 .age-input {
@@ -402,5 +410,10 @@ li::before {
 
 .avatar {
 	min-width: 100px;
+}
+
+input,
+textarea {
+	background-color: var(--adminly-light-grey);
 }
 </style>

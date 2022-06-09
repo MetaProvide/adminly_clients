@@ -19,7 +19,7 @@
 								v-if="col === 'name'"
 								:username="client.name"
 								:size="30"
-								class="mr-10"
+								class="avatar"
 							/>
 							<p v-if="col === 'timezone'">
 								{{
@@ -29,7 +29,11 @@
 								}}
 							</p>
 							<p v-else>
-								{{ client[col] }}
+								{{
+									client[col].length > 22
+										? client[col].slice(0, 22) + "..."
+										: client[col]
+								}}
 							</p>
 						</div>
 					</td>
@@ -146,15 +150,17 @@ export default {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 0px 9px var(--adminly-grey);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
+	background-color: white;
+	color: var(--neutral-600);
 }
 
 table th {
 	font-weight: bold;
 	padding: 0.7rem 1.25rem;
-	border: 1 solid #eeeeee;
+	border: 1 solid var(--adminly-line-color);
 }
 
 table td {
@@ -163,7 +169,7 @@ table td {
 }
 
 table tr {
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid var(--adminly-line-color);
 }
 
 table td:last-child {
@@ -171,7 +177,11 @@ table td:last-child {
 }
 
 table td:first-child {
-	color: #238dda;
+	color: var(--adminly-light-blue);
+}
+
+table td:first-child p {
+	line-height: 30px;
 }
 
 table button {
@@ -184,7 +194,7 @@ table button {
 	flex-direction: row;
 }
 
-.mr-10 {
-	margin-right: 10px;
+.avatar {
+	margin-right: 0.7rem;
 }
 </style>

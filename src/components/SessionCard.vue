@@ -90,7 +90,7 @@ export default {
 
 <style scoped>
 .blue {
-	color: #346188;
+	color: var(--adminly-dark-blue);
 }
 
 .session-header {
