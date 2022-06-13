@@ -131,7 +131,7 @@
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.contacts"
-							placeholder="Jhon Doe +460406280400, Jane Doe +441134960000"
+							placeholder="John Doe +460406280400, Jane Doe +441134960000"
 							class="contacts-list"
 						/>
 						<div v-else @dblclick="editClient()">
