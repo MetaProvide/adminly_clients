@@ -31,6 +31,7 @@ namespace OCA\Adminly_Clients\Db;
 
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
+use Exception;
 
 class ClientMapper extends QBMapper {
 	public const TABLE_NAME = 'adminly_clients';
@@ -63,5 +64,26 @@ class ClientMapper extends QBMapper {
 			);
 
 		return $this->findEntities($qb);
+	}
+
+	public function findByEmail(string $email, string $providerId) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('email', $qb->createNamedParameter($email))
+			)->andWhere(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
+
+		try {
+			$result = $this->findEntity($qb);
+		} catch (\OCP\AppFramework\Db\DoesNotExistException $e) {
+			return null;
+		} catch (Exception $e) {
+			throw $e;
+		}
+		return $result;
 	}
 }

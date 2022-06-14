@@ -83,33 +83,37 @@ class PageController extends Controller {
 	 */
 	public function create(string $name, string $email, string $description) {
 		try {
-			$client = new Client();
-			$client->setName($name);
-			$client->setEmail($email);
-			$client->setDescription($description);
-			$client->setProviderId($this->userId);
+			if (!$this->mapper->findByEmail($email, $this->userId)) {
+				$client = new Client();
+				$client->setName($name);
+				$client->setEmail($email);
+				$client->setDescription($description);
+				$client->setProviderId($this->userId);
 
-			$new_client = $this->mapper->insert($client);
+				$new_client = $this->mapper->insert($client);
 
-			$event = $this->activityManager->generateEvent();
-			$event->setApp('adminly_clients')
-				->setObject('client', $client->getId())
-				->setType('clients')
-				->setAffectedUser($this->userId)
-				->setSubject(
-					"client_add",
-					[
-						'client' => [
-							'type' => 'addressbook-contact',
-							'id' => $client->getId(),
-							'name' => $client->getName()
-						],
-					]
-				);
+				$event = $this->activityManager->generateEvent();
+				$event->setApp('adminly_clients')
+					->setObject('client', $client->getId())
+					->setType('clients')
+					->setAffectedUser($this->userId)
+					->setSubject(
+						"client_add",
+						[
+							'client' => [
+								'type' => 'addressbook-contact',
+								'id' => $client->getId(),
+								'name' => $client->getName()
+							],
+						]
+					);
 
-			$this->activityManager->publish($event);
+				$this->activityManager->publish($event);
 
-			return $new_client;
+				return $new_client;
+			} else {
+				throw new Exception("Client with email $email already exists");
+			}
 		} catch (Exception $e) {
 			throw $e;
 		}
