@@ -13,14 +13,16 @@ use OCP\DB\Types;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version0Date20220412110926 extends SimpleMigrationStep {
+class Version0Date20220614113111 extends SimpleMigrationStep
+{
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper
+	{
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
@@ -44,11 +46,38 @@ class Version0Date20220412110926 extends SimpleMigrationStep {
 				'length' => 250,
 			]);
 			$table->addColumn('description', Types::TEXT, [
-				'notnull' => true,
+				'notnull' => false,
 				'default' => ''
 			]);
+			$table->addColumn('phone_number', Types::STRING, [
+				'notnull' => false,
+				'default' => '',
+				'length' => 64,
+			]);
+			$table->addColumn('timezone', Types::STRING, [
+				'notnull' => false,
+				'default' => '',
+				'length' => 64,
+			]);
+			$table->addColumn('country', Types::STRING, [
+				'notnull' => false,
+				'default' => '',
+				'length' => 250,
+			]);
+			$table->addColumn('city', Types::STRING, [
+				'notnull' => false,
+				'default' => '',
+				'length' => 250,
+			]);
+			$table->addColumn('age', Types::SMALLINT, [
+				'notnull' => false,
+				'length' => 3,
+				'unsigned' => true,
+			]);
+			$table->addColumn('contacts', Types::TEXT, [
+				'notnull' => false,
+			]);
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['email'], 'adminly_clients_uq_idx');
 			$table->addIndex(['provider_id'], 'adminly_clients_pid_idx');
 		}
 
