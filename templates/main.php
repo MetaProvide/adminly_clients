@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Adminly Clients
  *
@@ -23,4 +24,4 @@
  *
  */
 ?>
-<div id="app" data-clients="<?php p(json_encode($clients)); ?>"></div>
+<div id="app"></div>

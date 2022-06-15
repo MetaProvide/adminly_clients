@@ -58,7 +58,6 @@ class Provider implements IProvider {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
 	}
 
 	/**

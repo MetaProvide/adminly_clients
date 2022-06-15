@@ -93,7 +93,7 @@ export default {
 					this.description = "";
 				})
 				.catch((error) => {
-					alert(error);
+					error.response ? alert(error.response.data) : alert(error);
 				});
 		},
 		toggleModal() {
