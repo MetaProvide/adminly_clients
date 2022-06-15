@@ -41,6 +41,8 @@ use Exception;
 use OCP\Activity\IManager as IActivityManager;
 use OCA\DAV\CalDAV\CalDavBackend;
 use Sabre\VObject\Reader;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 
 class PageController extends Controller {
 
@@ -112,10 +114,10 @@ class PageController extends Controller {
 
 				return $new_client;
 			} else {
-				throw new Exception("Client with email $email already exists");
+				return new JSONResponse("Client with email $email already exists", Http::STATUS_BAD_REQUEST);
 			}
 		} catch (Exception $e) {
-			throw $e;
+			$this->handleException($e);
 		}
 	}
 
