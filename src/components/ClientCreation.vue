@@ -58,23 +58,32 @@
 				</form>
 			</div>
 		</Modal>
+		<ErrorModal
+			v-if="errorModal"
+			:message="errorMessage"
+			@toggle-modal="toggleErrorModal"
+		/>
 	</div>
 </template>
 
 <script>
 import { Modal } from "@nextcloud/vue";
 import axios from "@nextcloud/axios";
+import ErrorModal from "./ErrorModal";
 
 export default {
 	components: {
 		Modal,
+		ErrorModal,
 	},
 	data() {
 		return {
 			modal: false,
+			errorModal: false,
 			name: "",
 			email: "",
 			description: "",
+			errorMessage: "",
 		};
 	},
 	methods: {
@@ -93,11 +102,17 @@ export default {
 					this.description = "";
 				})
 				.catch((error) => {
-					error.response ? alert(error.response.data) : alert(error);
+					this.errorMessage = error.response
+						? error.response.data
+						: error;
+					this.toggleErrorModal(this.errorMessage);
 				});
 		},
 		toggleModal() {
 			this.modal = !this.modal;
+		},
+		toggleErrorModal() {
+			this.errorModal = !this.errorModal;
 		},
 	},
 };

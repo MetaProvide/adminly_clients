@@ -72,10 +72,6 @@ export default {
 };
 </script>
 <style scoped>
-input {
-	width: 100%;
-}
-
 button {
 	box-shadow: 0px 0px 11px var(--adminly-grey);
 	border-radius: 8px;
