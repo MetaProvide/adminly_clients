@@ -11,6 +11,7 @@
 		<Table
 			:key="currentPage"
 			:clients="tableContent"
+			:is-empty="isTableEmpty"
 			@update-clients="updateClients"
 		/>
 		<div v-if="tableContent.length" class="table-footer">
@@ -99,6 +100,12 @@ export default {
 				return [];
 			},
 		},
+		isEmpty: {
+			type: Boolean,
+			default() {
+				return false;
+			},
+		},
 	},
 	data() {
 		return {
@@ -110,6 +117,7 @@ export default {
 			searchName: "",
 			goToPage: "",
 			clientSearchList: [],
+			isTableEmpty: false,
 		};
 	},
 	computed: {
@@ -146,6 +154,10 @@ export default {
 	methods: {
 		updateTable() {
 			this.tableContent = this.tableData.slice(0, this.clientsPerPage);
+
+			this.tableContent.length === 0
+				? (this.isTableEmpty = true)
+				: (this.isTableEmpty = false);
 
 			this.totalClients = this.tableData.length;
 

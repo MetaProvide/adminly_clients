@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<div v-if="!clients.length">No results</div>
+		<div v-if="!isEmpty && !clients.length" class="loading"></div>
+		<div v-else-if="isEmpty">No results</div>
 		<table v-else>
 			<thead>
 				<tr>
@@ -110,6 +111,12 @@ export default {
 			type: Array,
 			default() {
 				return [];
+			},
+		},
+		isEmpty: {
+			type: Boolean,
+			default() {
+				return false;
 			},
 		},
 	},
