@@ -155,9 +155,7 @@ export default {
 		updateTable() {
 			this.tableContent = this.tableData.slice(0, this.clientsPerPage);
 
-			this.tableContent.length === 0
-				? (this.isTableEmpty = true)
-				: (this.isTableEmpty = false);
+			this.isTableEmpty = this.tableContent.length === 0;
 
 			this.totalClients = this.tableData.length;
 
