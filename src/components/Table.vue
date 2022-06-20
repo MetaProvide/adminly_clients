@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="!isEmpty && !clients.length" class="loading"></div>
+		<div v-if="shouldLoadTable" class="loading"></div>
 		<div v-else-if="isEmpty">No results</div>
 		<table v-else>
 			<thead>
@@ -127,6 +127,11 @@ export default {
 			clientModal: false,
 			deleteModal: false,
 		};
+	},
+	computed: {
+		shouldLoadTable() {
+			return !this.isEmpty && !this.clients.length;
+		},
 	},
 	methods: {
 		updateClientModal(client) {

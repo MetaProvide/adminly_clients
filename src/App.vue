@@ -29,9 +29,7 @@ export default {
 	methods: {
 		async updateClients() {
 			this.clientsList = await ClientsUtil.fetchClients();
-			this.clientsList.length === 0
-				? (this.isEmpty = true)
-				: (this.isEmpty = false);
+			this.isEmpty = this.clientsList.length === 0;
 		},
 	},
 };
