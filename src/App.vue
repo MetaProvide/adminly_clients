@@ -1,7 +1,11 @@
 <template>
 	<main>
 		<!-- <Overview /> -->
-		<ClientsTable :clients="clientsList" @update-clients="updateClients" />
+		<ClientsTable
+			:clients="clientsList"
+			:is-empty="isEmpty"
+			@update-clients="updateClients"
+		/>
 	</main>
 </template>
 
@@ -17,7 +21,7 @@ export default {
 		ClientsTable,
 	},
 	data() {
-		return { clientsList: null };
+		return { clientsList: null, isEmpty: false };
 	},
 	async created() {
 		this.clientsList = await ClientsUtil.fetchClients();
@@ -25,6 +29,7 @@ export default {
 	methods: {
 		async updateClients() {
 			this.clientsList = await ClientsUtil.fetchClients();
+			this.isEmpty = this.clientsList.length === 0;
 		},
 	},
 };
