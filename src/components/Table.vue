@@ -155,6 +155,9 @@ table td {
 table tr {
 	border-bottom: 1px solid var(--adminly-line-color);
 }
+tr:hover button {
+	background-color: var(--color-background-dark);
+}
 
 table td:last-child {
 	border-right: none;
