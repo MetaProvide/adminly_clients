@@ -77,4 +77,10 @@ main {
 	background-position: center;
 	background-repeat: no-repeat;
 }
+
+.delete-button {
+	background-image: url("../img/trash.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+}
 </style>
