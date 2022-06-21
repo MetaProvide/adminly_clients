@@ -26,22 +26,11 @@
 				</select>
 			</div>
 			<div class="table-nav">
-				<button v-if="currentPage > 1" @click="previousPage()">
-					<svg
-						width="10"
-						height="15"
-						viewBox="0 0 10 15"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							fill-rule="evenodd"
-							clip-rule="evenodd"
-							d="M3.02714 7.61528L9.14502 1.4974L8.10172 0.454102L0.940539 7.61528L8.10172 14.7765L9.14502 13.7332L3.02714 7.61528Z"
-							fill="#868C92"
-						/>
-					</svg>
-				</button>
+				<button
+					v-if="currentPage > 1"
+					class="previous-button"
+					@click="previousPage()"
+				></button>
 				<div v-for="page in totalPages" :key="page">
 					<button
 						v-if="page == currentPage"
@@ -54,22 +43,11 @@
 						{{ page }}
 					</button>
 				</div>
-				<button v-if="currentPage < totalPages" @click="nextPage()">
-					<svg
-						width="9"
-						height="15"
-						viewBox="0 0 9 15"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							fill-rule="evenodd"
-							clip-rule="evenodd"
-							d="M6.24508 7.61421L0.127197 13.7321L1.1705 14.7754L8.33168 7.61421L1.1705 0.453031L0.127197 1.49633L6.24508 7.61421Z"
-							fill="#8E8E8E"
-						/>
-					</svg>
-				</button>
+				<button
+					v-if="currentPage < totalPages"
+					class="next-button"
+					@click="nextPage()"
+				></button>
 				<p>Go to</p>
 				<input
 					v-model="goToPage"
@@ -289,5 +267,17 @@ select {
 	gap: 20px;
 	flex-direction: column;
 	align-content: center;
+}
+
+.next-button {
+	background-image: url("../../img/right-arrow.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.previous-button {
+	background-image: url("../../img/left-arrow.svg");
+	background-position: center;
+	background-repeat: no-repeat;
 }
 </style>

@@ -65,4 +65,16 @@ main {
 	background-size: contain;
 	background-image: url("../img/clientsBackground.svg");
 }
+
+.close-button {
+	background-image: url("../img/close.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.edit-button {
+	background-image: url("../img/edit.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+}
 </style>
