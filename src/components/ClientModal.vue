@@ -124,7 +124,7 @@
 							{{ mutableClient.description }}
 						</p>
 					</div>
-					<div class="col ml-22">
+					<div class="col ml-22 other-contacts">
 						<h3 v-if="mutableClient.contacts || editMode">
 							Other Contacts
 						</h3>
@@ -132,6 +132,7 @@
 							v-if="editMode"
 							v-model="mutableClient.contacts"
 							placeholder="John Doe +460406280400, Jane Doe +441134960000"
+							title="John Doe +460406280400, Jane Doe +441134960000"
 							class="contacts-list"
 						/>
 						<div v-else @dblclick="editClient()">
@@ -335,6 +336,10 @@ button {
 	width: 60%;
 }
 
+.other-contacts {
+	width: 25%;
+}
+
 .client-info {
 	padding: 2.25rem 2.25rem 0.7rem 2.25rem;
 	display: flex;
@@ -389,11 +394,6 @@ li a {
 .contacts-list {
 	width: 100%;
 	height: 100px;
-	resize: none;
-}
-
-li::before {
-	content: "•";
 }
 
 .email {
