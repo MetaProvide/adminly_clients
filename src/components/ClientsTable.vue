@@ -202,6 +202,7 @@ export default {
 				);
 			});
 			this.updateTable();
+			this.currentPage = 1;
 		},
 		updateClients() {
 			this.$emit("update-clients", true);
