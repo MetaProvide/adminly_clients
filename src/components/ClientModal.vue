@@ -3,43 +3,17 @@
 		<Modal :size="'large'" @close="toggleModal()">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button @click="editClient()">
-						<span v-if="editMode">Save Changes</span>
-						<svg
-							v-else
-							xmlns="http://www.w3.org/2000/svg"
-							width="18"
-							height="19"
-							viewBox="0 0 18 19"
-							fill="none"
-						>
-							<path
-								d="M15.5613 0.900391L17.9153 3.25444L9.67656 11.4932L7.32251 9.13915L15.5613 0.900391Z"
-								fill="#8E8E8E"
-							/>
-							<path
-								d="M6.94895 9.68283L6.0454 11.7911L5.14186 13.8994L9.35842 12.0923L6.94895 9.68283Z"
-								fill="#8E8E8E"
-							/>
-							<path
-								d="M16.1049 7.15289V16.4293H2.61192V2.93633H11.8884V1.2497H2.61192C1.68042 1.2497 0.925293 2.00483 0.925293 2.93633V16.4293C0.925293 17.3608 1.68042 18.116 2.61192 18.116H16.1049C17.0364 18.116 17.7915 17.3608 17.7915 16.4293V7.15289H16.1049Z"
-								fill="#8E8E8E"
-							/>
-						</svg>
-					</button>
-					<button @click="toggleModal()">
-						<svg
-							fill="#8E8E8E"
-							width="20"
-							height="20"
-							viewBox="0 0 24 24"
-							class="material-design-icon__svg"
-						>
-							<path
-								d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
-							></path>
-						</svg>
-					</button>
+					<button v-if="editMode" @click="editClient()">
+						<span>Save Changes</span></button
+					><button
+						v-else
+						class="edit-button"
+						@click="editClient()"
+					></button>
+					<button
+						class="close-button"
+						@click="toggleModal()"
+					></button>
 				</div>
 				<div class="client-info">
 					<div class="col w-60">
