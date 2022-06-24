@@ -311,7 +311,7 @@ button {
 }
 
 .other-contacts {
-	width: 25%;
+	width: 33%;
 }
 
 .client-info {
