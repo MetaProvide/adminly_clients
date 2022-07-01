@@ -169,7 +169,9 @@ class PageController extends Controller {
 
 		foreach ($clients as $client) {
 			$client = $client->jsonSerialize();
-			$client['nextSession'] = $this->getClientNextSession($client['id']);
+			$lastNextSession = $this->getClientLastAndNextSessions($client['id']);
+			$client['nextSession'] = $lastNextSession['nextSession'];
+			$client['lastSession'] = $lastNextSession['lastSession'];
 			$clientsArray[] = $client;
 		}
 		return $clientsArray;
@@ -259,62 +261,28 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * Get all sessions for a specific client
+	 * Get last and next sessions for a specific client
 	 */
 
-	public function getClientNextSession(int $clientId) {
+	public function getClientLastAndNextSessions(int $clientId) {
 		$dateNow = new DateTime();
+		$dateNow = $dateNow->format(DateTime::ISO8601);
+		$sessions = $this->getClientSessions($clientId);
+		$response = [];
 
-		$client = $this->mapper->find($clientId, $this->userId);
-
-		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
-
-		$filters = [
-			'name' => 'VCALENDAR',
-			'comp-filters' => [
-				[
-					'name' => 'VEVENT',
-					'comp-filters' => [
-						'time-range' => ['start' => $dateNow],
-					],
-					'prop-filters' => [
-						[
-							'name' => 'ATTENDEE',
-							'is-not-defined' => false,
-							'param-filters' => [],
-							'text-match' => [
-								'collation' => 'i;unicode-casemap',
-								'negate-condition' => false,
-								'value' => $client->getEmail(),
-							],
-						]
-					],
-					'is-not-defined' => false,
-				]
-			],
-			'prop-filters' => [],
-			'is-not-defined' => false,
-			'time-range' => null,
-		];
-
-
-		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
-
-		$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
-
-		$sessions = [];
-
-		foreach ($events as $event) {
-			$eventData = Reader::read($event["calendardata"]);
-			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
-			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
-			$sessions[] = $date->format(DateTime::ISO8601);
+		foreach (array_reverse($sessions) as $session) {
+			if ($session["date"] > $dateNow) {
+				$response['nextSession'] = $session["date"];
+				break;
+			}
 		}
 
-		// Sort sessions in ascending order.
-		usort($sessions, function ($a, $b) {
-			return $a <=> $b;
-		});
-		return $sessions[0];
+		foreach ($sessions as $session) {
+			if ($session["date"] < $dateNow) {
+				$response['lastSession'] = $session["date"];
+				break;
+			}
+		}
+		return $response;
 	}
 }
