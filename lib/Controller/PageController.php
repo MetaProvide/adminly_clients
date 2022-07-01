@@ -266,19 +266,19 @@ class PageController extends Controller {
 
 	public function getClientLastAndNextSessions(int $clientId) {
 		$dateNow = new DateTime();
-		$dateNow = $dateNow->format(DateTime::ISO8601);
+		$dateNow = $dateNow->getTimestamp();
 		$sessions = $this->getClientSessions($clientId);
 		$response = [];
 
 		foreach (array_reverse($sessions) as $session) {
-			if ($session["date"] > $dateNow) {
+			if (strtotime($session["date"]) > $dateNow) {
 				$response['nextSession'] = $session["date"];
 				break;
 			}
 		}
 
 		foreach ($sessions as $session) {
-			if ($session["date"] < $dateNow) {
+			if (strtotime($session["date"]) < $dateNow) {
 				$response['lastSession'] = $session["date"];
 				break;
 			}
