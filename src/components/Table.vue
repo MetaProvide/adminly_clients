@@ -9,6 +9,7 @@
 					<th>Email</th>
 					<th>Phone Number</th>
 					<th>Timezone</th>
+					<th>Next Session</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -38,6 +39,7 @@
 							</p>
 						</div>
 					</td>
+					<td>{{ client.nextSession }}</td>
 					<td>
 						<button
 							class="edit-button"

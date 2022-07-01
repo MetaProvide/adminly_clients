@@ -168,7 +168,9 @@ class PageController extends Controller {
 		$clientsArray = [];
 
 		foreach ($clients as $client) {
-			$clientsArray[] = $client->jsonSerialize();
+			$client = $client->jsonSerialize();
+			$client['nextSession'] = $this->getClientNextSession($client['id']);
+			$clientsArray[] = $client;
 		}
 		return $clientsArray;
 	}
@@ -272,8 +274,9 @@ class PageController extends Controller {
 			'comp-filters' => [
 				[
 					'name' => 'VEVENT',
-					'time-range' => ['start' => $dateNow],
-					'comp-filters' => [],
+					'comp-filters' => [
+						'time-range' => ['start' => $dateNow],
+					],
 					'prop-filters' => [
 						[
 							'name' => 'ATTENDEE',
@@ -287,13 +290,13 @@ class PageController extends Controller {
 						]
 					],
 					'is-not-defined' => false,
-					'time-range' => null,
 				]
 			],
 			'prop-filters' => [],
 			'is-not-defined' => false,
 			'time-range' => null,
 		];
+
 
 		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
 
