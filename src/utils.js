@@ -17,18 +17,6 @@ export const SessionsUtil = {
 			})
 			.catch((err) => console.error(err));
 	},
-	fetchNextSession: async (id) => {
-		const url = `/apps/adminly_clients/client/${id}/nextSession`;
-		return axios
-			.get(url)
-			.then((resp) => {
-				if (resp.status !== 200)
-					throw new Error("Error fetching next session");
-
-				return resp.data ? resp.data : 0;
-			})
-			.catch((err) => console.error(err));
-	},
 };
 
 export const ClientsUtil = {
