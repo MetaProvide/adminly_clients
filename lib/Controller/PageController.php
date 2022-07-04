@@ -252,4 +252,71 @@ class PageController extends Controller {
 
 		return $sessions;
 	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get last and next sessions for a specific client
+	 */
+
+	public function getClientNextSession(int $clientId) {
+		$date = new DateTime();
+		$client = $this->mapper->find($clientId, $this->userId);
+
+		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
+
+		$filters = [
+			'name' => 'VCALENDAR',
+			'comp-filters' => [
+				[
+					'name' => 'VEVENT',
+					'comp-filters' => [],
+					'prop-filters' => [
+						[
+							'name' => 'ATTENDEE',
+							'is-not-defined' => false,
+							'param-filters' => [],
+							'text-match' => [
+								'collation' => 'i;unicode-casemap',
+								'negate-condition' => false,
+								'value' => $client->getEmail(),
+							],
+						]
+					],
+					'is-not-defined' => false,
+					'time-range' => ['start' => $date],
+				]
+			],
+			'prop-filters' => [],
+			'is-not-defined' => false,
+			'time-range' => null,
+		];
+
+		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
+
+		$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
+
+		$sessions = [];
+
+		foreach ($events as $event) {
+			$eventData = Reader::read($event["calendardata"]);
+			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
+			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+			$description = $eventData->vevent->description->jsonSerialize()[3];
+
+			$sessions[] = [
+				"title" => "Session",
+				"date" => $date->format(DateTime::ISO8601),
+				"description" => $description,
+			];
+		}
+
+		// Sort sessions in ascending order.
+		usort($sessions, function ($a, $b) {
+			return $a["date"] <=> $b["date"];
+		});
+
+		return $sessions[0];
+	}
 }

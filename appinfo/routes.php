@@ -31,4 +31,5 @@ return ['routes' => [
 	['name' => 'page#get', 'url' => '/get', 'verb' => 'GET'],
 	['name' => 'page#delete', 'url' => '/delete', 'verb' => 'POST'],
 	['name' => 'page#getClientSessions', 'url' => '/client/{clientId}/sessions', 'verb' => 'GET'],
+	['name' => 'page#getClientNextSession', 'url' => '/client/{clientId}/nextSession', 'verb' => 'GET'],
 ]];
