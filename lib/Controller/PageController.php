@@ -282,10 +282,17 @@ class PageController extends Controller {
 								'negate-condition' => false,
 								'value' => $client->getEmail(),
 							],
+						],
+						[
+							'name' => 'DTSTART',
+							'is-not-defined' => false,
+							'param-filters' => [],
+							'text-match' => [],
+							'time-range' => ['start' => $date],
 						]
 					],
 					'is-not-defined' => false,
-					'time-range' => ['start' => $date],
+					'time-range' => null,
 				]
 			],
 			'prop-filters' => [],
