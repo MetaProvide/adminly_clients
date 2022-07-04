@@ -48,7 +48,7 @@ export default {
 </style>
 <style scoped>
 main {
-	width: 80%;
+	min-width: 80%;
 	margin-inline: auto;
 	margin-block-end: auto;
 	padding: 20px;
