@@ -169,9 +169,8 @@ class PageController extends Controller {
 
 		foreach ($clients as $client) {
 			$client = $client->jsonSerialize();
-			$lastNextSession = $this->getClientLastAndNextSessions($client['id']);
-			$client['nextSession'] = $lastNextSession['nextSession'];
-			$client['lastSession'] = $lastNextSession['lastSession'];
+			$client['nextSession'] = $this->getClientNextSession($client['id']);
+			$client['lastSession'] = $this->getClientLastSession($client['id']);
 			$clientsArray[] = $client;
 		}
 		return $clientsArray;
@@ -261,35 +260,6 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * Get last and next sessions for a specific client
-	 */
-
-	public function getClientLastAndNextSessions(int $clientId) {
-		$dateNow = new DateTime();
-		$dateNow = $dateNow->getTimestamp();
-		$sessions = $this->getClientSessions($clientId);
-		$response = [];
-
-		foreach (array_reverse($sessions) as $session) {
-			if (strtotime($session["date"]) > $dateNow) {
-				$response['nextSession'] = $session["date"];
-				break;
-			}
-		}
-
-		foreach ($sessions as $session) {
-			if (strtotime($session["date"]) < $dateNow) {
-				$response['lastSession'] = $session["date"];
-				break;
-			}
-		}
-		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get next session for a specific client
 	 */
 
@@ -364,6 +334,10 @@ class PageController extends Controller {
 
 	public function getClientLastSession(int $clientId) {
 		$dateNow = new DateTime();
+
+		$sixWeeksAgo = new DateTime();
+		$sixWeeksAgo = $sixWeeksAgo->modify("-6 week");
+
 		$client = $this->mapper->find($clientId, $this->userId);
 
 		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
@@ -390,7 +364,7 @@ class PageController extends Controller {
 							'is-not-defined' => false,
 							'param-filters' => [],
 							'text-match' => [],
-							'time-range' => ['end' => $dateNow],
+							'time-range' => ['start' => $sixWeeksAgo, 'end' => $dateNow],
 						]
 					],
 					'is-not-defined' => false,
@@ -421,6 +395,6 @@ class PageController extends Controller {
 			return $b <=> $a;
 		});
 
-		return end($sessionsDates);
+		return $sessionsDates[0];
 	}
 }
