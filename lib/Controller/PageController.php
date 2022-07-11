@@ -88,7 +88,7 @@ class PageController extends Controller {
 			if (!$this->mapper->findByEmail($email, $this->userId)) {
 				$client = new Client();
 				$client->setName($name);
-				$client->setEmail($email);
+				$client->setEmail(strtolower($email));
 				$client->setDescription($description);
 				$client->setProviderId($this->userId);
 
