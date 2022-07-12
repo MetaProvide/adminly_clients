@@ -262,7 +262,6 @@ class PageController extends Controller {
 	 *
 	 * Get next session for a specific client
 	 */
-
 	public function getClientNextSession(int $clientId) {
 		$dateNow = new DateTime();
 		$client = $this->mapper->find($clientId, $this->userId);
@@ -305,24 +304,27 @@ class PageController extends Controller {
 
 		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
 
-		$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
+		if ($eventIds) {
+			$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
 
-		$sessionsDates = [];
+			$sessionsDates = [];
 
-		foreach ($events as $event) {
-			$eventData = Reader::read($event["calendardata"]);
-			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
-			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+			foreach ($events as $event) {
+				$eventData = Reader::read($event["calendardata"]);
+				$dtstart = $eventData->vevent->dtstart->jsonSerialize();
+				$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
 
-			$sessionsDates[] = $date->format(DateTime::ISO8601);
+				$sessionsDates[] = $date->format(DateTime::ISO8601);
+			}
+
+			// Sort sessions in ascending order.
+			usort($sessionsDates, function ($a, $b) {
+				return $a <=> $b;
+			});
+
+			return $sessionsDates[0];
 		}
-
-		// Sort sessions in ascending order.
-		usort($sessionsDates, function ($a, $b) {
-			return $a <=> $b;
-		});
-
-		return $sessionsDates[0];
+		return null;
 	}
 
 	/**
@@ -331,7 +333,6 @@ class PageController extends Controller {
 	 *
 	 * Get last session for a specific client
 	 */
-
 	public function getClientLastSession(int $clientId) {
 		$dateNow = new DateTime();
 
@@ -377,24 +378,26 @@ class PageController extends Controller {
 		];
 
 		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
+		if ($eventIds) {
+			$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
 
-		$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
+			$sessionsDates = [];
 
-		$sessionsDates = [];
+			foreach ($events as $event) {
+				$eventData = Reader::read($event["calendardata"]);
+				$dtstart = $eventData->vevent->dtstart->jsonSerialize();
+				$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
 
-		foreach ($events as $event) {
-			$eventData = Reader::read($event["calendardata"]);
-			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
-			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+				$sessionsDates[] = $date->format(DateTime::ISO8601);
+			}
 
-			$sessionsDates[] = $date->format(DateTime::ISO8601);
+			// Sort sessions in descending order.
+			usort($sessionsDates, function ($a, $b) {
+				return $b <=> $a;
+			});
+
+			return $sessionsDates[0];
 		}
-
-		// Sort sessions in descending order.
-		usort($sessionsDates, function ($a, $b) {
-			return $b <=> $a;
-		});
-
-		return $sessionsDates[0];
+		return null;
 	}
 }
