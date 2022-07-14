@@ -27,6 +27,7 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@v1.2
         id: versions
         with:
+          path: ./${{ env.APP_NAME }}/
           fallbackNode: "^14"
           fallbackNpm: "^7"
 
