@@ -132,7 +132,7 @@ export default {
 			return TimezoneUtil.timezoneWithUTC(timezone);
 		},
 		formatDate(date) {
-			if (date) return dayjs(date).format("DD/MM hh:mm");
+			if (date) return dayjs(date).format("DD MMM, hh:mm");
 		},
 	},
 };
