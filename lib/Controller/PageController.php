@@ -149,7 +149,7 @@ class PageController extends Controller {
 			$client->setAge($age);
 			$client->setContacts($contacts);
 			$client->setPhoneNumber($phoneNumber);
-			$client->setEmail($email);
+			$client->setEmail(strtolower($email));
 			return $this->mapper->update($client);
 		} catch (Exception $e) {
 			$this->handleException($e);
