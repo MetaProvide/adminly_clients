@@ -8,7 +8,7 @@ export const SessionsUtil = {
 			.get(url)
 			.then((resp) => {
 				if (resp.status !== 200)
-					throw new Error("Error fetching clients");
+					throw new Error("Error fetching sessions");
 
 				return resp.data.map((elm) => ({
 					...elm,

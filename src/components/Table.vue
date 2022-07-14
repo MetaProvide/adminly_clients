@@ -9,6 +9,8 @@
 					<th>Email</th>
 					<th>Phone Number</th>
 					<th>Timezone</th>
+					<th>Last Session</th>
+					<th>Next Session</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -38,6 +40,8 @@
 							</p>
 						</div>
 					</td>
+					<td>{{ formatDate(client.lastSession) }}</td>
+					<td>{{ formatDate(client.nextSession) }}</td>
 					<td>
 						<button
 							class="edit-button"
@@ -71,6 +75,7 @@ import ClientModal from "./ClientModal";
 import Avatar from "vue-avatar";
 import ClientDeletion from "./ClientDeletion";
 import { TimezoneUtil } from "../utils";
+import dayjs from "dayjs";
 
 export default {
 	components: {
@@ -125,6 +130,9 @@ export default {
 		},
 		timezoneWithUTC(timezone) {
 			return TimezoneUtil.timezoneWithUTC(timezone);
+		},
+		formatDate(date) {
+			if (date) return dayjs(date).format("DD MMM, hh:mm");
 		},
 	},
 };
