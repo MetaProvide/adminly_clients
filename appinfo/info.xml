@@ -5,7 +5,7 @@
     <name>Clients</name>
     <summary><![CDATA[Adminly Clients]]></summary>
     <description><![CDATA[Adminly Clients]]></description>
-    <version>0.2.0-alpha1</version>
+    <version>0.2.0-alpha2</version>
     <licence>agpl</licence>
     <author>MetaProvide</author>
     <namespace>Adminly_Clients</namespace>
