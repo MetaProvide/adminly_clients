@@ -35,7 +35,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Controller;
 use OCP\Util;
 use OCA\Adminly_Clients\Db\ClientMapper;
-use OCP\IUserSession;
 use OCA\Adminly_Clients\Db\Client;
 use Exception;
 use OCP\Activity\IManager as IActivityManager;
@@ -58,11 +57,18 @@ class PageController extends Controller {
 	/** @var CalDavBackend */
 	private $caldavBackend;
 
-	public function __construct(IActivityManager $activityManager, string $AppName, IRequest $request, ClientMapper $mapper, IUserSession $userSession, CalDavBackend $calDavBackend) {
+	public function __construct(
+		IActivityManager $activityManager,
+		string $AppName,
+		IRequest $request,
+		ClientMapper $mapper,
+		CalDavBackend $calDavBackend,
+		?string $userId
+	) {
 		parent::__construct($AppName, $request);
 		$this->activityManager = $activityManager;
 		$this->mapper = $mapper;
-		$this->userId = $userSession->getUser()->getUID();
+		$this->userId = $userId;
 		$this->caldavBackend = $calDavBackend;
 	}
 
