@@ -183,7 +183,9 @@ export default {
 			this.currentPage = 1;
 		},
 		updateClients() {
+			this.tableContent = [];
 			this.$emit("update-clients", true);
+			this.currentPage = 1;
 		},
 	},
 };

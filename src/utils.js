@@ -38,6 +38,7 @@ export const ClientsUtil = {
 			.then((resp) => {
 				if (resp.status !== 200)
 					throw new Error("Error updating client");
+				return resp;
 			})
 			.catch((err) => console.error(err));
 	},
