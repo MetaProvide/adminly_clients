@@ -126,6 +126,7 @@ export default {
 	watch: {
 		clients() {
 			this.updateTable();
+			this.getPage(this.currentPage);
 			if (this.searchName) this.search();
 		},
 	},
@@ -183,9 +184,7 @@ export default {
 			this.currentPage = 1;
 		},
 		updateClients() {
-			this.tableContent = [];
 			this.$emit("update-clients", true);
-			this.currentPage = 1;
 		},
 	},
 };
