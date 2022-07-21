@@ -453,13 +453,15 @@ class PageController extends Controller {
 		if ($eventIds) {
 			$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
 
-
 			foreach ($events as $event) {
+				// updates the attendee email
 				$calendardata = explode("\n", $event["calendardata"]);
 				$calendardata[35] = substr($calendardata[35], 0, strpos($calendardata[35], "mailto:")) . "mailto:";
 				$calendardata[36] = " " . $client->getEmail();
 				$calendardata = implode("\n", $calendardata);
+				//updates the description email
 				$newCalendardata = str_replace($oldEmail, $client->getEmail(), $calendardata);
+
 				$this->caldavBackend->updateCalendarObject($calendarId, $event["uri"], $newCalendardata);
 			}
 		}
