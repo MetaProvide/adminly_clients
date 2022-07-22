@@ -455,14 +455,17 @@ class PageController extends Controller {
 
 			foreach ($events as $event) {
 				// updates the attendee email
-				$calendardata = explode("\n", $event["calendardata"]);
-				$calendardata[35] = substr($calendardata[35], 0, strpos($calendardata[35], "mailto:")) . "mailto:";
-				$calendardata[36] = " " . $client->getEmail();
-				$calendardata = implode("\n", $calendardata);
-				//updates the description email
-				$newCalendardata = str_replace($oldEmail, $client->getEmail(), $calendardata);
+				$eventData = Reader::read($event["calendardata"]);
+				$eventData->vevent->attendee->setValue("mailto:" . $client->getEmail());
 
-				$this->caldavBackend->updateCalendarObject($calendarId, $event["uri"], $newCalendardata);
+				// updates description
+				$description = $eventData->vevent->description->getValue();
+				$pattern = "/[^@\s]*@[^@\s]*\.[^@\s]*/";
+				$newDescription = preg_replace($pattern, $client->getEmail(), $description);
+
+				$eventData->vevent->description->setValue($newDescription);
+
+				$this->caldavBackend->updateCalendarObject($calendarId, $event["uri"], $eventData->serialize());
 			}
 		}
 	}
