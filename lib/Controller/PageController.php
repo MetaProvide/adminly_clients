@@ -460,8 +460,7 @@ class PageController extends Controller {
 
 				// updates description
 				$description = $eventData->vevent->description->getValue();
-				$pattern = "/[^@\s]*@[^@\s]*\.[^@\s]*/";
-				$newDescription = preg_replace($pattern, $client->getEmail(), $description);
+				$newDescription = str_replace($oldEmail, $client->getEmail(), $description);
 
 				$eventData->vevent->description->setValue($newDescription);
 
