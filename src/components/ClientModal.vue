@@ -218,11 +218,11 @@ export default {
 			if (!this.editMode) {
 				const res = await ClientsUtil.updateClient(this.mutableClient);
 				if (res.status === 200) {
-          this.$emit("update-clients", true);
-          this.sessions = await SessionsUtil.fetchSessions(
-            this.client.id
-          );
-        }
+					this.$emit("update-clients", true);
+					this.sessions = await SessionsUtil.fetchSessions(
+						this.client.id
+					);
+				}
 			}
 		},
 		getContactName(contact) {
