@@ -213,11 +213,14 @@ export default {
 		toggleModal() {
 			this.$emit("toggle-modal", false);
 		},
-		editClient() {
+		async editClient() {
 			this.editMode = !this.editMode;
 			if (!this.editMode) {
 				ClientsUtil.updateClient(this.mutableClient);
 				this.$emit("update-clients", true);
+				this.sessions = await SessionsUtil.fetchSessions(
+					this.client.id
+				);
 			}
 		},
 		getContactName(contact) {
