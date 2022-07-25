@@ -126,6 +126,7 @@ export default {
 	watch: {
 		clients() {
 			this.updateTable();
+			this.getPage(this.currentPage);
 			if (this.searchName) this.search();
 		},
 	},
