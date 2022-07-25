@@ -155,7 +155,13 @@ class PageController extends Controller {
 			$client->setAge($age);
 			$client->setContacts($contacts);
 			$client->setPhoneNumber($phoneNumber);
-			$client->setEmail(strtolower($email));
+
+			if ($email) {
+				$oldEmail = $client->getEmail();
+				$client->setEmail(strtolower($email));
+				$this->updateClientSessionsEmail($client, $oldEmail);
+			}
+
 			return $this->mapper->update($client);
 		} catch (Exception $e) {
 			$this->handleException($e);
@@ -405,5 +411,61 @@ class PageController extends Controller {
 			return $sessionsDates[0];
 		}
 		return null;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Updates the email on the sessions for a specific client
+	 */
+	public function updateClientSessionsEmail($client, string $oldEmail) {
+		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
+
+		$filters = [
+			'name' => 'VCALENDAR',
+			'comp-filters' => [
+				[
+					'name' => 'VEVENT',
+					'comp-filters' => [],
+					'prop-filters' => [
+						[
+							'name' => 'ATTENDEE',
+							'is-not-defined' => false,
+							'param-filters' => [],
+							'text-match' => [
+								'collation' => 'i;unicode-casemap',
+								'negate-condition' => false,
+								'value' => $oldEmail,
+							],
+						]
+					],
+					'is-not-defined' => false,
+					'time-range' => null,
+				]
+			],
+			'prop-filters' => [],
+			'is-not-defined' => false,
+			'time-range' => null,
+		];
+
+		$eventIds = $this->caldavBackend->calendarQuery($calendarId, $filters);
+		if ($eventIds) {
+			$events = $this->caldavBackend->getMultipleCalendarObjects($calendarId, $eventIds);
+
+			foreach ($events as $event) {
+				// updates the attendee email
+				$eventData = Reader::read($event["calendardata"]);
+				$eventData->vevent->attendee->setValue("mailto:" . $client->getEmail());
+
+				// updates description
+				$description = $eventData->vevent->description->getValue();
+				$newDescription = str_replace($oldEmail, $client->getEmail(), $description);
+
+				$eventData->vevent->description->setValue($newDescription);
+
+				$this->caldavBackend->updateCalendarObject($calendarId, $event["uri"], $eventData->serialize());
+			}
+		}
 	}
 }
