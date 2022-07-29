@@ -197,6 +197,13 @@ class PageController extends Controller {
 	public function delete(int $id) {
 		try {
 			$client = $this->mapper->find($id, $this->userId);
+			$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
+			$sessions = $this->getClientSessions($client->getId());
+
+			foreach ($sessions as $session) {
+				$this->caldavBackend->deleteCalendarObject($calendarId, $session["uri"]);
+			}
+
 			return $this->mapper->delete($client);
 		} catch (Exception $e) {
 			$this->handleException($e);
@@ -257,6 +264,7 @@ class PageController extends Controller {
 				"title" => "Session",
 				"date" => $date->format(DateTime::ISO8601),
 				"description" => $description,
+				"uri" => $event["uri"],
 			];
 		}
 
