@@ -2,10 +2,10 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>adminly_clients</id>
-    <name>Clients</name>
+    <name>Adminly Clients</name>
     <summary><![CDATA[Adminly Clients]]></summary>
     <description><![CDATA[Adminly Clients]]></description>
-    <version>0.2.0-alpha4</version>
+    <version>0.2.0-alpha5</version>
     <licence>agpl</licence>
     <author>MetaProvide</author>
     <namespace>Adminly_Clients</namespace>
