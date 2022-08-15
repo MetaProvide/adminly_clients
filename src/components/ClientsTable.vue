@@ -19,44 +19,36 @@
 				<span>
 					{{ paginationInfo }}
 				</span>
-				<select v-model="clientsPerPage" @change="updateTable()">
-					<option value="10" selected>10/page</option>
-					<option value="20">20/page</option>
-					<option value="30">30/page</option>
-				</select>
 			</div>
 			<div class="table-nav">
 				<button
-					v-if="currentPage > 1"
-					class="previous-button"
+					class="svg first-page-button"
+					@click="getFirstPage()"
+				></button>
+				<button
+					class="svg previous-button"
 					@click="previousPage()"
 				></button>
-				<div v-for="page in totalPages" :key="page">
-					<button
-						v-if="page == currentPage"
-						class="active"
-						@click="getPage(page)"
-					>
-						{{ page }}
-					</button>
-					<button v-else @click="getPage(page)">
-						{{ page }}
-					</button>
-				</div>
-				<button
-					v-if="currentPage < totalPages"
-					class="next-button"
-					@click="nextPage()"
-				></button>
-				<p>Go to</p>
 				<input
 					v-model="goToPage"
 					:min="1"
 					:max="totalPages"
 					type="number"
-					placeholder="Page"
 					@input="getPage(goToPage)"
 				/>
+				<button class="svg next-button" @click="nextPage()"></button>
+				<button
+					class="svg last-page-button"
+					@click="getLastPage()"
+				></button>
+			</div>
+			<div class="page-selector">
+				<select v-model="clientsPerPage" @change="updateTable()">
+					<option value="10" selected>10/page</option>
+					<option value="20">20/page</option>
+					<option value="30">30/page</option>
+				</select>
+				<p>clients per page</p>
 			</div>
 		</div>
 	</div>
@@ -142,27 +134,42 @@ export default {
 				this.totalClients / this.clientsPerPage
 			);
 			if (this.currentPage > this.totalPages) this.currentPage = 1;
+
+			this.goToPage = this.currentPage;
 		},
 		nextPage() {
-			this.currentPage += 1;
-			this.tableContent = this.tableData.slice(
-				(this.currentPage - 1) * this.clientsPerPage,
-				Math.min(
-					this.currentPage * this.clientsPerPage,
-					this.totalClients
-				)
-			);
+			if (this.currentPage < this.totalPages) {
+				this.currentPage += 1;
+				this.goToPage = this.currentPage;
+				this.tableContent = this.tableData.slice(
+					(this.currentPage - 1) * this.clientsPerPage,
+					Math.min(
+						this.currentPage * this.clientsPerPage,
+						this.totalClients
+					)
+				);
+			}
 		},
 		previousPage() {
-			this.currentPage -= 1;
-			this.tableContent = this.tableData.slice(
-				(this.currentPage - 1) * this.clientsPerPage,
-				this.currentPage * this.clientsPerPage
-			);
+			if (this.currentPage > 1) {
+				this.currentPage -= 1;
+				this.goToPage = this.currentPage;
+				this.tableContent = this.tableData.slice(
+					(this.currentPage - 1) * this.clientsPerPage,
+					this.currentPage * this.clientsPerPage
+				);
+			}
+		},
+		getFirstPage() {
+			this.getPage(1);
+		},
+		getLastPage() {
+			this.getPage(this.totalPages);
 		},
 		getPage(pageNum) {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
 				this.currentPage = pageNum;
+				this.goToPage = this.currentPage;
 				this.tableContent = this.tableData.slice(
 					(this.currentPage - 1) * this.clientsPerPage,
 					Math.min(
@@ -195,11 +202,10 @@ export default {
 	font-weight: bold;
 }
 
-.table-nav {
+.table-nav,
+.page-selector {
 	display: flex;
-	justify-content: right;
 	align-items: center;
-	color: var(--neutral-600);
 }
 
 .table-nav button {
@@ -219,7 +225,8 @@ input {
 }
 
 .table-footer input {
-	max-width: 60px;
+	max-width: 1.5rem;
+	text-align: center;
 }
 
 .top-bar {
@@ -259,7 +266,6 @@ input {
 select {
 	border: none;
 	font-size: unset;
-	color: var(--neutral-500);
 }
 
 .clients-table {
@@ -272,15 +278,34 @@ select {
 	align-content: center;
 }
 
-.next-button {
-	background-image: url("../../img/right-arrow.svg");
+.svg {
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
+.next-button {
+	background-image: url("../../img/right-arrow.svg");
+}
+
 .previous-button {
 	background-image: url("../../img/left-arrow.svg");
-	background-position: center;
-	background-repeat: no-repeat;
+}
+
+.first-page-button {
+	background-image: url("../../img/first-page-arrow.svg");
+}
+
+.last-page-button {
+	background-image: url("../../img/last-page-arrow.svg");
+}
+
+.table-footer input::-webkit-outer-spin-button,
+.table-footer input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.table-footer input[type="number"] {
+	-moz-appearance: textfield;
 }
 </style>
