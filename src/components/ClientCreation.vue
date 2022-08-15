@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<button class="create-btn" @click="toggleModal()">
-			<div class="add-client"></div>
+			<div class="svg add-client"></div>
 			<p>Add Client</p>
 		</button>
 		<Modal v-if="modal" @close="toggleModal()">
@@ -14,30 +14,35 @@
 				</div>
 				<h1>New Client Information</h1>
 				<form @submit.prevent="submitForm">
-					<div>
-						<label for="name">Name:</label><br />
-						<input id="name" v-model="name" type="text" required />
-					</div>
-					<div>
-						<label for="email">Email:</label><br />
-						<input
-							id="email"
-							v-model="email"
-							type="email"
-							required
-						/>
-					</div>
+					<input
+						id="name"
+						v-model="name"
+						type="text"
+						placeholder="Full Name"
+						required
+					/>
 
-					<div>
-						<label for="description">Description:</label><br />
-						<input
-							id="description"
-							v-model="description"
-							type="text"
-							required
-						/>
+					<input
+						id="email"
+						v-model="email"
+						type="email"
+						placeholder="Email"
+						required
+					/>
+					<h1 class="form-heading">About</h1>
+					<input
+						id="description"
+						v-model="description"
+						type="text"
+						placeholder="Description"
+						required
+					/>
+					<div class="modal-footer">
+						<button class="cancel" @click="toggleModal()">
+							Cancel
+						</button>
+						<button class="submit" type="submit">Submit</button>
 					</div>
-					<button class="submit" type="submit">Submit</button>
 				</form>
 			</div>
 		</Modal>
@@ -102,27 +107,13 @@ export default {
 </script>
 
 <style scoped>
-.modal-container {
-	width: 50vw;
-}
-
 input {
 	width: 100%;
-}
-
-button {
-	box-shadow: 0px 0px 11px var(--adminly-grey);
-	border-radius: 8px;
-	background-color: white;
 }
 
 .submit {
 	background-color: var(--adminly-dark-blue);
 	color: white;
-	margin-top: 1rem;
-	margin-inline: auto;
-	display: flex;
-	line-height: 1.25rem;
 }
 
 .modal-header {
@@ -131,13 +122,17 @@ button {
 	justify-content: end;
 }
 
-.modal-header button {
-	border: none;
-	box-shadow: none;
-}
-
 .modal-content {
 	padding: 1.25rem;
+	width: 260px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+h1 {
+	font-weight: 500;
+	padding-bottom: 1.5rem;
 }
 
 form div {
@@ -148,7 +143,7 @@ form div {
 	display: flex;
 	box-shadow: 4px 4px 5px rgba(145, 149, 234, 0.3),
 		inset 0.1px 0.1px 3px rgba(145, 149, 234, 0.3);
-	border: none;
+	border-radius: 6px;
 }
 
 .create-btn p {
@@ -160,7 +155,26 @@ form div {
 	height: 34px;
 	padding: 0.7rem 0.7rem;
 	background-image: url("../../img/add-client.svg");
-	background-position: center;
-	background-repeat: no-repeat;
+}
+
+.modal-footer {
+	display: flex;
+	padding-top: 1.5rem;
+}
+
+.modal-footer button {
+	font-family: "Roc Grotesk", var(--font-face);
+}
+
+button {
+	border: none;
+	background-color: white;
+	border-radius: 6px;
+}
+
+.form-heading {
+	padding-top: 1.5rem;
+	display: flex;
+	justify-content: center;
 }
 </style>
