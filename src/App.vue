@@ -54,6 +54,7 @@ main {
 .svg {
 	background-position: center;
 	background-repeat: no-repeat;
+	padding-inline: 1rem !important;
 }
 
 .close-button {

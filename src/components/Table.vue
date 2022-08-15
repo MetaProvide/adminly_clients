@@ -199,11 +199,9 @@ table button {
 
 .edit-button {
 	background-image: url("../../img/edit.svg");
-	padding-inline: 1rem !important;
 }
 
 .delete-button {
 	background-image: url("../../img/trash.svg");
-	padding-inline: 1rem !important;
 }
 </style>
