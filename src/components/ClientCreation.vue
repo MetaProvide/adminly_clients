@@ -8,10 +8,11 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button
-						class="close-button"
+						class="svg close-button"
 						@click="toggleModal()"
 					></button>
 				</div>
+				<h1>New Client Information</h1>
 				<form @submit.prevent="submitForm">
 					<div>
 						<label for="name">Name:</label><br />

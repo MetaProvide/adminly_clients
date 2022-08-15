@@ -11,7 +11,7 @@
 						@click="editClient()"
 					></button>
 					<button
-						class="close-button"
+						class="svg close-button"
 						@click="toggleModal()"
 					></button>
 				</div>
