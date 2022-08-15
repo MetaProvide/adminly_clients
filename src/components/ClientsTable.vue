@@ -235,13 +235,16 @@ input {
 }
 
 .top-bar input {
-	height: 43px !important;
-	width: 170px;
+	width: 247px;
 	background-color: white;
 	padding: 12px 20px 12px 40px;
-	background-position: 10px 10px;
+	background-position: 10px;
 	background-repeat: no-repeat;
 	background-image: url("../../img/search.svg");
+}
+
+.top-bar input::placeholder {
+	color: #c2d1e8;
 }
 
 .page-info {
@@ -276,11 +279,6 @@ select {
 	gap: 20px;
 	flex-direction: column;
 	align-content: center;
-}
-
-.svg {
-	background-position: center;
-	background-repeat: no-repeat;
 }
 
 .next-button {

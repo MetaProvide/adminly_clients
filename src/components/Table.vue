@@ -44,11 +44,11 @@
 					<td>{{ formatDate(client.nextSession) }}</td>
 					<td>
 						<button
-							class="edit-button"
+							class="svg edit-button"
 							@click="updateClientModal(client)"
 						></button>
 						<button
-							class="delete-button"
+							class="svg delete-button"
 							@click="deleteClientModal(client)"
 						></button>
 					</td>
@@ -195,5 +195,15 @@ table button {
 
 .avatar {
 	margin-right: 0.7rem;
+}
+
+.edit-button {
+	background-image: url("../../img/edit.svg");
+	padding-inline: 1rem !important;
+}
+
+.delete-button {
+	background-image: url("../../img/trash.svg");
+	padding-inline: 1rem !important;
 }
 </style>

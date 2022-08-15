@@ -36,7 +36,7 @@ export default {
 </script>
 <style scoped>
 main {
-	min-width: 80%;
+	min-width: 90%;
 	margin-inline: auto;
 	margin-block-end: auto;
 	padding: 20px;
@@ -51,23 +51,12 @@ main {
 	background: linear-gradient(180deg, #ffffff 0%, #e4e5f8 100%);
 }
 
+.svg {
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 .close-button {
 	background-image: url("../img/close.svg");
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-.edit-button {
-	background-image: url("../img/edit.svg");
-	background-position: center;
-	background-repeat: no-repeat;
-	padding-inline: 1rem !important;
-}
-
-.delete-button {
-	background-image: url("../img/trash.svg");
-	background-position: center;
-	background-repeat: no-repeat;
-	padding-inline: 1rem !important;
 }
 </style>
