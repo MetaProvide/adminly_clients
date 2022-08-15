@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<button class="create-btn" @click="toggleModal()"></button>
+		<button class="create-btn" @click="toggleModal()">
+			<div class="add-client"></div>
+			<p>Add Client</p>
+		</button>
 		<Modal v-if="modal" @close="toggleModal()">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -141,6 +144,17 @@ form div {
 }
 
 .create-btn {
+	display: flex;
+	box-shadow: 4px 4px 5px rgba(145, 149, 234, 0.3),
+		inset 0.1px 0.1px 3px rgba(145, 149, 234, 0.3);
+	border: none;
+}
+
+.create-btn p {
+	align-self: center;
+}
+
+.add-client {
 	width: 43px;
 	height: 43px;
 	padding: 0.7rem 0.7rem;

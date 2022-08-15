@@ -1,12 +1,12 @@
 <template>
 	<div class="clients-table">
 		<div class="top-bar">
-			<ClientCreation @update-clients="updateClients" />
 			<input
 				v-model="searchName"
 				placeholder="Search Client"
 				@input="search"
 			/>
+			<ClientCreation @update-clients="updateClients" />
 		</div>
 		<Table
 			:key="currentPage"
@@ -224,6 +224,7 @@ input {
 
 .top-bar {
 	display: flex;
+	justify-content: space-between;
 }
 
 .top-bar input {
@@ -239,7 +240,6 @@ input {
 .page-info {
 	justify-content: left;
 	padding: 0.7rem;
-	color: var(--neutral-500);
 }
 
 .table-footer {
@@ -249,6 +249,7 @@ input {
 	justify-content: space-between;
 	background-color: white;
 	padding: 0 1.25rem;
+	color: var(--adminly-dark-blue);
 }
 
 .active {

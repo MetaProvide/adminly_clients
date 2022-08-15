@@ -34,18 +34,6 @@ export default {
 	},
 };
 </script>
-<style>
-:root {
-	--adminly-light-blue: #238dda;
-	--adminly-dark-blue: #346188;
-	--adminly-link-blue: #1364af;
-	--adminly-light-grey: rgba(196, 196, 196, 0.1);
-	--adminly-grey: rgba(0, 0, 0, 0.15);
-	--adminly-line-color: #eeeeee;
-	--neutral-600: #4b4b4b;
-	--neutral-500: #8e8e8e;
-}
-</style>
 <style scoped>
 main {
 	min-width: 80%;
@@ -60,10 +48,7 @@ main {
 </style>
 <style>
 .app-adminly_clients {
-	background-repeat: no-repeat;
-	background-position: center bottom;
-	background-size: contain;
-	background-image: url("../img/clientsBackground.svg");
+	background: linear-gradient(180deg, #ffffff 0%, #e4e5f8 100%);
 }
 
 .close-button {
@@ -76,11 +61,13 @@ main {
 	background-image: url("../img/edit.svg");
 	background-position: center;
 	background-repeat: no-repeat;
+	padding-inline: 1rem !important;
 }
 
 .delete-button {
 	background-image: url("../img/trash.svg");
 	background-position: center;
 	background-repeat: no-repeat;
+	padding-inline: 1rem !important;
 }
 </style>
