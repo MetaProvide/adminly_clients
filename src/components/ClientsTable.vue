@@ -220,13 +220,13 @@ export default {
 }
 
 input {
-	box-shadow: 0px 0px 10px var(--adminly-grey);
-	border-radius: 8px;
+	border: 0.5px solid var(--adminly-dark-blue);
 }
 
 .table-footer input {
 	max-width: 1.5rem;
 	text-align: center;
+	border-radius: 3px;
 }
 
 .top-bar {
@@ -236,6 +236,7 @@ input {
 
 .top-bar input {
 	width: 247px;
+	border-radius: 6px;
 	background-color: white;
 	padding: 12px 20px 12px 40px;
 	background-position: 10px;
