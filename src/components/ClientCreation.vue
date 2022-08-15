@@ -156,7 +156,7 @@ form div {
 
 .add-client {
 	width: 43px;
-	height: 43px;
+	height: 34px;
 	padding: 0.7rem 0.7rem;
 	background-image: url("../../img/add-client.svg");
 	background-position: center;
