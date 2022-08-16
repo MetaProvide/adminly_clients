@@ -54,9 +54,7 @@
 						placeholder="Add Description"
 					/>
 					<div class="modal-footer">
-						<button class="cancel" @click="toggleModal()">
-							Cancel
-						</button>
+						<button @click="toggleModal()">Cancel</button>
 						<button class="submit" type="submit">Submit</button>
 					</div>
 				</form>
@@ -149,7 +147,7 @@ textarea::placeholder {
 }
 
 .submit {
-	background-color: var(--adminly-dark-blue);
+	background-color: var(--adminly-blue);
 	color: white;
 }
 
