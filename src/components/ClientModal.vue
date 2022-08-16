@@ -3,8 +3,11 @@
 		<Modal @close="toggleModal()">
 			<div class="modal-content">
 				<div class="modal-header">
+					<button v-if="editMode" @click="toggleEdit()">
+						Cancel
+					</button>
 					<button
-						v-if="!editMode"
+						v-else
 						class="svg edit-button"
 						@click="editClient()"
 					></button>
@@ -60,20 +63,31 @@
 								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
-								<p @dblclick="editClient()">
-									{{ mutableClient.email }}
-									<a
-										:href="
-											'tel:' + mutableClient.phoneNumber
-										"
-										>{{ mutableClient.phoneNumber }}</a
+								<div @dblclick="editClient()">
+									<div class="row">
+										<span class="icon email-icon"></span>
+										{{ mutableClient.email }}
+									</div>
+									<div
+										v-if="mutableClient.phoneNumber"
+										class="row"
 									>
-								</p>
-								<p @dblclick="editClient()">
+										<span class="icon phone-icon"></span>
+										<a
+											:href="
+												'tel:' +
+												mutableClient.phoneNumber
+											"
+											>{{ mutableClient.phoneNumber }}</a
+										>
+									</div>
+								</div>
+								<div class="row" @dblclick="editClient()">
+									<span class="icon location-icon"></span>
 									{{ mutableClient.city
 									}}{{ commaCityTimezone }}
 									<span>{{ displayTimezone }}</span>
-								</p>
+								</div>
 								<p @dblclick="editClient()">{{ textAge }}</p>
 							</div>
 						</div>
@@ -85,7 +99,10 @@
 							placeholder="Description"
 							class="client-description"
 						/>
-						<p v-else @dblclick="editClient()">
+						<p
+							v-else-if="mutableClient.description"
+							@dblclick="editClient()"
+						>
 							{{ mutableClient.description }}
 						</p>
 					</div>
@@ -219,6 +236,9 @@ export default {
 		},
 		toggleDeleteModal() {
 			this.deleteModal = !this.deleteModal;
+		},
+		toggleEdit() {
+			this.editMode = !this.editMode;
 		},
 		async editClient() {
 			this.editMode = !this.editMode;
@@ -370,7 +390,7 @@ li a {
 	width: 55px;
 }
 
-.name-input {
+input {
 	width: 100%;
 }
 
@@ -398,5 +418,33 @@ li a {
 .modal-footer {
 	justify-content: flex-end;
 	padding: 0rem 2rem 1.5rem;
+}
+
+.icon::before {
+	content: "";
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0.25rem 0.6rem;
+	background-size: 1rem;
+}
+
+.email-icon::before {
+	background-image: url("../../img/email.svg");
+}
+
+.phone-icon::before {
+	background-image: url("../../img/phone.svg");
+}
+
+.location-icon::before {
+	background-image: url("../../img/location.svg");
+}
+
+button {
+	font-family: "Roc Grotesk", var(--font-face);
+}
+
+.icon {
+	padding-right: 1rem;
 }
 </style>
