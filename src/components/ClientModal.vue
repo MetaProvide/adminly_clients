@@ -108,7 +108,7 @@
 							{{ mutableClient.description }}
 						</p>
 					</div>
-					<div class="col ml-22 other-contacts">
+					<div class="col other-contacts">
 						<h3 v-if="mutableClient.contacts || editMode">
 							Other Contacts
 						</h3>
@@ -141,16 +141,23 @@
 					</div>
 				</div>
 				<div v-if="sessions.length" class="line"></div>
-				<div class="sessions">
+				<div v-if="sessions.length" class="sessions">
+					<h1>Session Details</h1>
 					<SessionCard
 						v-for="session in sessions"
 						:key="session.id"
 						:session="session"
 					/>
 				</div>
-				<div v-if="editMode" class="modal-footer">
-					<button @click="toggleDeleteModal()">Delete Client</button>
-					<button class="update" @click="editClient()">Update</button>
+				<div class="modal-footer">
+					<div v-if="editMode">
+						<button @click="toggleDeleteModal()">
+							Delete Client
+						</button>
+						<button class="update" @click="editClient()">
+							Update
+						</button>
+					</div>
 				</div>
 			</div>
 		</Modal>
@@ -332,17 +339,6 @@ button {
 .modal-content {
 	min-width: 515px;
 }
-
-.col {
-	display: flex;
-	flex-direction: column;
-}
-
-.row {
-	display: flex;
-	flex-direction: row;
-}
-
 .ml-22 {
 	margin-left: 22px;
 }
@@ -353,6 +349,8 @@ button {
 
 .other-contacts {
 	width: 33%;
+	padding-left: 1rem;
+	margin-left: 1.5rem;
 }
 
 .client-info {
@@ -424,14 +422,6 @@ input {
 .modal-footer {
 	justify-content: flex-end;
 	padding: 0rem 2rem 1.5rem;
-}
-
-.icon::before {
-	content: "";
-	background-repeat: no-repeat;
-	background-position: left;
-	padding: 0.25rem 0.6rem;
-	background-size: 1rem;
 }
 
 .email-icon::before {

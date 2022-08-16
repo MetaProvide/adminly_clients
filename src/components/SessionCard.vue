@@ -1,9 +1,20 @@
 <template>
 	<div class="session">
 		<div class="session-header">
-			<p class="blue">
-				<span>{{ session.date }} - {{ session.title }}</span>
-			</p>
+			<div class="col">
+				<div class="row">
+					<span class="icon star-icon"></span>
+					<p>{{ session.title }}</p>
+				</div>
+				<div class="row">
+					<span class="icon clipboard-icon"></span>
+					<p>{{ session.date }}</p>
+				</div>
+				<div class="row">
+					<span class="icon video-icon"></span>
+					<a :href="mainLink" class="link blue">{{ mainLink }}</a>
+				</div>
+			</div>
 			<!-- <div v-if="session.paid" class="payment">
 				<svg
 					width="24"
@@ -39,11 +50,6 @@
 				</svg>
 				<span class="payment">UNPAID</span>
 			</div> -->
-		</div>
-		<div class="description">
-			{{ safeDescription }}
-
-			<a :href="mainLink" class="link blue">{{ mainLink }}</a>
 		</div>
 	</div>
 </template>
@@ -122,5 +128,17 @@ svg {
 
 .link {
 	text-decoration: underline;
+}
+
+.star-icon::before {
+	background-image: url("../../img/star.svg");
+}
+
+.clipboard-icon::before {
+	background-image: url("../../img/clipboard.svg");
+}
+
+.video-icon::before {
+	background-image: url("../../img/video.svg");
 }
 </style>

@@ -47,6 +47,16 @@ main {
 }
 </style>
 <style>
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
 .modal-footer button {
 	font-family: "Roc Grotesk", var(--font-face);
 }
@@ -64,6 +74,14 @@ main {
 	background-position: center;
 	background-repeat: no-repeat;
 	padding-inline: 1rem !important;
+}
+
+.icon::before {
+	content: "";
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0.25rem 0.6rem;
+	background-size: 1rem;
 }
 
 .edit-button {
