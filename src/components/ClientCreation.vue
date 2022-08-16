@@ -132,8 +132,20 @@ export default {
 </script>
 
 <style scoped>
-input {
+input,
+textarea {
 	width: 100%;
+	border-radius: 4px;
+}
+
+input:focus,
+textarea:focus {
+	border-color: var(--adminly-blue) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: rgba(4, 67, 160, 0.3);
 }
 
 .submit {
@@ -157,7 +169,7 @@ input {
 
 h1 {
 	font-weight: 500;
-	padding-bottom: 1.5rem;
+	padding-bottom: 1rem;
 }
 
 form div {
@@ -198,12 +210,8 @@ button {
 }
 
 .form-heading {
-	padding-top: 1.5rem;
+	padding-top: 1rem;
 	display: flex;
 	justify-content: center;
-}
-
-textarea {
-	width: 100%;
 }
 </style>
