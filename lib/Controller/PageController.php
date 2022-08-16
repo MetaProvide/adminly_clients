@@ -89,13 +89,16 @@ class PageController extends Controller {
 	 *
 	 * Creates a new client
 	 */
-	public function create(string $name, string $email, string $description) {
+	public function create(string $name, string $email, string $description = "", string $phoneNumber = "", string $city = "", string $country = "") {
 		try {
 			if (!$this->mapper->findByEmail($email, $this->userId)) {
 				$client = new Client();
 				$client->setName($name);
 				$client->setEmail(strtolower($email));
 				$client->setDescription($description);
+				$client->setPhoneNumber($phoneNumber);
+				$client->setCity($city);
+				$client->setCountry($country);
 				$client->setProviderId($this->userId);
 
 				$new_client = $this->mapper->insert($client);

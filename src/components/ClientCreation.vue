@@ -21,21 +21,37 @@
 						placeholder="Full Name"
 						required
 					/>
-
 					<input
 						id="email"
 						v-model="email"
 						type="email"
-						placeholder="Email"
+						placeholder="Client Email"
 						required
 					/>
-					<h1 class="form-heading">About</h1>
 					<input
+						id="phoneNumber"
+						v-model="phoneNumber"
+						type="tel"
+						placeholder="Phone Number"
+					/>
+					<input
+						id="city"
+						v-model="city"
+						type="text"
+						placeholder="City"
+					/>
+					<input
+						id="country"
+						v-model="country"
+						type="text"
+						placeholder="Country"
+					/>
+					<h1 class="form-heading">About</h1>
+					<textarea
 						id="description"
 						v-model="description"
 						type="text"
-						placeholder="Description"
-						required
+						placeholder="Add Description"
 					/>
 					<div class="modal-footer">
 						<button class="cancel" @click="toggleModal()">
@@ -70,6 +86,9 @@ export default {
 			errorModal: false,
 			name: "",
 			email: "",
+			phoneNumber: "",
+			city: "",
+			country: "",
 			description: "",
 			errorMessage: "",
 		};
@@ -80,6 +99,9 @@ export default {
 				.post("create", {
 					name: this.name,
 					email: this.email,
+					phoneNumber: this.phoneNumber,
+					city: this.city,
+					country: this.country,
 					description: this.description,
 				})
 				.then((response) => {
@@ -87,6 +109,9 @@ export default {
 					this.toggleModal();
 					this.name = "";
 					this.email = "";
+					this.city = "";
+					this.country = "";
+					this.phone = "";
 					this.description = "";
 				})
 				.catch((error) => {
@@ -176,5 +201,9 @@ button {
 	padding-top: 1.5rem;
 	display: flex;
 	justify-content: center;
+}
+
+textarea {
+	width: 100%;
 }
 </style>

@@ -150,7 +150,6 @@ table {
 }
 
 table th {
-	font-weight: bold;
 	padding: 0.7rem 1.25rem;
 	border: 1 solid var(--adminly-line-color);
 	font-weight: 700;
