@@ -92,7 +92,9 @@
 							</div>
 						</div>
 
-						<h3>About</h3>
+						<h3 v-if="mutableClient.description || editMode">
+							About
+						</h3>
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.description"
@@ -292,6 +294,10 @@ export default {
 
 .multiselect__tags {
 	max-width: 200px;
+}
+
+.modal-container {
+	max-height: unset !important;
 }
 </style>
 <style scoped>
