@@ -1,13 +1,11 @@
 <template>
 	<div>
-		<Modal :size="'large'" @close="toggleModal()">
+		<Modal @close="toggleModal()">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button v-if="editMode" @click="editClient()">
-						<span>Save Changes</span></button
-					><button
-						v-else
-						class="edit-button"
+					<button
+						v-if="!editMode"
+						class="svg edit-button"
 						@click="editClient()"
 					></button>
 					<button
@@ -24,45 +22,38 @@
 								class="avatar"
 							/>
 							<div v-if="editMode" class="col ml-22">
-								<div class="row">
-									<input
-										v-model="mutableClient.name"
-										placeholder="Name"
-										class="name-input"
-										required
-									/>
-								</div>
-								<div class="row">
-									<input
-										v-model="mutableClient.email"
-										placeholder="Email"
-										type="email"
-										class="email"
-										required
-									/>
-									<input
-										v-model="mutableClient.phoneNumber"
-										placeholder="Phone Number"
-										type="tel"
-										class="phone"
-										required
-									/>
-								</div>
-								<div class="row">
-									<input
-										v-model="mutableClient.city"
-										placeholder="City"
-										class="city"
-									/>
-									<TimezonePicker
-										v-model="mutableClient.timezone"
-									/>
-								</div>
 								<input
+									v-model="mutableClient.name"
+									placeholder="Name"
+									class="name-input"
+									required
+								/><input
 									v-model="mutableClient.age"
 									class="age-input"
 									type="number"
 									placeholder="Age"
+								/>
+								<input
+									v-model="mutableClient.email"
+									placeholder="Email"
+									type="email"
+									class="email"
+									required
+								/>
+								<input
+									v-model="mutableClient.phoneNumber"
+									placeholder="Phone Number"
+									type="tel"
+									class="phone"
+									required
+								/>
+								<input
+									v-model="mutableClient.city"
+									placeholder="City"
+									class="city"
+								/>
+								<TimezonePicker
+									v-model="mutableClient.timezone"
 								/>
 							</div>
 							<div v-else class="col ml-22">
@@ -138,8 +129,18 @@
 						:session="session"
 					/>
 				</div>
+				<div v-if="editMode" class="modal-footer">
+					<button @click="toggleDeleteModal()">Delete Client</button>
+					<button class="update" @click="editClient()">Update</button>
+				</div>
 			</div>
 		</Modal>
+		<ClientDeletion
+			v-if="deleteModal"
+			:client="client"
+			@toggle-modal="toggleDeleteModal"
+			@update-clients="updateClients"
+		/>
 	</div>
 </template>
 
@@ -148,6 +149,7 @@ import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
 import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
+import ClientDeletion from "./ClientDeletion";
 import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
 
 export default {
@@ -156,6 +158,7 @@ export default {
 		Avatar,
 		SessionCard,
 		TimezonePicker,
+		ClientDeletion,
 	},
 
 	props: {
@@ -170,6 +173,7 @@ export default {
 		return {
 			sessions: [],
 			editMode: false,
+			deleteModal: false,
 			mutableClient: {
 				id: this.client.id,
 				name: this.client.name,
@@ -213,6 +217,9 @@ export default {
 		toggleModal() {
 			this.$emit("toggle-modal", false);
 		},
+		toggleDeleteModal() {
+			this.deleteModal = !this.deleteModal;
+		},
 		async editClient() {
 			this.editMode = !this.editMode;
 			if (!this.editMode) {
@@ -231,6 +238,10 @@ export default {
 		linkfyPhone(text) {
 			const phoneRegex = /\+?[1-9][0-9]{7,14}/g; // eslint-disable-line
 			return text.match(phoneRegex) ? text.match(phoneRegex)[0] : "";
+		},
+		updateClients() {
+			this.$emit("update-clients", true);
+			this.toggleModal();
 		},
 	},
 };
@@ -265,8 +276,8 @@ export default {
 </style>
 <style scoped>
 button {
-	box-shadow: 0px 0px 10px var(--adminly-grey);
-	border-radius: 8px;
+	border: none;
+	color: var(--adminly-blue);
 	background-color: white;
 }
 
@@ -293,8 +304,7 @@ button {
 }
 
 .modal-content {
-	min-width: 60vw;
-	max-width: 900px;
+	min-width: 515px;
 }
 
 .col {
@@ -375,24 +385,18 @@ li a {
 	height: 100px;
 }
 
-.email {
-	width: 60%;
-}
-
-.phone {
-	width: 40%;
-}
-
-.city {
-	width: 50%;
-}
-
 .avatar {
 	min-width: 100px;
 }
 
-input,
-textarea {
-	background-color: var(--adminly-light-grey);
+.update {
+	color: white;
+	background: var(--adminly-blue);
+	border-radius: 6px;
+}
+
+.modal-footer {
+	justify-content: flex-end;
+	padding: 0rem 2rem 1.5rem;
 }
 </style>

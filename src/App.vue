@@ -47,6 +47,15 @@ main {
 }
 </style>
 <style>
+.modal-footer button {
+	font-family: "Roc Grotesk", var(--font-face);
+}
+
+.modal-footer {
+	display: flex;
+	padding-top: 1.5rem;
+}
+
 .app-adminly_clients {
 	background: linear-gradient(180deg, #ffffff 0%, #e4e5f8 100%);
 }
@@ -55,6 +64,10 @@ main {
 	background-position: center;
 	background-repeat: no-repeat;
 	padding-inline: 1rem !important;
+}
+
+.edit-button {
+	background-image: url("../img/edit.svg");
 }
 
 .close-button {

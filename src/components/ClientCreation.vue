@@ -192,15 +192,6 @@ form div {
 	background-image: url("../../img/add-client.svg");
 }
 
-.modal-footer {
-	display: flex;
-	padding-top: 1.5rem;
-}
-
-.modal-footer button {
-	font-family: "Roc Grotesk", var(--font-face);
-}
-
 button {
 	border: none;
 	background-color: white;

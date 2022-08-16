@@ -196,10 +196,6 @@ table button {
 	margin-right: 0.7rem;
 }
 
-.edit-button {
-	background-image: url("../../img/edit.svg");
-}
-
 .delete-button {
 	background-image: url("../../img/trash.svg");
 }
