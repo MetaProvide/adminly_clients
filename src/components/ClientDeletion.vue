@@ -12,7 +12,7 @@
 					Do you want to delete client <span>{{ client.name }}</span
 					>?
 				</p>
-				<div class="button-options">
+				<div class="modal-footer">
 					<button class="cancel-button" @click="toggleModal()">
 						Cancel
 					</button>
@@ -82,7 +82,7 @@ p span {
 	font-weight: bold;
 }
 
-.button-options {
+.modal-footer {
 	display: flex;
 	justify-content: center;
 }
