@@ -335,10 +335,6 @@ button {
 	display: flex;
 }
 
-.modal-content {
-	padding: 1rem;
-}
-
 .modal-content h1 {
 	font-weight: 500;
 	font-size: 33px;
@@ -353,8 +349,10 @@ button {
 }
 
 .modal-content {
+	padding: 1rem;
 	min-width: 515px;
 }
+
 .ml-22 {
 	margin-left: 22px;
 }

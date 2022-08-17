@@ -327,6 +327,7 @@ select {
 .center {
 	display: inline-flex;
 }
+
 .right {
 	align-items: center;
 	flex: 1;
