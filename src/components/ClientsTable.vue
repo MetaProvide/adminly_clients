@@ -15,40 +15,49 @@
 			@update-clients="updateClients"
 		/>
 		<div v-if="tableContent.length" class="table-footer">
-			<div class="page-info">
-				<span>
-					{{ paginationInfo }}
-				</span>
+			<div class="left">
+				<div class="page-info">
+					<span>
+						{{ paginationInfo }}
+					</span>
+				</div>
 			</div>
-			<div class="table-nav">
-				<button
-					class="svg first-page-button"
-					@click="getFirstPage()"
-				></button>
-				<button
-					class="svg previous-button"
-					@click="previousPage()"
-				></button>
-				<input
-					v-model="goToPage"
-					:min="1"
-					:max="totalPages"
-					type="number"
-					@input="getPage(goToPage)"
-				/>
-				<button class="svg next-button" @click="nextPage()"></button>
-				<button
-					class="svg last-page-button"
-					@click="getLastPage()"
-				></button>
+			<div class="center">
+				<div class="table-nav">
+					<button
+						class="svg first-page-button"
+						@click="getFirstPage()"
+					></button>
+					<button
+						class="svg previous-button"
+						@click="previousPage()"
+					></button>
+					<input
+						v-model="goToPage"
+						:min="1"
+						:max="totalPages"
+						type="number"
+						@input="getPage(goToPage)"
+					/>
+					<button
+						class="svg next-button"
+						@click="nextPage()"
+					></button>
+					<button
+						class="svg last-page-button"
+						@click="getLastPage()"
+					></button>
+				</div>
 			</div>
-			<div class="page-selector">
-				<select v-model="clientsPerPage" @change="updateTable()">
-					<option value="10" selected>10/page</option>
-					<option value="20">20/page</option>
-					<option value="30">30/page</option>
-				</select>
-				<p>clients per page</p>
+			<div class="right">
+				<div class="page-selector">
+					<select v-model="clientsPerPage" @change="updateTable()">
+						<option value="10" selected>10/page</option>
+						<option value="20">20/page</option>
+						<option value="30">30/page</option>
+					</select>
+					<p>clients per page</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -206,6 +215,7 @@ export default {
 .page-selector {
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 }
 
 .table-nav button {
@@ -256,8 +266,7 @@ input {
 .table-footer {
 	box-shadow: 0px 0px 10px var(--adminly-grey);
 	border-radius: 15px;
-	display: flex;
-	justify-content: space-between;
+	display: inline-flex;
 	background-color: white;
 	padding: 0 1.25rem;
 	color: var(--adminly-dark-blue);
@@ -306,5 +315,20 @@ select {
 
 .table-footer input[type="number"] {
 	-moz-appearance: textfield;
+}
+
+.left {
+	flex: 1 0;
+	white-space: nowrap;
+	min-width: 0;
+}
+
+.center {
+	display: inline-flex;
+}
+.right {
+	align-items: center;
+	flex: 1;
+	justify-content: flex-end;
 }
 </style>
