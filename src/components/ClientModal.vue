@@ -48,7 +48,6 @@
 									placeholder="Phone Number"
 									type="tel"
 									class="phone"
-									required
 								/>
 								<input
 									v-model="mutableClient.city"
@@ -142,7 +141,7 @@
 				</div>
 				<div v-if="sessions.length" class="line"></div>
 				<div v-if="sessions.length" class="sessions">
-					<h1>Session Details</h1>
+					<h3>Sessions' Details</h3>
 					<SessionCard
 						v-for="session in sessions"
 						:key="session.id"
@@ -292,6 +291,7 @@ export default {
 	font-size: 0.8rem !important;
 	height: 34px;
 	margin: 3px;
+	color: var(--adminly-dark-blue) !important;
 }
 
 .multiselect__content-wrapper {
@@ -306,12 +306,18 @@ export default {
 .modal-container {
 	max-height: unset !important;
 }
+
+.multiselect__element span,
+.multiselect__single {
+	color: var(--adminly-dark-blue) !important;
+}
 </style>
 <style scoped>
 button {
 	border: none;
 	color: var(--adminly-blue);
 	background-color: white;
+	font-family: "Roc Grotesk", var(--font-face);
 }
 
 .sessions {
@@ -322,18 +328,21 @@ button {
 	display: flex;
 }
 
+.modal-content {
+	padding: 1rem;
+}
+
 .modal-content h1 {
 	font-weight: 500;
 	font-size: 33px;
 	line-height: 2.5rem;
-	color: var(--adminly-dark-blue);
+	padding-bottom: 1rem;
 }
 
 .modal-content h3 {
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 2.2rem;
-	color: var(--adminly-dark-blue);
 }
 
 .modal-content {
@@ -343,10 +352,6 @@ button {
 	margin-left: 22px;
 }
 
-.w-60 {
-	width: 60%;
-}
-
 .other-contacts {
 	width: 33%;
 	padding-left: 1rem;
@@ -354,7 +359,7 @@ button {
 }
 
 .client-info {
-	padding: 2.25rem 2.25rem 0.7rem 2.25rem;
+	padding: 1rem 2.25rem 0.7rem 2.25rem;
 	display: flex;
 	flex-direction: row;
 }
@@ -362,16 +367,6 @@ button {
 .line {
 	border-bottom: 1px solid lightgray;
 	padding: 0;
-}
-
-p a,
-p span,
-li a {
-	color: var(--adminly-dark-blue);
-}
-
-li a {
-	color: var(--adminly-link-blue);
 }
 
 .modal-header {
@@ -384,10 +379,6 @@ li a {
 	padding: 1rem;
 	border: none;
 	box-shadow: none;
-}
-
-.modal-header span {
-	color: var(--adminly-dark-blue);
 }
 
 .age-input {
@@ -436,11 +427,22 @@ input {
 	background-image: url("../../img/location.svg");
 }
 
-button {
-	font-family: "Roc Grotesk", var(--font-face);
-}
-
 .icon {
 	padding-right: 1rem;
+}
+
+.row,
+li {
+	font-weight: 300;
+}
+
+h1,
+h3 {
+	color: var(--adminly-dark-blue);
+}
+
+input:focus,
+textarea:focus {
+	border-color: var(--adminly-blue) !important;
 }
 </style>

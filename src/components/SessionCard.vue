@@ -8,7 +8,7 @@
 				</div>
 				<div class="row">
 					<span class="icon clipboard-icon"></span>
-					<p>{{ session.date }}</p>
+					<p>{{ dateWithoutSeconds }}</p>
 				</div>
 				<div class="row">
 					<span class="icon video-icon"></span>
@@ -83,6 +83,9 @@ export default {
 				  )
 				: "";
 		},
+		dateWithoutSeconds() {
+			return this.session.date.slice(0, -3);
+		},
 	},
 	methods: {
 		linkify(text) {
@@ -95,10 +98,6 @@ export default {
 </script>
 
 <style scoped>
-.blue {
-	color: var(--adminly-dark-blue);
-}
-
 .session-header {
 	margin-top: 1.25rem;
 	display: flex;
@@ -128,6 +127,7 @@ svg {
 
 .link {
 	text-decoration: underline;
+	color: #6c9ce3;
 }
 
 .star-icon::before {
@@ -140,5 +140,15 @@ svg {
 
 .video-icon::before {
 	background-image: url("../../img/video.svg");
+}
+
+.row {
+	padding-block: 0.5rem;
+}
+
+p,
+a {
+	font-weight: 400;
+	padding-left: 1rem;
 }
 </style>

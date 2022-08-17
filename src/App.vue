@@ -91,4 +91,9 @@ main {
 .close-button {
 	background-image: url("../img/close.svg");
 }
+
+input::placeholder,
+textarea::placeholder {
+	color: rgba(4, 67, 160, 0.3);
+}
 </style>

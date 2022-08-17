@@ -141,11 +141,6 @@ textarea:focus {
 	border-color: var(--adminly-blue) !important;
 }
 
-input::placeholder,
-textarea::placeholder {
-	color: rgba(4, 67, 160, 0.3);
-}
-
 .submit {
 	background-color: var(--adminly-blue);
 	color: white;
