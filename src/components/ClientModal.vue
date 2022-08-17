@@ -322,6 +322,8 @@ button {
 
 .sessions {
 	padding: 0 2.25rem 2.25rem 2.25rem;
+	max-height: 300px;
+	overflow: scroll;
 }
 
 .client-main {
