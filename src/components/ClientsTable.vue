@@ -234,7 +234,7 @@ input {
 }
 
 .table-footer input {
-	max-width: 1.5rem;
+	width: 34px;
 	text-align: center;
 	border-radius: 3px;
 }
@@ -261,6 +261,7 @@ input {
 .page-info {
 	justify-content: left;
 	padding: 0.7rem;
+	font-weight: 700;
 }
 
 .table-footer {
