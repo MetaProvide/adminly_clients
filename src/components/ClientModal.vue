@@ -142,11 +142,13 @@
 				<div v-if="sessions.length" class="line"></div>
 				<div v-if="sessions.length" class="sessions">
 					<h3>Sessions' Details</h3>
-					<SessionCard
-						v-for="session in sessions"
-						:key="session.id"
-						:session="session"
-					/>
+					<div class="sessions-list">
+						<SessionCard
+							v-for="session in sessions"
+							:key="session.id"
+							:session="session"
+						/>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<div v-if="editMode">
@@ -322,6 +324,9 @@ button {
 
 .sessions {
 	padding: 0 2.25rem 2.25rem 2.25rem;
+}
+
+.sessions-list {
 	max-height: 300px;
 	overflow: scroll;
 }

@@ -10,7 +10,7 @@
 					<span class="icon clipboard-icon"></span>
 					<p>{{ dateWithoutSeconds }}</p>
 				</div>
-				<div class="row">
+				<div v-if="mainLink" class="row">
 					<span class="icon video-icon"></span>
 					<a :href="mainLink" class="link blue">{{ mainLink }}</a>
 				</div>
