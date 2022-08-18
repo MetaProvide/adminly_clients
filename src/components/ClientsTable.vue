@@ -106,19 +106,21 @@ export default {
 					? 1
 					: (this.currentPage - 1) * this.clientsPerPage;
 
+			const client = this.totalClients === 1 ? " client" : " clients";
+
 			return this.currentPage === this.totalPages
 				? firstClientOfPage +
 						" - " +
 						this.totalClients +
 						" of " +
 						this.totalClients +
-						" clients"
+						client
 				: firstClientOfPage +
 						" - " +
 						this.currentPage * this.clientsPerPage +
 						" of " +
 						this.totalClients +
-						" clients";
+						client;
 		},
 		tableData() {
 			return this.searchName ? this.clientSearchList : this.clients;
