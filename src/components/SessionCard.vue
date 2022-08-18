@@ -99,7 +99,7 @@ export default {
 
 <style scoped>
 .session-header {
-	margin-top: 1.25rem;
+	margin: 0.5rem 0 0.25rem;
 	display: flex;
 	flex-direction: row;
 }

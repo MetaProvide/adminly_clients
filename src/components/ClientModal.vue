@@ -58,11 +58,11 @@
 									v-model="mutableClient.timezone"
 								/>
 							</div>
-							<div v-else class="col ml-22">
+							<div v-else class="col">
 								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
-								<div @dblclick="editClient()">
+								<div class="info" @dblclick="editClient()">
 									<div class="row">
 										<span class="icon email-icon"></span>
 										{{ mutableClient.email }}
@@ -293,7 +293,7 @@ export default {
 	font-size: 0.8rem !important;
 	height: 34px;
 	margin: 3px;
-	color: var(--adminly-dark-blue) !important;
+	color: var(--color-main-text) !important;
 }
 
 .multiselect__content-wrapper {
@@ -306,12 +306,14 @@ export default {
 }
 
 .modal-container {
-	max-height: unset !important;
+	max-height: 80% !important;
+	min-width: 640px;
+	width: 100%;
 }
 
 .multiselect__element span,
 .multiselect__single {
-	color: var(--adminly-dark-blue) !important;
+	color: var(--color-main-text) !important;
 }
 </style>
 <style scoped>
@@ -323,7 +325,7 @@ button {
 }
 
 .sessions {
-	padding: 0 2.25rem 2.25rem 2.25rem;
+	padding: 0 2.25rem;
 }
 
 .sessions-list {
@@ -406,7 +408,8 @@ input {
 }
 
 .avatar {
-	min-width: 100px;
+	align-self: center;
+	margin: 0 3rem 0 1rem;
 }
 
 .update {
@@ -443,11 +446,15 @@ li {
 
 h1,
 h3 {
-	color: var(--adminly-dark-blue);
+	color: var(--color-main-text);
 }
 
 input:focus,
 textarea:focus {
 	border-color: var(--adminly-blue) !important;
+}
+
+.info .row {
+	margin-block: 0.25rem;
 }
 </style>

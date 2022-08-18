@@ -150,8 +150,8 @@ table {
 }
 
 table th {
-	padding: 0.7rem 1.25rem;
-	border: 1 solid var(--adminly-line-color);
+	font-size: 1rem;
+	padding: 1rem 1.25rem;
 	font-weight: 700;
 }
 
@@ -159,11 +159,6 @@ table td {
 	text-align: left;
 	padding: 0.7rem 1.25rem;
 	font-weight: 500;
-}
-
-table td:first-child,
-table td:first-child + td {
-	font-family: "Roc Grotesk", var(--font-face);
 }
 
 table tr {

@@ -211,7 +211,12 @@ export default {
 	font-weight: bold;
 }
 
-.table-nav,
+.table-nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .page-selector {
 	display: flex;
 	align-items: center;
@@ -230,7 +235,7 @@ export default {
 }
 
 input {
-	border: 0.5px solid var(--adminly-dark-blue);
+	border: 0.5px solid var(--color-border-dark);
 }
 
 .table-footer input {
@@ -254,12 +259,9 @@ input {
 	background-image: url("../../img/search.svg");
 }
 
-.top-bar input::placeholder {
-	color: #c2d1e8;
-}
-
 .page-info {
-	justify-content: left;
+	display: flex;
+	justify-content: flex-start;
 	padding: 0.7rem;
 	font-weight: 700;
 }
@@ -269,8 +271,7 @@ input {
 	border-radius: 15px;
 	display: inline-flex;
 	background-color: white;
-	padding: 0 1.25rem;
-	color: var(--adminly-dark-blue);
+	padding: 0.25rem 1.25rem;
 }
 
 .active {

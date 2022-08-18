@@ -37,13 +37,9 @@ export default {
 <style scoped>
 main {
 	min-width: 90%;
-	margin-inline: auto;
-	margin-block-end: auto;
 	padding: 20px;
 	display: flex;
-	gap: 20px;
-	flex-direction: column;
-	align-content: center;
+	align-self: flex-start;
 }
 </style>
 <style>
@@ -63,11 +59,11 @@ main {
 
 .modal-footer {
 	display: flex;
-	padding-top: 1.5rem;
 }
 
 .app-adminly_clients {
 	background: linear-gradient(180deg, #ffffff 0%, #e4e5f8 100%);
+	justify-content: center;
 }
 
 .svg {
@@ -90,10 +86,5 @@ main {
 
 .close-button {
 	background-image: url("../img/close.svg");
-}
-
-input::placeholder,
-textarea::placeholder {
-	color: rgba(4, 67, 160, 0.3);
 }
 </style>

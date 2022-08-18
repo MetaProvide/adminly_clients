@@ -99,7 +99,7 @@ p span {
 }
 
 .btn-yes {
-	background-color: var(--adminly-blue);
+	background-color: var(--color-primary-element);
 	color: white;
 }
 

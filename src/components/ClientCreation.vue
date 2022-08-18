@@ -5,13 +5,13 @@
 			<p>Add Client</p>
 		</button>
 		<Modal v-if="modal" @close="toggleModal()">
+			<div class="modal-header">
+				<button
+					class="svg close-button"
+					@click="toggleModal()"
+				></button>
+			</div>
 			<div class="modal-content">
-				<div class="modal-header">
-					<button
-						class="svg close-button"
-						@click="toggleModal()"
-					></button>
-				</div>
 				<h1>New Client Information</h1>
 				<form @submit.prevent="submitForm">
 					<input
@@ -138,22 +138,22 @@ textarea {
 
 input:focus,
 textarea:focus {
-	border-color: var(--adminly-blue) !important;
+	border-color: var(--color-primary-element) !important;
 }
 
 .submit {
-	background-color: var(--adminly-blue);
+	background-color: var(--color-primary-element);
 	color: white;
 }
 
 .modal-header {
-	margin-left: auto;
+	padding: 0.25rem 1rem 0 0;
 	display: flex;
 	justify-content: end;
 }
 
 .modal-content {
-	padding: 1.25rem;
+	padding: 0.5rem 1rem 1rem;
 	width: 260px;
 	display: flex;
 	flex-direction: column;
@@ -162,11 +162,12 @@ textarea:focus {
 
 h1 {
 	font-weight: 500;
+	font-size: 1rem;
 	padding-bottom: 1rem;
 }
 
 form div {
-	margin: 0 1.25rem;
+	justify-content: center;
 }
 
 .create-btn {
