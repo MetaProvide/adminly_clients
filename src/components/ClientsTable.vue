@@ -52,9 +52,9 @@
 			<div class="right">
 				<div class="page-selector">
 					<select v-model="clientsPerPage" @change="updateTable()">
-						<option value="10" selected>10/page</option>
-						<option value="20">20/page</option>
-						<option value="30">30/page</option>
+						<option value="10" selected>10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
 					</select>
 					<p>clients per page</p>
 				</div>
@@ -234,7 +234,8 @@ export default {
 	margin: 0.7rem;
 }
 
-input {
+input,
+select {
 	border: 0.5px solid var(--color-border-dark);
 }
 
@@ -279,8 +280,9 @@ input {
 }
 
 select {
-	border: none;
 	font-size: unset;
+	padding-inline: 0.75rem 2.5rem;
+	background: url("../../img/select-arrow.svg") no-repeat right 6px center;
 }
 
 .clients-table {
@@ -330,6 +332,7 @@ select {
 }
 
 .right {
+	display: flex;
 	align-items: center;
 	flex: 1;
 	justify-content: flex-end;
