@@ -40,7 +40,6 @@ button {
 	background-color: var(--adminly-blue);
 	color: white;
 	display: flex;
-	display: flex;
 	align-items: center;
 }
 

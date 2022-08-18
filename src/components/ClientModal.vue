@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Modal @close="toggleModal()" id="client-modal">
+		<Modal id="client-modal" @close="toggleModal()">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button v-if="editMode" @click="toggleEdit()">
