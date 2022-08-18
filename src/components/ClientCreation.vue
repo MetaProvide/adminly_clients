@@ -4,7 +4,7 @@
 			<div class="svg add-client"></div>
 			<p>Add Client</p>
 		</button>
-		<Modal v-if="modal" @close="toggleModal()">
+		<Modal v-if="modal" id="create-modal" @close="toggleModal()">
 			<div class="modal-header">
 				<button
 					class="svg close-button"
@@ -128,17 +128,17 @@ export default {
 	},
 };
 </script>
-
+<style>
+#create-modal .modal-container {
+	max-width: 300px;
+	width: 100%;
+}
+</style>
 <style scoped>
 input,
 textarea {
 	width: 100%;
 	border-radius: 4px;
-}
-
-input:focus,
-textarea:focus {
-	border-color: var(--color-primary-element) !important;
 }
 
 .submit {

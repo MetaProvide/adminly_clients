@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Modal @close="toggleModal()">
+		<Modal @close="toggleModal()" id="client-modal">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button v-if="editMode" @click="toggleEdit()">
@@ -305,7 +305,7 @@ export default {
 	max-width: 200px;
 }
 
-.modal-container {
+#client-modal .modal-container {
 	max-height: 80% !important;
 	min-width: 640px;
 	width: 100%;
