@@ -281,19 +281,17 @@ export default {
 	font-size: 0.8rem !important;
 	height: 34px !important;
 	margin-top: 3px;
-	border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
 }
 
 .multiselect__input:focus {
-	border: 1px solid var(--color-border-dark) !important;
+	border: none !important;
 }
 
 .multiselect__single {
 	box-sizing: border-box;
 	font-size: 0.8rem !important;
-	height: 34px;
-	margin: 3px;
 	color: var(--color-main-text) !important;
+	margin: 0;
 }
 
 .multiselect__content-wrapper {
@@ -301,8 +299,13 @@ export default {
 	bottom: auto !important;
 }
 
-.multiselect__tags {
+.client-info .col .multiselect--single .multiselect__tags {
 	max-width: 200px;
+	border: 1px solid var(--color-border-dark) !important;
+}
+
+.client-info .col .multiselect--single {
+	height: 34px;
 }
 
 #client-modal .modal-container {
