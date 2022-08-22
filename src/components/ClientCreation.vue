@@ -130,7 +130,9 @@ export default {
 </script>
 <style>
 #create-modal .modal-container {
-	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	max-width: 320px;
 	width: 100%;
 }
 </style>
@@ -153,6 +155,7 @@ textarea {
 }
 
 .modal-content {
+	align-self: center;
 	padding: 0.5rem 1rem 1rem;
 	width: 260px;
 	display: flex;
@@ -198,5 +201,9 @@ button {
 	padding-top: 1rem;
 	display: flex;
 	justify-content: center;
+}
+
+.modal-footer {
+	margin-top: 2rem;
 }
 </style>

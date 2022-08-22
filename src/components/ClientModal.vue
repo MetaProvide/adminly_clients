@@ -300,7 +300,7 @@ export default {
 }
 
 .client-info .col .multiselect--single .multiselect__tags {
-	max-width: 200px;
+	width: 200px;
 	border: 1px solid var(--color-border-dark) !important;
 }
 
@@ -309,7 +309,7 @@ export default {
 }
 
 #client-modal .modal-container {
-	max-height: 80% !important;
+	max-height: 90% !important;
 	min-width: 640px;
 	width: 100%;
 }

@@ -238,7 +238,7 @@ export default {
 
 input,
 select {
-	border: 0.5px solid var(--color-border-dark);
+	border: 1px solid var(--color-border-dark);
 }
 
 .table-footer input {
@@ -285,6 +285,7 @@ select {
 	font-size: unset;
 	padding-inline: 0.75rem 2.5rem;
 	background: url("../../img/select-arrow.svg") no-repeat right 6px center;
+	margin-right: 1rem;
 }
 
 .clients-table {
