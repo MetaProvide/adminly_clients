@@ -291,6 +291,7 @@ export default {
 	font-size: 0.8rem !important;
 	color: var(--color-main-text) !important;
 	margin: 0;
+	font-weight: 400;
 }
 
 .multiselect__content-wrapper {
