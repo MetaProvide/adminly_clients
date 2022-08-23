@@ -280,7 +280,6 @@ export default {
 .client-info .multiselect .multiselect__tags input.multiselect__input {
 	font-size: 0.8rem !important;
 	height: 34px !important;
-	margin-top: 3px;
 }
 
 .multiselect__input:focus {
@@ -295,17 +294,26 @@ export default {
 }
 
 .multiselect__content-wrapper {
-	top: 38px;
+	top: 35px;
+	box-sizing: border-box;
 	bottom: auto !important;
 }
 
 .client-info .col .multiselect--single .multiselect__tags {
 	width: 200px;
+	box-sizing: border-box;
+	border-radius: var(--border-radius);
 	border: 1px solid var(--color-border-dark) !important;
+}
+
+.client-info .col .multiselect--single.multiselect--active .multiselect__tags {
+	border-bottom-right-radius: unset;
+	border-bottom-left-radius: unset;
 }
 
 .client-info .col .multiselect--single {
 	height: 34px;
+	margin-top: 3px;
 }
 
 #client-modal .modal-container {
