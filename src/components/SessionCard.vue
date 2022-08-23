@@ -1,9 +1,20 @@
 <template>
 	<div class="session">
 		<div class="session-header">
-			<p class="blue">
-				<span>{{ session.date }} - {{ session.title }}</span>
-			</p>
+			<div class="col">
+				<div class="row">
+					<span class="icon star-icon"></span>
+					<p>{{ session.title }}</p>
+				</div>
+				<div class="row">
+					<span class="icon clipboard-icon"></span>
+					<p>{{ dateWithoutSeconds }}</p>
+				</div>
+				<div v-if="mainLink" class="row">
+					<span class="icon video-icon"></span>
+					<a :href="mainLink" class="link blue">{{ mainLink }}</a>
+				</div>
+			</div>
 			<!-- <div v-if="session.paid" class="payment">
 				<svg
 					width="24"
@@ -40,11 +51,6 @@
 				<span class="payment">UNPAID</span>
 			</div> -->
 		</div>
-		<div class="description">
-			{{ safeDescription }}
-
-			<a :href="mainLink" class="link blue">{{ mainLink }}</a>
-		</div>
 	</div>
 </template>
 
@@ -77,6 +83,9 @@ export default {
 				  )
 				: "";
 		},
+		dateWithoutSeconds() {
+			return this.session.date.slice(0, -3);
+		},
 	},
 	methods: {
 		linkify(text) {
@@ -89,12 +98,8 @@ export default {
 </script>
 
 <style scoped>
-.blue {
-	color: var(--adminly-dark-blue);
-}
-
 .session-header {
-	margin-top: 1.25rem;
+	margin: 0.5rem 0 0.25rem;
 	display: flex;
 	flex-direction: row;
 }
@@ -122,5 +127,28 @@ svg {
 
 .link {
 	text-decoration: underline;
+	color: #6c9ce3;
+}
+
+.star-icon::before {
+	background-image: url("../../img/star.svg");
+}
+
+.clipboard-icon::before {
+	background-image: url("../../img/clipboard.svg");
+}
+
+.video-icon::before {
+	background-image: url("../../img/video.svg");
+}
+
+.row {
+	padding-block: 0.5rem;
+}
+
+p,
+a {
+	font-weight: 400;
+	padding-left: 1rem;
 }
 </style>

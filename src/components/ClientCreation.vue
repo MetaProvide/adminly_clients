@@ -1,39 +1,62 @@
 <template>
 	<div>
-		<button class="create-btn" @click="toggleModal()"></button>
-		<Modal v-if="modal" @close="toggleModal()">
+		<button class="create-btn" @click="toggleModal()">
+			<div class="svg add-client"></div>
+			<p>Add Client</p>
+		</button>
+		<Modal v-if="modal" id="create-modal" @close="toggleModal()">
+			<div class="modal-header">
+				<button
+					class="svg close-button"
+					@click="toggleModal()"
+				></button>
+			</div>
 			<div class="modal-content">
-				<div class="modal-header">
-					<button
-						class="close-button"
-						@click="toggleModal()"
-					></button>
-				</div>
+				<h1>New Client Information</h1>
 				<form @submit.prevent="submitForm">
-					<div>
-						<label for="name">Name:</label><br />
-						<input id="name" v-model="name" type="text" required />
+					<input
+						id="name"
+						v-model="name"
+						type="text"
+						placeholder="Full Name"
+						required
+					/>
+					<input
+						id="email"
+						v-model="email"
+						type="email"
+						placeholder="Client Email"
+						required
+					/>
+					<input
+						id="phoneNumber"
+						v-model="phoneNumber"
+						type="tel"
+						placeholder="Phone Number"
+					/>
+					<input
+						id="city"
+						v-model="city"
+						type="text"
+						placeholder="City"
+					/>
+					<input
+						id="country"
+						v-model="country"
+						type="text"
+						placeholder="Country"
+					/>
+					<h1 class="form-heading">About</h1>
+					<textarea
+						id="description"
+						v-model="description"
+						type="text"
+						placeholder="Add Description"
+					/>
+					<div class="modal-footer">
+						<button @click="toggleModal()">Cancel</button>
+						<button class="submit" type="submit">Submit</button>
 					</div>
-					<div>
-						<label for="email">Email:</label><br />
-						<input
-							id="email"
-							v-model="email"
-							type="email"
-							required
-						/>
-					</div>
-
-					<div>
-						<label for="description">Description:</label><br />
-						<input
-							id="description"
-							v-model="description"
-							type="text"
-							required
-						/>
-					</div>
-					<button class="submit" type="submit">Submit</button>
 				</form>
 			</div>
 		</Modal>
@@ -61,6 +84,9 @@ export default {
 			errorModal: false,
 			name: "",
 			email: "",
+			phoneNumber: "",
+			city: "",
+			country: "",
 			description: "",
 			errorMessage: "",
 		};
@@ -71,6 +97,9 @@ export default {
 				.post("create", {
 					name: this.name,
 					email: this.email,
+					phoneNumber: this.phoneNumber,
+					city: this.city,
+					country: this.country,
 					description: this.description,
 				})
 				.then((response) => {
@@ -78,6 +107,9 @@ export default {
 					this.toggleModal();
 					this.name = "";
 					this.email = "";
+					this.city = "";
+					this.country = "";
+					this.phone = "";
 					this.description = "";
 				})
 				.catch((error) => {
@@ -96,56 +128,82 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
-.modal-container {
-	width: 50vw;
-}
-
-input {
+<style>
+#create-modal .modal-container {
+	display: flex;
+	flex-direction: column;
+	max-width: 320px;
 	width: 100%;
 }
-
-button {
-	box-shadow: 0px 0px 11px var(--adminly-grey);
-	border-radius: 8px;
-	background-color: white;
+</style>
+<style scoped>
+input,
+textarea {
+	width: 100%;
+	border-radius: 4px;
 }
 
 .submit {
-	background-color: var(--adminly-dark-blue);
+	background-color: var(--color-primary-element);
 	color: white;
-	margin-top: 1rem;
-	margin-inline: auto;
-	display: flex;
-	line-height: 1.25rem;
 }
 
 .modal-header {
-	margin-left: auto;
+	padding: 0.25rem 1rem 0 0;
 	display: flex;
 	justify-content: end;
 }
 
-.modal-header button {
-	border: none;
-	box-shadow: none;
+.modal-content {
+	align-self: center;
+	padding: 0.5rem 1rem 1rem;
+	width: 260px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
-.modal-content {
-	padding: 1.25rem;
+h1 {
+	font-weight: 500;
+	font-size: 1rem;
+	padding-bottom: 1rem;
 }
 
 form div {
-	margin: 0 1.25rem;
+	justify-content: center;
 }
 
 .create-btn {
+	display: flex;
+	box-shadow: 4px 4px 5px rgba(145, 149, 234, 0.3),
+		inset 0.1px 0.1px 3px rgba(145, 149, 234, 0.3);
+	border-radius: 6px;
+}
+
+.create-btn p {
+	align-self: center;
+}
+
+.add-client {
 	width: 43px;
-	height: 43px;
+	height: 34px;
 	padding: 0.7rem 0.7rem;
 	background-image: url("../../img/add-client.svg");
-	background-position: center;
-	background-repeat: no-repeat;
+}
+
+button {
+	border: none;
+	background-color: white;
+	border-radius: 6px;
+}
+
+.form-heading {
+	padding-top: 1rem;
+	display: flex;
+	justify-content: center;
+}
+
+.modal-footer {
+	margin-top: 2rem;
 }
 </style>

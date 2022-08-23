@@ -4,7 +4,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button
-						class="close-button"
+						class="svg close-button"
 						@click="toggleModal()"
 					></button>
 				</div>
@@ -12,9 +12,11 @@
 					Do you want to delete client <span>{{ client.name }}</span
 					>?
 				</p>
-				<div class="button-options">
+				<div class="modal-footer">
+					<button class="cancel-button" @click="toggleModal()">
+						Cancel
+					</button>
 					<button class="btn-yes" @click="deleteClient()">Yes</button>
-					<button @click="toggleModal()">No</button>
 				</div>
 			</div>
 		</Modal>
@@ -64,8 +66,7 @@ export default {
 </script>
 <style scoped>
 button {
-	box-shadow: 0px 0px 11px var(--adminly-grey);
-	border-radius: 8px;
+	border-radius: 6px;
 	background-color: white;
 }
 
@@ -81,7 +82,7 @@ p span {
 	font-weight: bold;
 }
 
-.button-options {
+.modal-footer {
 	display: flex;
 	justify-content: center;
 }
@@ -98,7 +99,12 @@ p span {
 }
 
 .btn-yes {
-	background-color: var(--adminly-dark-blue);
+	background-color: var(--color-primary-element);
 	color: white;
+}
+
+.cancel-button {
+	border: none;
+	border-radius: 6px;
 }
 </style>

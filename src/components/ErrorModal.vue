@@ -37,11 +37,10 @@ export default {
 button {
 	box-shadow: 0px 0px 11px var(--adminly-grey);
 	border-radius: 8px;
-	background-color: var(--adminly-dark-blue);
+	background-color: var(--adminly-blue);
 	color: white;
 	display: flex;
-	margin-inline: auto;
-	line-height: 1.25rem;
+	align-items: center;
 }
 
 .modal-content {

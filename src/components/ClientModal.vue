@@ -1,17 +1,18 @@
 <template>
 	<div>
-		<Modal :size="'large'" @close="toggleModal()">
+		<Modal id="client-modal" @close="toggleModal()">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button v-if="editMode" @click="editClient()">
-						<span>Save Changes</span></button
-					><button
+					<button v-if="editMode" @click="toggleEdit()">
+						Cancel
+					</button>
+					<button
 						v-else
-						class="edit-button"
+						class="svg edit-button"
 						@click="editClient()"
 					></button>
 					<button
-						class="close-button"
+						class="svg close-button"
 						@click="toggleModal()"
 					></button>
 				</div>
@@ -24,81 +25,89 @@
 								class="avatar"
 							/>
 							<div v-if="editMode" class="col ml-22">
-								<div class="row">
-									<input
-										v-model="mutableClient.name"
-										placeholder="Name"
-										class="name-input"
-										required
-									/>
-								</div>
-								<div class="row">
-									<input
-										v-model="mutableClient.email"
-										placeholder="Email"
-										type="email"
-										class="email"
-										required
-									/>
-									<input
-										v-model="mutableClient.phoneNumber"
-										placeholder="Phone Number"
-										type="tel"
-										class="phone"
-										required
-									/>
-								</div>
-								<div class="row">
-									<input
-										v-model="mutableClient.city"
-										placeholder="City"
-										class="city"
-									/>
-									<TimezonePicker
-										v-model="mutableClient.timezone"
-									/>
-								</div>
 								<input
+									v-model="mutableClient.name"
+									placeholder="Name"
+									class="name-input"
+									required
+								/><input
 									v-model="mutableClient.age"
 									class="age-input"
 									type="number"
 									placeholder="Age"
 								/>
+								<input
+									v-model="mutableClient.email"
+									placeholder="Email"
+									type="email"
+									class="email"
+									required
+								/>
+								<input
+									v-model="mutableClient.phoneNumber"
+									placeholder="Phone Number"
+									type="tel"
+									class="phone"
+								/>
+								<input
+									v-model="mutableClient.city"
+									placeholder="City"
+									class="city"
+								/>
+								<TimezonePicker
+									v-model="mutableClient.timezone"
+								/>
 							</div>
-							<div v-else class="col ml-22">
+							<div v-else class="col">
 								<h1 @dblclick="editClient()">
 									{{ mutableClient.name }}
 								</h1>
-								<p @dblclick="editClient()">
-									{{ mutableClient.email }}
-									<a
-										:href="
-											'tel:' + mutableClient.phoneNumber
-										"
-										>{{ mutableClient.phoneNumber }}</a
+								<div class="info" @dblclick="editClient()">
+									<div class="row">
+										<span class="icon email-icon"></span>
+										{{ mutableClient.email }}
+									</div>
+									<div
+										v-if="mutableClient.phoneNumber"
+										class="row"
 									>
-								</p>
-								<p @dblclick="editClient()">
+										<span class="icon phone-icon"></span>
+										<a
+											:href="
+												'tel:' +
+												mutableClient.phoneNumber
+											"
+											>{{ mutableClient.phoneNumber }}</a
+										>
+									</div>
+								</div>
+								<div class="row" @dblclick="editClient()">
+									<span class="icon location-icon"></span>
 									{{ mutableClient.city
 									}}{{ commaCityTimezone }}
 									<span>{{ displayTimezone }}</span>
-								</p>
+								</div>
 								<p @dblclick="editClient()">{{ textAge }}</p>
 							</div>
 						</div>
 
-						<h3>About</h3>
+						<h3 v-if="mutableClient.description || editMode">
+							About
+						</h3>
 						<textarea
 							v-if="editMode"
 							v-model="mutableClient.description"
 							placeholder="Description"
 							class="client-description"
 						/>
-						<p v-else @dblclick="editClient()">
+						<p
+							v-else-if="mutableClient.description"
+							@dblclick="editClient()"
+						>
 							{{ mutableClient.description }}
 						</p>
 					</div>
-					<div class="col ml-22 other-contacts">
+					<div class="col other-contacts">
 						<h3 v-if="mutableClient.contacts || editMode">
 							Other Contacts
 						</h3>
@@ -131,15 +140,34 @@
 					</div>
 				</div>
 				<div v-if="sessions.length" class="line"></div>
-				<div class="sessions">
-					<SessionCard
-						v-for="session in sessions"
-						:key="session.id"
-						:session="session"
-					/>
+				<div v-if="sessions.length" class="sessions">
+					<h3>Sessions' Details</h3>
+					<div class="sessions-list">
+						<SessionCard
+							v-for="session in sessions"
+							:key="session.id"
+							:session="session"
+						/>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div v-if="editMode">
+						<button @click="toggleDeleteModal()">
+							Delete Client
+						</button>
+						<button class="update" @click="editClient()">
+							Update
+						</button>
+					</div>
 				</div>
 			</div>
 		</Modal>
+		<ClientDeletion
+			v-if="deleteModal"
+			:client="client"
+			@toggle-modal="toggleDeleteModal"
+			@update-clients="updateClients"
+		/>
 	</div>
 </template>
 
@@ -148,6 +176,7 @@ import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
 import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
+import ClientDeletion from "./ClientDeletion";
 import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
 
 export default {
@@ -156,6 +185,7 @@ export default {
 		Avatar,
 		SessionCard,
 		TimezonePicker,
+		ClientDeletion,
 	},
 
 	props: {
@@ -170,6 +200,7 @@ export default {
 		return {
 			sessions: [],
 			editMode: false,
+			deleteModal: false,
 			mutableClient: {
 				id: this.client.id,
 				name: this.client.name,
@@ -213,6 +244,12 @@ export default {
 		toggleModal() {
 			this.$emit("toggle-modal", false);
 		},
+		toggleDeleteModal() {
+			this.deleteModal = !this.deleteModal;
+		},
+		toggleEdit() {
+			this.editMode = !this.editMode;
+		},
 		async editClient() {
 			this.editMode = !this.editMode;
 			if (!this.editMode) {
@@ -232,6 +269,10 @@ export default {
 			const phoneRegex = /\+?[1-9][0-9]{7,14}/g; // eslint-disable-line
 			return text.match(phoneRegex) ? text.match(phoneRegex)[0] : "";
 		},
+		updateClients() {
+			this.$emit("update-clients", true);
+			this.toggleModal();
+		},
 	},
 };
 </script>
@@ -239,39 +280,69 @@ export default {
 .client-info .multiselect .multiselect__tags input.multiselect__input {
 	font-size: 0.8rem !important;
 	height: 34px !important;
-	margin-top: 3px;
-	border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
 }
 
 .multiselect__input:focus {
-	border: 1px solid var(--color-border-dark) !important;
+	border: none !important;
 }
 
 .multiselect__single {
 	box-sizing: border-box;
 	font-size: 0.8rem !important;
-	height: 34px;
-	margin: 3px;
+	color: var(--color-main-text) !important;
+	margin: 0;
+	font-weight: 400;
 }
 
 .multiselect__content-wrapper {
-	top: 38px;
+	top: 35px;
+	box-sizing: border-box;
 	bottom: auto !important;
 }
 
-.multiselect__tags {
-	max-width: 200px;
+.client-info .col .multiselect--single .multiselect__tags {
+	width: 200px;
+	box-sizing: border-box;
+	border-radius: var(--border-radius);
+	border: 1px solid var(--color-border-dark) !important;
+}
+
+.client-info .col .multiselect--single.multiselect--active .multiselect__tags {
+	border-bottom-right-radius: unset;
+	border-bottom-left-radius: unset;
+}
+
+.client-info .col .multiselect--single {
+	height: 34px;
+	margin-top: 3px;
+}
+
+#client-modal .modal-container {
+	max-height: 90% !important;
+	min-width: 640px;
+	width: 100%;
+}
+
+.multiselect__element span,
+.multiselect__single {
+	color: var(--color-main-text) !important;
 }
 </style>
 <style scoped>
 button {
-	box-shadow: 0px 0px 10px var(--adminly-grey);
-	border-radius: 8px;
+	border: none;
+	color: var(--adminly-blue);
 	background-color: white;
+	font-family: "Roc Grotesk", var(--font-face);
 }
 
 .sessions {
-	padding: 0 2.25rem 2.25rem 2.25rem;
+	padding: 0 2.25rem;
+}
+
+.sessions-list {
+	max-height: 300px;
+	overflow: scroll;
 }
 
 .client-main {
@@ -282,45 +353,32 @@ button {
 	font-weight: 500;
 	font-size: 33px;
 	line-height: 2.5rem;
-	color: var(--adminly-dark-blue);
+	padding-bottom: 1rem;
 }
 
 .modal-content h3 {
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 2.2rem;
-	color: var(--adminly-dark-blue);
 }
 
 .modal-content {
-	min-width: 60vw;
-	max-width: 900px;
-}
-
-.col {
-	display: flex;
-	flex-direction: column;
-}
-
-.row {
-	display: flex;
-	flex-direction: row;
+	padding: 1rem;
+	min-width: 515px;
 }
 
 .ml-22 {
 	margin-left: 22px;
 }
 
-.w-60 {
-	width: 60%;
-}
-
 .other-contacts {
 	width: 33%;
+	padding-left: 1rem;
+	margin-left: 1.5rem;
 }
 
 .client-info {
-	padding: 2.25rem 2.25rem 0.7rem 2.25rem;
+	padding: 1rem 2.25rem 0.7rem 2.25rem;
 	display: flex;
 	flex-direction: row;
 }
@@ -328,16 +386,6 @@ button {
 .line {
 	border-bottom: 1px solid lightgray;
 	padding: 0;
-}
-
-p a,
-p span,
-li a {
-	color: var(--adminly-dark-blue);
-}
-
-li a {
-	color: var(--adminly-link-blue);
 }
 
 .modal-header {
@@ -352,15 +400,11 @@ li a {
 	box-shadow: none;
 }
 
-.modal-header span {
-	color: var(--adminly-dark-blue);
-}
-
 .age-input {
 	width: 55px;
 }
 
-.name-input {
+input {
 	width: 100%;
 }
 
@@ -375,24 +419,54 @@ li a {
 	height: 100px;
 }
 
-.email {
-	width: 60%;
-}
-
-.phone {
-	width: 40%;
-}
-
-.city {
-	width: 50%;
-}
-
 .avatar {
-	min-width: 100px;
+	align-self: center;
+	margin: 0 3rem 0 1rem;
 }
 
-input,
-textarea {
-	background-color: var(--adminly-light-grey);
+.update {
+	color: white;
+	background: var(--adminly-blue);
+	border-radius: 6px;
+}
+
+.modal-footer {
+	justify-content: flex-end;
+	padding: 0rem 2rem 1.5rem;
+}
+
+.email-icon::before {
+	background-image: url("../../img/email.svg");
+}
+
+.phone-icon::before {
+	background-image: url("../../img/phone.svg");
+}
+
+.location-icon::before {
+	background-image: url("../../img/location.svg");
+}
+
+.icon {
+	padding-right: 1rem;
+}
+
+.row,
+li {
+	font-weight: 300;
+}
+
+h1,
+h3 {
+	color: var(--color-main-text);
+}
+
+input:focus,
+textarea:focus {
+	border-color: var(--adminly-blue) !important;
+}
+
+.info .row {
+	margin-block: 0.25rem;
 }
 </style>

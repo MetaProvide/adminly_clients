@@ -44,11 +44,11 @@
 					<td>{{ formatDate(client.nextSession) }}</td>
 					<td>
 						<button
-							class="edit-button"
+							class="svg edit-button"
 							@click="updateClientModal(client)"
 						></button>
 						<button
-							class="delete-button"
+							class="svg delete-button"
 							@click="deleteClientModal(client)"
 						></button>
 					</td>
@@ -146,18 +146,19 @@ table {
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
 	background-color: white;
-	color: var(--neutral-600);
+	color: var(--adminly-dark-blue);
 }
 
 table th {
-	font-weight: bold;
-	padding: 0.7rem 1.25rem;
-	border: 1 solid var(--adminly-line-color);
+	font-size: 1rem;
+	padding: 1rem 1.25rem;
+	font-weight: 700;
 }
 
 table td {
 	text-align: left;
 	padding: 0.7rem 1.25rem;
+	font-weight: 500;
 }
 
 table tr {
@@ -170,10 +171,6 @@ tr:hover button {
 
 table td:last-child {
 	border-right: none;
-}
-
-table td:first-child {
-	color: var(--adminly-light-blue);
 }
 
 table td:first-child p {
@@ -192,5 +189,9 @@ table button {
 
 .avatar {
 	margin-right: 0.7rem;
+}
+
+.delete-button {
+	background-image: url("../../img/trash.svg");
 }
 </style>
