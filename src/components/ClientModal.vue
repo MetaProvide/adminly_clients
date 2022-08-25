@@ -23,6 +23,7 @@
 								:username="mutableClient.name"
 								:size="100"
 								class="avatar"
+								:background-color="getAdminlyColor(client.name)"
 							/>
 							<div v-if="editMode" class="col ml-22">
 								<input
@@ -174,7 +175,12 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
-import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
+import {
+	SessionsUtil,
+	ClientsUtil,
+	TimezoneUtil,
+	AdminlyUtil,
+} from "../utils.js";
 import SessionCard from "./SessionCard";
 import ClientDeletion from "./ClientDeletion";
 import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
@@ -272,6 +278,9 @@ export default {
 		updateClients() {
 			this.$emit("update-clients", true);
 			this.toggleModal();
+		},
+		getAdminlyColor(name) {
+			return AdminlyUtil.getAdminlyColor(name);
 		},
 	},
 };

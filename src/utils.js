@@ -66,3 +66,26 @@ export const TimezoneUtil = {
 		return `${location} UTC${offsetWithSign}`;
 	},
 };
+
+export const AdminlyUtil = {
+	getAdminlyColor: (string) => {
+		const adminlyColors = [
+			"#8AE21A",
+			"#E21A7A",
+			"#D21AE2",
+			"#5A1AE2",
+			"#1A76E2",
+			"#1AB2E2",
+			"#1AE2D6",
+			"#1AE2A6",
+			"#010564",
+			"#F68500",
+		];
+		const arrayLength = adminlyColors.length;
+		const index =
+			string.length > arrayLength
+				? string.length - arrayLength
+				: string.length;
+		return adminlyColors[index];
+	},
+};
