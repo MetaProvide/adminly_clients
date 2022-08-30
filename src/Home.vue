@@ -6,6 +6,7 @@
 			:is-empty="isEmpty"
 			@update-clients="updateClients"
 		/>
+		<router-view />
 	</main>
 </template>
 

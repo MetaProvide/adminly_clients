@@ -201,18 +201,7 @@ export default {
 			sessions: [],
 			editMode: false,
 			deleteModal: false,
-			mutableClient: {
-				id: this.client.id,
-				name: this.client.name,
-				description: this.client.description,
-				city: this.client.city,
-				country: this.client.country,
-				timezone: this.client.timezone ? this.client.timezone : "UTC",
-				age: this.client.age,
-				contacts: this.client.contacts,
-				email: this.client.email,
-				phoneNumber: this.client.phoneNumber,
-			},
+			mutableClient: {},
 		};
 	},
 	computed: {
@@ -238,7 +227,13 @@ export default {
 		},
 	},
 	async mounted() {
-		this.sessions = await SessionsUtil.fetchSessions(this.client.id);
+		console.log(this.$route.params.clientId);
+		this.mutableClient = await ClientsUtil.getClient(
+			this.$route.params.clientId
+		);
+		this.sessions = await SessionsUtil.fetchSessions(
+			this.$route.params.clientId
+		);
 	},
 	methods: {
 		toggleModal() {

@@ -25,10 +25,12 @@ const router = new Router({
 		{
 			path: "/",
 			component: Home,
-		},
-		{
-			path: "/client-details",
-			component: ClientModal,
+			children: [
+				{
+					path: "/client-details/:clientId",
+					component: ClientModal,
+				},
+			],
 		},
 	],
 });

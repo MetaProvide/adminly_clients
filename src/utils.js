@@ -53,6 +53,22 @@ export const ClientsUtil = {
 			})
 			.catch((err) => console.error(err));
 	},
+	getClient: (clientId) => {
+		const url = "/apps/adminly_clients/getClient";
+		console.log(clientId);
+		return axios
+			.get(url, {
+				params: {
+					id: clientId,
+				},
+			})
+			.then((resp) => {
+				if (resp.status !== 200)
+					throw new Error("Error fetching client");
+				return resp.data;
+			})
+			.catch((err) => console.error(err));
+	},
 };
 
 export const TimezoneUtil = {
