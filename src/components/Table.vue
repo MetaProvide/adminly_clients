@@ -45,7 +45,7 @@
 					<td>
 						<button
 							class="svg edit-button"
-							@click="updateClientModal(client)"
+							@click="openClientModal(client.id)"
 						></button>
 						<button
 							class="svg delete-button"
@@ -55,12 +55,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<ClientModal
-			v-if="clientModal"
-			:client="currentClient"
-			@toggle-modal="toggleClientModal"
-			@update-clients="updateClients"
-		/>
 		<ClientDeletion
 			v-if="deleteModal"
 			:client="currentClient"
@@ -71,7 +65,6 @@
 </template>
 
 <script>
-import ClientModal from "./ClientModal";
 import Avatar from "vue-avatar";
 import ClientDeletion from "./ClientDeletion";
 import { TimezoneUtil } from "../utils";
@@ -79,7 +72,6 @@ import dayjs from "dayjs";
 
 export default {
 	components: {
-		ClientModal,
 		Avatar,
 		ClientDeletion,
 	},
@@ -111,12 +103,10 @@ export default {
 		},
 	},
 	methods: {
-		updateClientModal(client) {
-			this.currentClient = client;
-			this.toggleClientModal();
-		},
-		toggleClientModal() {
-			this.clientModal = !this.clientModal;
+		openClientModal(clientId) {
+			this.$router.push({
+				path: `/client-details/${clientId}`,
+			});
 		},
 		toggleDeleteModal() {
 			this.deleteModal = !this.deleteModal;

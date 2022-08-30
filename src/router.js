@@ -28,6 +28,7 @@ const router = new Router({
 			children: [
 				{
 					path: "/client-details/:clientId",
+					name: "ClientModal",
 					component: ClientModal,
 				},
 			],

@@ -55,7 +55,6 @@ export const ClientsUtil = {
 	},
 	getClient: (clientId) => {
 		const url = "/apps/adminly_clients/getClient";
-		console.log(clientId);
 		return axios
 			.get(url, {
 				params: {

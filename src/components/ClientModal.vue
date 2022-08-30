@@ -227,7 +227,6 @@ export default {
 		},
 	},
 	async mounted() {
-		console.log(this.$route.params.clientId);
 		this.mutableClient = await ClientsUtil.getClient(
 			this.$route.params.clientId
 		);
@@ -237,7 +236,9 @@ export default {
 	},
 	methods: {
 		toggleModal() {
-			this.$emit("toggle-modal", false);
+			this.$router.push({
+				path: "/",
+			});
 		},
 		toggleDeleteModal() {
 			this.deleteModal = !this.deleteModal;
