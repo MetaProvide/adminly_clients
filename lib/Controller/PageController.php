@@ -199,7 +199,7 @@ class PageController extends Controller
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * Get all clients from the current user
+	 * Get a specific client from the current user
 	 */
 	public function getClient(int $id)
 	{
