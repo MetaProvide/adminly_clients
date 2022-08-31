@@ -23,7 +23,7 @@
 								:username="client.name"
 								:size="30"
 								class="avatar"
-								:background-color="getAdminlyColor(client.name)"
+								:class="getAdminlyColor(client.name)"
 							/>
 							<p v-if="col === 'timezone'">
 								{{
@@ -75,7 +75,7 @@
 import ClientModal from "./ClientModal";
 import Avatar from "vue-avatar";
 import ClientDeletion from "./ClientDeletion";
-import { TimezoneUtil, AdminlyUtil } from "../utils";
+import { TimezoneUtil } from "../utils";
 import dayjs from "dayjs";
 
 export default {
@@ -136,7 +136,8 @@ export default {
 			if (date) return dayjs(date).format("DD MMM, hh:mm");
 		},
 		getAdminlyColor(name) {
-			return AdminlyUtil.getAdminlyColor(name);
+			const index = name.length > 12 ? name.length - 12 : name.length;
+			return `adminly-avatar-${index}`;
 		},
 	},
 };
