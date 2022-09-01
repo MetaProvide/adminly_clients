@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright Copyright (C) 2022  Magnus Walbeck <magnus@metaprovide.org>
  *
  * @author Magnus Walbeck <magnus@metaprovide.org>
+ * @author Igor Oliveira <igoroliveira@metaprovide.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -61,7 +62,19 @@ class ClientMapper extends QBMapper {
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-			);
+			)->orderBy('id', 'desc');
+
+		return $this->findEntities($qb);
+	}
+
+	public function findWithOffsetAndLimit(string $providerId, int $offset, int $limit) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			)->orderBy('id', 'desc')->setFirstResult($offset)->setMaxResults($limit);
 
 		return $this->findEntities($qb);
 	}
