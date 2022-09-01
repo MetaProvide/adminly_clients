@@ -23,6 +23,7 @@
 								:username="client.name"
 								:size="30"
 								class="avatar"
+								:class="getAdminlyColor(client.name)"
 							/>
 							<p v-if="col === 'timezone'">
 								{{
@@ -133,6 +134,10 @@ export default {
 		},
 		formatDate(date) {
 			if (date) return dayjs(date).format("DD MMM, hh:mm");
+		},
+		getAdminlyColor(name) {
+			const index = name.length > 12 ? name.length - 12 : name.length;
+			return `adminly-avatar-${index}`;
 		},
 	},
 };

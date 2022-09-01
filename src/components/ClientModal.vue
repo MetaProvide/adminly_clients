@@ -23,6 +23,7 @@
 								:username="mutableClient.name"
 								:size="100"
 								class="avatar"
+								:class="getAdminlyColor(client.name)"
 							/>
 							<div v-if="editMode" class="col ml-22">
 								<input
@@ -272,6 +273,10 @@ export default {
 		updateClients() {
 			this.$emit("update-clients", true);
 			this.toggleModal();
+		},
+		getAdminlyColor(name) {
+			const index = name.length > 12 ? name.length - 12 : name.length;
+			return `adminly-avatar-${index}`;
 		},
 	},
 };
