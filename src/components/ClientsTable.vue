@@ -83,6 +83,7 @@ export default {
 			searchName: "",
 			goToPage: 1,
 			clientSearchList: [],
+			pagesVisited: [],
 			isTableEmpty: false,
 		};
 	},
@@ -115,8 +116,17 @@ export default {
 	},
 	async mounted() {
 		this.tableContent = await ClientsUtil.fetchPage(1, this.clientsPerPage);
+		this.pagesVisited.push(1);
+		localStorage[`adminlyClientsPage#1`] = JSON.stringify(
+			this.tableContent
+		);
 		this.totalClients = await ClientsUtil.getTotalClients();
 		this.totalPages = Math.ceil(this.totalClients / this.clientsPerPage);
+	},
+	beforeDestroy() {
+		this.pagesVisited.forEach((page) => {
+			localStorage.removeItem(`adminlyClientsPage#${page}`);
+		});
 	},
 	methods: {
 		updateTable() {
@@ -151,15 +161,28 @@ export default {
 		},
 		async getPage(pageNum) {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
-				this.tableContent = [];
 				this.currentPage = pageNum;
 				this.goToPage = this.currentPage;
 
-				this.tableContent = await ClientsUtil.fetchPage(
-					pageNum,
-					this.clientsPerPage
-				);
+				const getFromServer = !this.pagesVisited.includes(pageNum);
+				if (getFromServer) {
+					this.tableContent = [];
+					this.tableContent = await ClientsUtil.fetchPage(
+						pageNum,
+						this.clientsPerPage
+					);
+					localStorage[`adminlyClientsPage#${pageNum}`] =
+						JSON.stringify(this.tableContent);
+					this.pagesVisited.push(pageNum);
+				} else {
+					this.tableContent = this.getTableFromStorage(pageNum);
+				}
 			}
+		},
+		getTableFromStorage(pageNum) {
+			return JSON.parse(
+				localStorage.getItem(`adminlyClientsPage#${pageNum}`)
+			);
 		},
 		search() {
 			this.clientSearchList = this.clients.filter((p) => {
@@ -172,7 +195,10 @@ export default {
 			this.updateTable();
 			this.currentPage = 1;
 		},
-		updateClients() {
+		updateClients(forceRefresh = false) {
+			forceRefresh
+				? (this.pagesVisited = [])
+				: this.pagesVisited.pop(this.currentPage);
 			this.getPage(this.currentPage);
 		},
 	},
