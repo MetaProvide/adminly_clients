@@ -30,6 +30,7 @@ return ['routes' => [
 	['name' => 'page#update', 'url' => '/update', 'verb' => 'POST'],
 	['name' => 'page#get', 'url' => '/get', 'verb' => 'GET'],
 	['name' => 'page#getPage', 'url' => '/getPage', 'verb' => 'GET'],
+	['name' => 'page#getNumberOfClients', 'url' => '/totalClients', 'verb' => 'GET'],
 	['name' => 'page#delete', 'url' => '/delete', 'verb' => 'POST'],
 	['name' => 'page#getClientSessions', 'url' => '/client/{clientId}/sessions', 'verb' => 'GET'],
 	['name' => 'page#getClientNextSession', 'url' => '/client/{clientId}/nextSession', 'verb' => 'GET'],

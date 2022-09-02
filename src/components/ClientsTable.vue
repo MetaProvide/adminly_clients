@@ -65,26 +65,13 @@
 
 <script>
 import ClientCreation from "./ClientCreation";
+import { ClientsUtil } from "../utils";
 import Table from "./Table";
 
 export default {
 	components: {
 		ClientCreation,
 		Table,
-	},
-	props: {
-		clients: {
-			type: Array,
-			default() {
-				return [];
-			},
-		},
-		isEmpty: {
-			type: Boolean,
-			default() {
-				return false;
-			},
-		},
 	},
 	data() {
 		return {
@@ -94,7 +81,7 @@ export default {
 			clientsPerPage: 10,
 			totalClients: 0,
 			searchName: "",
-			goToPage: "",
+			goToPage: 1,
 			clientSearchList: [],
 			isTableEmpty: false,
 		};
@@ -126,49 +113,34 @@ export default {
 			return this.searchName ? this.clientSearchList : this.clients;
 		},
 	},
-	watch: {
-		clients() {
-			this.updateTable();
-			this.getPage(this.currentPage);
-			if (this.searchName) this.search();
-		},
+	async mounted() {
+		this.tableContent = await ClientsUtil.fetchPage(1, this.clientsPerPage);
+		this.totalClients = await ClientsUtil.getTotalClients();
+		this.totalPages = Math.ceil(this.totalClients / this.clientsPerPage);
 	},
 	methods: {
 		updateTable() {
-			this.tableContent = this.tableData.slice(0, this.clientsPerPage);
-
-			this.isTableEmpty = this.tableContent.length === 0;
-
-			this.totalClients = this.tableData.length;
-
+			this.tableContent = [];
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
 			);
 			if (this.currentPage > this.totalPages) this.currentPage = 1;
 
 			this.goToPage = this.currentPage;
+			this.getPage(this.currentPage);
 		},
 		nextPage() {
 			if (this.currentPage < this.totalPages) {
 				this.currentPage += 1;
 				this.goToPage = this.currentPage;
-				this.tableContent = this.tableData.slice(
-					(this.currentPage - 1) * this.clientsPerPage,
-					Math.min(
-						this.currentPage * this.clientsPerPage,
-						this.totalClients
-					)
-				);
+				this.getPage(this.currentPage);
 			}
 		},
 		previousPage() {
 			if (this.currentPage > 1) {
 				this.currentPage -= 1;
 				this.goToPage = this.currentPage;
-				this.tableContent = this.tableData.slice(
-					(this.currentPage - 1) * this.clientsPerPage,
-					this.currentPage * this.clientsPerPage
-				);
+				this.getPage(this.currentPage);
 			}
 		},
 		getFirstPage() {
@@ -177,16 +149,15 @@ export default {
 		getLastPage() {
 			this.getPage(this.totalPages);
 		},
-		getPage(pageNum) {
+		async getPage(pageNum) {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
+				this.tableContent = [];
 				this.currentPage = pageNum;
 				this.goToPage = this.currentPage;
-				this.tableContent = this.tableData.slice(
-					(this.currentPage - 1) * this.clientsPerPage,
-					Math.min(
-						this.currentPage * this.clientsPerPage,
-						this.totalClients
-					)
+
+				this.tableContent = await ClientsUtil.fetchPage(
+					pageNum,
+					this.clientsPerPage
 				);
 			}
 		},
@@ -202,7 +173,7 @@ export default {
 			this.currentPage = 1;
 		},
 		updateClients() {
-			this.$emit("update-clients", true);
+			this.getPage(this.currentPage);
 		},
 	},
 };

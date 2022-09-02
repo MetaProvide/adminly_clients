@@ -1,17 +1,12 @@
 <template>
 	<main>
 		<!-- <Overview /> -->
-		<ClientsTable
-			:clients="clientsList"
-			:is-empty="isEmpty"
-			@update-clients="updateClients"
-		/>
+		<ClientsTable />
 	</main>
 </template>
 
 <script>
 import ClientsTable from "./components/ClientsTable";
-import { ClientsUtil } from "./utils";
 // import Overview from "./components/Overview";
 
 export default {
@@ -19,18 +14,6 @@ export default {
 	components: {
 		// Overview,
 		ClientsTable,
-	},
-	data() {
-		return { clientsList: null, isEmpty: false };
-	},
-	async created() {
-		this.clientsList = await ClientsUtil.fetchClients();
-	},
-	methods: {
-		async updateClients() {
-			this.clientsList = await ClientsUtil.fetchClients();
-			this.isEmpty = this.clientsList.length === 0;
-		},
 	},
 };
 </script>

@@ -58,7 +58,7 @@ class ClientMapper extends QBMapper {
 	public function findAll(string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('*')
+		$qb->select('name', 'email', 'id')
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
@@ -70,7 +70,7 @@ class ClientMapper extends QBMapper {
 	public function findWithOffsetAndLimit(string $providerId, int $offset, int $limit) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('*')
+		$qb->select('name', 'email', 'phone_number', 'timezone', 'id')
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
@@ -98,5 +98,18 @@ class ClientMapper extends QBMapper {
 			throw $e;
 		}
 		return $result;
+	}
+
+	public function count(string $providerId) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->func()->count('*'))
+			->from($this->getTableName())->andWhere(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
+		$result = $qb->executeQuery();
+		$column = (int) $result->fetchOne();
+		$result->closeCursor();
+		return $column;
 	}
 }

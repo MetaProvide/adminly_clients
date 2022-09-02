@@ -198,7 +198,7 @@ class PageController extends Controller {
 	 *
 	 * Get clients of a page from the current user
 	 */
-	public function getPage(int $clientsPerPage, int $pageNumber): array {
+	public function getPage(int $pageNumber, int $clientsPerPage): array {
 		$offset = $clientsPerPage * ($pageNumber - 1);
 		$clients = $this->mapper->findWithOffsetAndLimit($this->userId, $offset, $clientsPerPage);
 
@@ -211,6 +211,17 @@ class PageController extends Controller {
 			$clientsArray[] = $client;
 		}
 		return $clientsArray;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get the number of clients from the current user
+	 */
+	public function getNumberOfClients() {
+		$clientNumber = $this->mapper->count($this->userId);
+		return $clientNumber;
 	}
 
 	/**
