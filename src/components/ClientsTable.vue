@@ -6,7 +6,7 @@
 				placeholder="Search Client"
 				@input="search"
 			/>
-			<ClientCreation @update-clients="updateClients" />
+			<ClientCreation @update-clients="updateClients(true)" />
 		</div>
 		<Table
 			:key="currentPage"
@@ -131,6 +131,7 @@ export default {
 	methods: {
 		updateTable() {
 			this.tableContent = [];
+			this.pagesVisited = [];
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
 			);
