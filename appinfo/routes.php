@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
 /**
- * Breeze Dark theme for Nextcloud
+ * Adminly Clients
  *
- * @copyright Copyright (C) 2020  Magnus Walbeck <mw@mwalbeck.org>
+ * @copyright Copyright (C) 2020  Igor Oliveira <igor.oliveira@metaprovide.org>
  *
- * @author Magnus Walbeck <mw@mwalbeck.org>
+ * @author  Igor Oliveira <igor.oliveira@metaprovide.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,9 +26,11 @@
  */
 
 return ['routes' => [
+	['name' => 'page#index', 'url' => '/client/{clientId}', 'verb' => 'GET', 'postfix' => 'direct.new'],
 	['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	['name' => 'page#create', 'url' => '/create', 'verb' => 'POST'],
 	['name' => 'page#update', 'url' => '/update', 'verb' => 'POST'],
+	['name' => 'page#getClient', 'url' => '/getClient', 'verb' => 'GET'],
 	['name' => 'page#get', 'url' => '/get', 'verb' => 'GET'],
 	['name' => 'page#delete', 'url' => '/delete', 'verb' => 'POST'],
 	['name' => 'page#getClientSessions', 'url' => '/client/{clientId}/sessions', 'verb' => 'GET'],

@@ -195,6 +195,21 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * Get a specific client from the current user
+	 */
+	public function getClient(int $id) {
+		try {
+			$client = $this->mapper->find($id, $this->userId);
+			return $client->jsonSerialize();
+		} catch (Exception $e) {
+			$this->handleException($e);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
 	 * Updates a client
 	 */
 	public function delete(int $id) {

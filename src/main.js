@@ -23,6 +23,7 @@ import { generateFilePath } from "@nextcloud/router";
 
 import Vue from "vue";
 import App from "./App";
+import router from "./router";
 import linkify from "vue-linkify";
 
 Vue.directive("linkified", linkify);
@@ -31,6 +32,7 @@ __webpack_public_path__ = generateFilePath("adminly_clients", "", "js/");
 
 export default new Vue({
 	el: "#app",
+	router,
 	render(h) {
 		return h(App);
 	},
