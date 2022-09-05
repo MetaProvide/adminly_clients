@@ -22,7 +22,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="center">
+			<div v-if="!searchName" class="center">
 				<div class="table-nav">
 					<button
 						class="svg first-page-button"
@@ -49,7 +49,7 @@
 					></button>
 				</div>
 			</div>
-			<div class="right">
+			<div v-if="!searchName" class="right">
 				<div class="page-selector">
 					<select v-model="clientsPerPage" @change="updateTable()">
 						<option value="10" selected>10</option>
@@ -67,6 +67,7 @@
 import ClientCreation from "./ClientCreation";
 import { ClientsUtil } from "../utils";
 import Table from "./Table";
+import axios from "@nextcloud/axios";
 
 export default {
 	components: {
@@ -81,34 +82,41 @@ export default {
 			clientsPerPage: 10,
 			totalClients: 0,
 			searchName: "",
+			searchResults: 0,
 			goToPage: 1,
 			clientSearchList: [],
 			pagesVisited: [],
 			isTableEmpty: false,
+			controller: new AbortController(),
 		};
 	},
 	computed: {
 		paginationInfo() {
-			const firstClientOfPage =
-				this.currentPage - 1 === 0
-					? 1
-					: (this.currentPage - 1) * this.clientsPerPage;
+			if (this.searchName) {
+				const result =
+					this.searchResults === 1 ? " result" : " results";
+				return this.searchResults + result;
+			} else {
+				const firstClientOfPage =
+					this.currentPage - 1 === 0
+						? 1
+						: (this.currentPage - 1) * this.clientsPerPage;
 
-			const client = this.totalClients === 1 ? " client" : " clients";
-
-			return this.currentPage === this.totalPages
-				? firstClientOfPage +
-						" - " +
-						this.totalClients +
-						" of " +
-						this.totalClients +
-						client
-				: firstClientOfPage +
-						" - " +
-						this.currentPage * this.clientsPerPage +
-						" of " +
-						this.totalClients +
-						client;
+				const client = this.totalClients === 1 ? " client" : " clients";
+				return this.currentPage === this.totalPages
+					? firstClientOfPage +
+							" - " +
+							this.totalClients +
+							" of " +
+							this.totalClients +
+							client
+					: firstClientOfPage +
+							" - " +
+							this.currentPage * this.clientsPerPage +
+							" of " +
+							this.totalClients +
+							client;
+			}
 		},
 		tableData() {
 			return this.searchName ? this.clientSearchList : this.clients;
@@ -116,6 +124,9 @@ export default {
 	},
 	async mounted() {
 		this.tableContent = await ClientsUtil.fetchPage(1, this.clientsPerPage);
+		this.totalClients = await ClientsUtil.getTotalClients();
+		this.isTableEmpty = this.totalClients === 0;
+
 		this.pagesVisited.push(1);
 		localStorage[`adminlyClientsPage#1`] = JSON.stringify(
 			this.tableContent
@@ -162,6 +173,9 @@ export default {
 		},
 		async getPage(pageNum) {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
+				this.searchName = "";
+				this.searchResults = 0;
+
 				this.currentPage = pageNum;
 				this.goToPage = this.currentPage;
 
@@ -186,15 +200,28 @@ export default {
 			);
 		},
 		search() {
-			this.clientSearchList = this.clients.filter((p) => {
-				return (
-					p.name
-						.toLowerCase()
-						.indexOf(this.searchName.toLowerCase()) !== -1
-				);
-			});
-			this.updateTable();
-			this.currentPage = 1;
+			this.controller.abort();
+			if (this.searchName === "") {
+				this.getFirstPage();
+			} else if (this.searchName.length > 1) {
+				this.tableContent = [];
+				this.isTableEmpty = false;
+				this.controller = new AbortController();
+
+				const url = "/apps/adminly_clients/searchByName";
+				axios
+					.get(url, {
+						signal: this.controller.signal,
+						params: { name: this.searchName },
+					})
+					.then((response) => {
+						this.tableContent = response.data;
+						this.currentPage = 1;
+						this.goToPage = 1;
+						this.searchResults = response.data.length;
+						this.isTableEmpty = this.searchResults === 0;
+					});
+			}
 		},
 		updateClients(forceRefresh = false) {
 			forceRefresh

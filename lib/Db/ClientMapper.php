@@ -34,17 +34,14 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 use Exception;
 
-class ClientMapper extends QBMapper
-{
+class ClientMapper extends QBMapper {
 	public const TABLE_NAME = 'adminly_clients';
 
-	public function __construct(IDBConnection $db)
-	{
+	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME);
 	}
 
-	public function find(int $id, string $providerId)
-	{
+	public function find(int $id, string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -58,8 +55,7 @@ class ClientMapper extends QBMapper
 		return $this->findEntity($qb);
 	}
 
-	public function findAll(string $providerId)
-	{
+	public function findAll(string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('name', 'email', 'id')
@@ -71,8 +67,7 @@ class ClientMapper extends QBMapper
 		return $this->findEntities($qb);
 	}
 
-	public function findWithOffsetAndLimit(string $providerId, int $offset, int $limit)
-	{
+	public function findWithOffsetAndLimit(string $providerId, int $offset, int $limit) {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('name', 'email', 'phone_number', 'timezone', 'id')
@@ -84,8 +79,7 @@ class ClientMapper extends QBMapper
 		return $this->findEntities($qb);
 	}
 
-	public function findByEmail(string $email, string $providerId)
-	{
+	public function findByEmail(string $email, string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -106,14 +100,14 @@ class ClientMapper extends QBMapper
 		return $result;
 	}
 
-	public function findByName(string $name, string $providerId)
-	{
+	public function findByName(string $name, string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('name')
+		$qb->select('*')
 			->from($this->getTableName())
-			->where('name LIKE igor')
-			->andWhere(
+			->where($qb->expr()->iLike('name', $qb->createNamedParameter(
+				'%' . $this->db->escapeLikeParameter($name) . '%'
+			)))->andWhere(
 				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
 			);
 
@@ -127,8 +121,7 @@ class ClientMapper extends QBMapper
 		return $result;
 	}
 
-	public function count(string $providerId)
-	{
+	public function count(string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select($qb->func()->count('*'))
