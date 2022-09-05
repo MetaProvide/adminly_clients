@@ -105,7 +105,7 @@ export default {
 	methods: {
 		openClientModal(clientId) {
 			this.$router.push({
-				path: `/client-details/${clientId}`,
+				path: `/client/${clientId}`,
 			});
 		},
 		toggleDeleteModal() {
