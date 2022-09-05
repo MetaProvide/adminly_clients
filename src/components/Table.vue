@@ -136,7 +136,7 @@ export default {
 			if (date) return dayjs(date).format("DD MMM, hh:mm");
 		},
 		getAdminlyColor(name) {
-			const index = name.length > 12 ? name.length % 12 : name.length;
+			const index = name.length % 12;
 			return `adminly-avatar-${index}`;
 		},
 	},
