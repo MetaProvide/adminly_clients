@@ -152,14 +152,14 @@ export default {
 			this.getPage(this.currentPage);
 		},
 		nextPage() {
-			if (this.currentPage < this.totalPages) {
+			if (this.currentPage < this.totalPages && this.currentPage >= 1) {
 				this.currentPage += 1;
 				this.goToPage = this.currentPage;
 				this.getPage(this.currentPage);
 			}
 		},
 		previousPage() {
-			if (this.currentPage > 1) {
+			if (this.currentPage > 1 && this.currentPage <= this.totalPages) {
 				this.currentPage -= 1;
 				this.goToPage = this.currentPage;
 				this.getPage(this.currentPage);
