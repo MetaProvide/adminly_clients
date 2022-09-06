@@ -175,6 +175,7 @@ export default {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
 				this.searchName = "";
 				this.searchResults = 0;
+				this.isTableEmpty = false;
 
 				this.currentPage = pageNum;
 				this.goToPage = this.currentPage;
