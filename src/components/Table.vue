@@ -137,7 +137,7 @@ export default {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	box-shadow: 0px 0px 9px var(--adminly-grey);
+	box-shadow: 0px 0px 9px var(--adminly-box-shadow-color);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
 	background-color: white;
