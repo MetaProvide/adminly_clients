@@ -293,6 +293,7 @@ export default {
 	max-height: 90% !important;
 	min-width: 640px;
 	width: 100%;
+	overflow-y: scroll;
 }
 
 .multiselect__element span,

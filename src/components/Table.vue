@@ -60,7 +60,7 @@
 			v-if="deleteModal"
 			:client="currentClient"
 			@toggle-modal="toggleDeleteModal"
-			@update-clients="updateClients"
+			@update-clients="updateClients(true)"
 		/>
 	</div>
 </template>

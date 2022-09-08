@@ -53,6 +53,28 @@ export const ClientsUtil = {
 			})
 			.catch((err) => console.error(err));
 	},
+	getTotalClients: async () => {
+		const url = "/apps/adminly_clients/totalClients";
+		return axios
+			.get(url)
+			.then((resp) => {
+				if (resp.status !== 200)
+					throw new Error("Error fetching total clients");
+				return resp.data;
+			})
+			.catch((err) => console.error(err));
+	},
+	fetchPage: async (pageNumber, clientsPerPage) => {
+		const url = "/apps/adminly_clients/getPage";
+		return axios
+			.get(url, { params: { pageNumber, clientsPerPage } })
+			.then((resp) => {
+				if (resp.status !== 200)
+					throw new Error("Error fetching clients");
+				return resp.data;
+			})
+			.catch((err) => console.error(err));
+	},
 	getClient: (clientId) => {
 		const url = "/apps/adminly_clients/getClient";
 		return axios

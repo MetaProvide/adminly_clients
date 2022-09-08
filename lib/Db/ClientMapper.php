@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright Copyright (C) 2022  Magnus Walbeck <magnus@metaprovide.org>
  *
  * @author Magnus Walbeck <magnus@metaprovide.org>
+ * @author Igor Oliveira <igoroliveira@metaprovide.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -57,11 +58,23 @@ class ClientMapper extends QBMapper {
 	public function findAll(string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('*')
+		$qb->select('name', 'email', 'id')
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
-			);
+			)->orderBy('id', 'desc');
+
+		return $this->findEntities($qb);
+	}
+
+	public function findWithOffsetAndLimit(string $providerId, int $offset, int $limit) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('name', 'email', 'phone_number', 'timezone', 'id')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			)->orderBy('id', 'desc')->setFirstResult($offset)->setMaxResults($limit);
 
 		return $this->findEntities($qb);
 	}
@@ -85,5 +98,39 @@ class ClientMapper extends QBMapper {
 			throw $e;
 		}
 		return $result;
+	}
+
+	public function findByName(string $name, string $providerId) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->iLike('name', $qb->createNamedParameter(
+				'%' . $this->db->escapeLikeParameter($name) . '%'
+			)))->andWhere(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
+
+		try {
+			$result = $this->findEntities($qb);
+		} catch (\OCP\AppFramework\Db\DoesNotExistException $e) {
+			return null;
+		} catch (Exception $e) {
+			throw $e;
+		}
+		return $result;
+	}
+
+	public function count(string $providerId) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->func()->count('*'))
+			->from($this->getTableName())->andWhere(
+				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
+			);
+		$result = $qb->executeQuery();
+		$column = (int) $result->fetchOne();
+		$result->closeCursor();
+		return $column;
 	}
 }

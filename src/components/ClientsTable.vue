@@ -6,7 +6,7 @@
 				placeholder="Search Client"
 				@input="search"
 			/>
-			<ClientCreation @update-clients="updateClients" />
+			<ClientCreation @update-clients="updateClients(true)" />
 		</div>
 		<Table
 			:key="currentPage"
@@ -22,7 +22,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="center">
+			<div v-if="!searchName" class="center">
 				<div class="table-nav">
 					<button
 						class="svg first-page-button"
@@ -49,7 +49,7 @@
 					></button>
 				</div>
 			</div>
-			<div class="right">
+			<div v-if="!searchName" class="right">
 				<div class="page-selector">
 					<select v-model="clientsPerPage" @change="updateTable()">
 						<option value="10" selected>10</option>
@@ -65,26 +65,14 @@
 
 <script>
 import ClientCreation from "./ClientCreation";
+import { ClientsUtil } from "../utils";
 import Table from "./Table";
+import axios from "@nextcloud/axios";
 
 export default {
 	components: {
 		ClientCreation,
 		Table,
-	},
-	props: {
-		clients: {
-			type: Array,
-			default() {
-				return [];
-			},
-		},
-		isEmpty: {
-			type: Boolean,
-			default() {
-				return false;
-			},
-		},
 	},
 	data() {
 		return {
@@ -94,81 +82,87 @@ export default {
 			clientsPerPage: 10,
 			totalClients: 0,
 			searchName: "",
-			goToPage: "",
+			searchResults: 0,
+			goToPage: 1,
 			clientSearchList: [],
+			pagesVisited: [],
 			isTableEmpty: false,
+			controller: new AbortController(),
 		};
 	},
 	computed: {
 		paginationInfo() {
-			const firstClientOfPage =
-				this.currentPage - 1 === 0
-					? 1
-					: (this.currentPage - 1) * this.clientsPerPage;
+			if (this.searchName) {
+				const result =
+					this.searchResults === 1 ? " result" : " results";
+				return this.searchResults + result;
+			} else {
+				const firstClientOfPage =
+					this.currentPage - 1 === 0
+						? 1
+						: (this.currentPage - 1) * this.clientsPerPage;
 
-			const client = this.totalClients === 1 ? " client" : " clients";
-
-			return this.currentPage === this.totalPages
-				? firstClientOfPage +
-						" - " +
-						this.totalClients +
-						" of " +
-						this.totalClients +
-						client
-				: firstClientOfPage +
-						" - " +
-						this.currentPage * this.clientsPerPage +
-						" of " +
-						this.totalClients +
-						client;
+				const client = this.totalClients === 1 ? " client" : " clients";
+				return this.currentPage === this.totalPages
+					? firstClientOfPage +
+							" - " +
+							this.totalClients +
+							" of " +
+							this.totalClients +
+							client
+					: firstClientOfPage +
+							" - " +
+							this.currentPage * this.clientsPerPage +
+							" of " +
+							this.totalClients +
+							client;
+			}
 		},
 		tableData() {
 			return this.searchName ? this.clientSearchList : this.clients;
 		},
 	},
-	watch: {
-		clients() {
-			this.updateTable();
-			this.getPage(this.currentPage);
-			if (this.searchName) this.search();
-		},
+	async mounted() {
+		this.tableContent = await ClientsUtil.fetchPage(1, this.clientsPerPage);
+		this.totalClients = await ClientsUtil.getTotalClients();
+		this.isTableEmpty = this.totalClients === 0;
+
+		this.pagesVisited.push(1);
+		localStorage[`adminlyClientsPage#1`] = JSON.stringify(
+			this.tableContent
+		);
+		this.totalClients = await ClientsUtil.getTotalClients();
+		this.totalPages = Math.ceil(this.totalClients / this.clientsPerPage);
+	},
+	beforeDestroy() {
+		this.pagesVisited.forEach((page) => {
+			localStorage.removeItem(`adminlyClientsPage#${page}`);
+		});
 	},
 	methods: {
 		updateTable() {
-			this.tableContent = this.tableData.slice(0, this.clientsPerPage);
-
-			this.isTableEmpty = this.tableContent.length === 0;
-
-			this.totalClients = this.tableData.length;
-
+			this.tableContent = [];
+			this.pagesVisited = [];
 			this.totalPages = Math.ceil(
 				this.totalClients / this.clientsPerPage
 			);
 			if (this.currentPage > this.totalPages) this.currentPage = 1;
 
 			this.goToPage = this.currentPage;
+			this.getPage(this.currentPage);
 		},
 		nextPage() {
-			if (this.currentPage < this.totalPages) {
+			if (this.currentPage < this.totalPages && this.currentPage >= 1) {
 				this.currentPage += 1;
 				this.goToPage = this.currentPage;
-				this.tableContent = this.tableData.slice(
-					(this.currentPage - 1) * this.clientsPerPage,
-					Math.min(
-						this.currentPage * this.clientsPerPage,
-						this.totalClients
-					)
-				);
+				this.getPage(this.currentPage);
 			}
 		},
 		previousPage() {
-			if (this.currentPage > 1) {
+			if (this.currentPage > 1 && this.currentPage <= this.totalPages) {
 				this.currentPage -= 1;
 				this.goToPage = this.currentPage;
-				this.tableContent = this.tableData.slice(
-					(this.currentPage - 1) * this.clientsPerPage,
-					this.currentPage * this.clientsPerPage
-				);
+				this.getPage(this.currentPage);
 			}
 		},
 		getFirstPage() {
@@ -177,32 +171,64 @@ export default {
 		getLastPage() {
 			this.getPage(this.totalPages);
 		},
-		getPage(pageNum) {
+		async getPage(pageNum) {
 			if (pageNum <= this.totalPages && pageNum && pageNum > 0) {
+				this.searchName = "";
+				this.searchResults = 0;
+				this.isTableEmpty = false;
+
 				this.currentPage = pageNum;
 				this.goToPage = this.currentPage;
-				this.tableContent = this.tableData.slice(
-					(this.currentPage - 1) * this.clientsPerPage,
-					Math.min(
-						this.currentPage * this.clientsPerPage,
-						this.totalClients
-					)
-				);
+
+				const getFromServer = !this.pagesVisited.includes(pageNum);
+				if (getFromServer) {
+					this.tableContent = [];
+					this.tableContent = await ClientsUtil.fetchPage(
+						pageNum,
+						this.clientsPerPage
+					);
+					localStorage[`adminlyClientsPage#${pageNum}`] =
+						JSON.stringify(this.tableContent);
+					this.pagesVisited.push(pageNum);
+				} else {
+					this.tableContent = this.getTableFromStorage(pageNum);
+				}
 			}
 		},
-		search() {
-			this.clientSearchList = this.clients.filter((p) => {
-				return (
-					p.name
-						.toLowerCase()
-						.indexOf(this.searchName.toLowerCase()) !== -1
-				);
-			});
-			this.updateTable();
-			this.currentPage = 1;
+		getTableFromStorage(pageNum) {
+			return JSON.parse(
+				localStorage.getItem(`adminlyClientsPage#${pageNum}`)
+			);
 		},
-		updateClients() {
-			this.$emit("update-clients", true);
+		search() {
+			this.controller.abort();
+			if (this.searchName === "") {
+				this.getFirstPage();
+			} else if (this.searchName.length > 1) {
+				this.tableContent = [];
+				this.isTableEmpty = false;
+				this.controller = new AbortController();
+
+				const url = "/apps/adminly_clients/searchByName";
+				axios
+					.get(url, {
+						signal: this.controller.signal,
+						params: { name: this.searchName },
+					})
+					.then((response) => {
+						this.tableContent = response.data;
+						this.currentPage = 1;
+						this.goToPage = 1;
+						this.searchResults = response.data.length;
+						this.isTableEmpty = this.searchResults === 0;
+					});
+			}
+		},
+		updateClients(forceRefresh = false) {
+			forceRefresh
+				? (this.pagesVisited = [])
+				: this.pagesVisited.pop(this.currentPage);
+			this.getPage(this.currentPage);
 		},
 	},
 };

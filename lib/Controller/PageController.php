@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright Copyright (C) 2022  Magnus Walbeck <magnus@metaprovide.org>
  *
  * @author Magnus Walbeck <magnus@metaprovide.org>
+ * @author Igor Oliveira <igoroliveira@metaprovide.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -180,6 +181,57 @@ class PageController extends Controller {
 	public function get(): array {
 		$clients = $this->mapper->findAll($this->userId);
 
+		$clientsArray = [];
+
+		foreach ($clients as $client) {
+			$client = $client->jsonSerialize();
+			$client['nextSession'] = $this->getClientNextSession($client['id']);
+			$client['lastSession'] = $this->getClientLastSession($client['id']);
+			$clientsArray[] = $client;
+		}
+		return $clientsArray;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get clients of a page from the current user
+	 */
+	public function getPage(int $pageNumber, int $clientsPerPage): array {
+		$offset = $clientsPerPage * ($pageNumber - 1);
+		$clients = $this->mapper->findWithOffsetAndLimit($this->userId, $offset, $clientsPerPage);
+
+		$clientsArray = [];
+
+		foreach ($clients as $client) {
+			$client = $client->jsonSerialize();
+			$client['nextSession'] = $this->getClientNextSession($client['id']);
+			$client['lastSession'] = $this->getClientLastSession($client['id']);
+			$clientsArray[] = $client;
+		}
+		return $clientsArray;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get the number of clients from the current user
+	 */
+	public function getNumberOfClients() {
+		$clientNumber = $this->mapper->count($this->userId);
+		return $clientNumber;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Searchs clients from the current user
+	 */
+	public function searchByName($name): array {
+		$clients = $this->mapper->findByName($name, $this->userId);
 		$clientsArray = [];
 
 		foreach ($clients as $client) {
