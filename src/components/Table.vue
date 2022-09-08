@@ -46,7 +46,7 @@
 					<td>
 						<button
 							class="svg edit-button"
-							@click="updateClientModal(client)"
+							@click="openClientModal(client.id)"
 						></button>
 						<button
 							class="svg delete-button"
@@ -56,12 +56,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<ClientModal
-			v-if="clientModal"
-			:client="currentClient"
-			@toggle-modal="toggleClientModal"
-			@update-clients="updateClients"
-		/>
 		<ClientDeletion
 			v-if="deleteModal"
 			:client="currentClient"
@@ -72,7 +66,6 @@
 </template>
 
 <script>
-import ClientModal from "./ClientModal";
 import Avatar from "vue-avatar";
 import ClientDeletion from "./ClientDeletion";
 import { TimezoneUtil } from "../utils";
@@ -80,7 +73,6 @@ import dayjs from "dayjs";
 
 export default {
 	components: {
-		ClientModal,
 		Avatar,
 		ClientDeletion,
 	},
@@ -112,12 +104,10 @@ export default {
 		},
 	},
 	methods: {
-		updateClientModal(client) {
-			this.currentClient = client;
-			this.toggleClientModal();
-		},
-		toggleClientModal() {
-			this.clientModal = !this.clientModal;
+		openClientModal(clientId) {
+			this.$router.push({
+				path: `/client/${clientId}`,
+			});
 		},
 		toggleDeleteModal() {
 			this.deleteModal = !this.deleteModal;
@@ -136,7 +126,7 @@ export default {
 			if (date) return dayjs(date).format("DD MMM, hh:mm");
 		},
 		getAdminlyColor(name) {
-			const index = name.length > 12 ? name.length - 12 : name.length;
+			const index = name.length % 12;
 			return `adminly-avatar-${index}`;
 		},
 	},
@@ -147,7 +137,7 @@ export default {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	box-shadow: 0px 0px 9px var(--adminly-grey);
+	box-shadow: 0px 0px 9px var(--adminly-box-shadow-color);
 	border-radius: 15px;
 	border-style: hidden; /* hide standard table (collapsed) border */
 	background-color: white;

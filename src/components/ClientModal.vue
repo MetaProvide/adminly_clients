@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<Modal id="client-modal" @close="toggleModal()">
-			<div class="modal-content">
+			<div v-if="client" class="modal-content">
 				<div class="modal-header">
 					<button v-if="editMode" @click="toggleEdit()">
 						Cancel
@@ -20,101 +20,90 @@
 					<div class="col w-60">
 						<div class="row">
 							<Avatar
-								:username="mutableClient.name"
+								:username="client.name"
 								:size="100"
 								class="avatar"
 								:class="getAdminlyColor(client.name)"
 							/>
 							<div v-if="editMode" class="col ml-22">
 								<input
-									v-model="mutableClient.name"
+									v-model="client.name"
 									placeholder="Name"
 									class="name-input"
 									required
 								/><input
-									v-model="mutableClient.age"
+									v-model="client.age"
 									class="age-input"
 									type="number"
 									placeholder="Age"
 								/>
 								<input
-									v-model="mutableClient.email"
+									v-model="client.email"
 									placeholder="Email"
 									type="email"
 									class="email"
 									required
 								/>
 								<input
-									v-model="mutableClient.phoneNumber"
+									v-model="client.phoneNumber"
 									placeholder="Phone Number"
 									type="tel"
 									class="phone"
 								/>
 								<input
-									v-model="mutableClient.city"
+									v-model="client.city"
 									placeholder="City"
 									class="city"
 								/>
-								<TimezonePicker
-									v-model="mutableClient.timezone"
-								/>
+								<TimezonePicker v-model="client.timezone" />
 							</div>
 							<div v-else class="col">
 								<h1 @dblclick="editClient()">
-									{{ mutableClient.name }}
+									{{ client.name }}
 								</h1>
 								<div class="info" @dblclick="editClient()">
 									<div class="row">
 										<span class="icon email-icon"></span>
-										{{ mutableClient.email }}
+										{{ client.email }}
 									</div>
-									<div
-										v-if="mutableClient.phoneNumber"
-										class="row"
-									>
+									<div v-if="client.phoneNumber" class="row">
 										<span class="icon phone-icon"></span>
 										<a
-											:href="
-												'tel:' +
-												mutableClient.phoneNumber
-											"
-											>{{ mutableClient.phoneNumber }}</a
+											:href="'tel:' + client.phoneNumber"
+											>{{ client.phoneNumber }}</a
 										>
 									</div>
 								</div>
 								<div class="row" @dblclick="editClient()">
 									<span class="icon location-icon"></span>
-									{{ mutableClient.city
-									}}{{ commaCityTimezone }}
+									{{ client.city }}{{ commaCityTimezone }}
 									<span>{{ displayTimezone }}</span>
 								</div>
 								<p @dblclick="editClient()">{{ textAge }}</p>
 							</div>
 						</div>
 
-						<h3 v-if="mutableClient.description || editMode">
-							About
-						</h3>
+						<h3 v-if="client.description || editMode">About</h3>
 						<textarea
 							v-if="editMode"
-							v-model="mutableClient.description"
+							v-model="client.description"
 							placeholder="Description"
 							class="client-description"
 						/>
 						<p
-							v-else-if="mutableClient.description"
+							v-else-if="client.description"
 							@dblclick="editClient()"
 						>
-							{{ mutableClient.description }}
+							{{ client.description }}
 						</p>
 					</div>
 					<div class="col other-contacts">
-						<h3 v-if="mutableClient.contacts || editMode">
+						<h3 v-if="client.contacts || editMode">
 							Other Contacts
 						</h3>
 						<textarea
 							v-if="editMode"
-							v-model="mutableClient.contacts"
+							v-model="client.contacts"
 							placeholder="John Doe +460406280400, Jane Doe +441134960000"
 							title="John Doe +460406280400, Jane Doe +441134960000"
 							class="contacts-list"
@@ -188,62 +177,40 @@ export default {
 		TimezonePicker,
 		ClientDeletion,
 	},
-
-	props: {
-		client: {
-			type: Object,
-			default() {
-				return {};
-			},
-		},
-	},
 	data() {
 		return {
 			sessions: [],
 			editMode: false,
 			deleteModal: false,
-			mutableClient: {
-				id: this.client.id,
-				name: this.client.name,
-				description: this.client.description,
-				city: this.client.city,
-				country: this.client.country,
-				timezone: this.client.timezone ? this.client.timezone : "UTC",
-				age: this.client.age,
-				contacts: this.client.contacts,
-				email: this.client.email,
-				phoneNumber: this.client.phoneNumber,
-			},
+			client: {},
 		};
 	},
 	computed: {
 		textAge() {
-			return this.mutableClient.age
-				? this.mutableClient.age + " Years Old"
-				: "";
+			return this.client.age ? this.client.age + " Years Old" : "";
 		},
 		commaCityTimezone() {
-			return this.mutableClient.city && this.mutableClient.timezone
-				? ","
-				: "";
+			return this.client.city && this.client.timezone ? "," : "";
 		},
 		displayTimezone() {
-			return TimezoneUtil.timezoneWithUTC(
-				this.mutableClient.timezone.slice(0)
-			);
+			return TimezoneUtil.timezoneWithUTC(this.client.timezone.slice(0));
 		},
 		contactsList() {
-			return this.mutableClient.contacts
-				? this.mutableClient.contacts.split(",")
-				: "";
+			return this.client.contacts ? this.client.contacts.split(",") : "";
 		},
 	},
 	async mounted() {
-		this.sessions = await SessionsUtil.fetchSessions(this.client.id);
+		console.log(this.client);
+		this.client = await ClientsUtil.getClient(this.$route.params.clientId);
+		this.sessions = await SessionsUtil.fetchSessions(
+			this.$route.params.clientId
+		);
 	},
 	methods: {
 		toggleModal() {
-			this.$emit("toggle-modal", false);
+			this.$router.push({
+				path: "/",
+			});
 		},
 		toggleDeleteModal() {
 			this.deleteModal = !this.deleteModal;
@@ -254,7 +221,7 @@ export default {
 		async editClient() {
 			this.editMode = !this.editMode;
 			if (!this.editMode) {
-				const res = await ClientsUtil.updateClient(this.mutableClient);
+				const res = await ClientsUtil.updateClient(this.client);
 				if (res.status === 200) {
 					this.$emit("update-clients", true);
 					this.sessions = await SessionsUtil.fetchSessions(
@@ -275,7 +242,7 @@ export default {
 			this.toggleModal();
 		},
 		getAdminlyColor(name) {
-			const index = name.length > 12 ? name.length - 12 : name.length;
+			const index = name.length % 12;
 			return `adminly-avatar-${index}`;
 		},
 	},

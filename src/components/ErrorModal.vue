@@ -35,7 +35,7 @@ export default {
 </script>
 <style scoped>
 button {
-	box-shadow: 0px 0px 11px var(--adminly-grey);
+	box-shadow: 0px 0px 11px var(--adminly-box-shadow-color);
 	border-radius: 8px;
 	background-color: var(--adminly-blue);
 	color: white;

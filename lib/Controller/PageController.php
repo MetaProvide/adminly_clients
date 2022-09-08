@@ -44,7 +44,8 @@ use Sabre\VObject\Reader;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 
-class PageController extends Controller {
+class PageController extends Controller
+{
 
 	/** @var IActivityManager */
 	protected $activityManager;
@@ -79,7 +80,8 @@ class PageController extends Controller {
 	 *
 	 * Render default template
 	 */
-	public function index(): TemplateResponse {
+	public function index(): TemplateResponse
+	{
 		Util::addScript($this->appName, 'adminly_clients-main');
 		return new TemplateResponse('adminly_clients', 'main');
 	}
@@ -90,7 +92,8 @@ class PageController extends Controller {
 	 *
 	 * Creates a new client
 	 */
-	public function create(string $name, string $email, string $description = "", string $phoneNumber = "", string $city = "", string $country = "") {
+	public function create(string $name, string $email, string $description = "", string $phoneNumber = "", string $city = "", string $country = "")
+	{
 		try {
 			if (!$this->mapper->findByEmail($email, $this->userId)) {
 				$client = new Client();
@@ -178,7 +181,8 @@ class PageController extends Controller {
 	 *
 	 * Get all clients from the current user
 	 */
-	public function get(): array {
+	public function get(): array
+	{
 		$clients = $this->mapper->findAll($this->userId);
 
 		$clientsArray = [];
@@ -198,7 +202,8 @@ class PageController extends Controller {
 	 *
 	 * Get clients of a page from the current user
 	 */
-	public function getPage(int $pageNumber, int $clientsPerPage): array {
+	public function getPage(int $pageNumber, int $clientsPerPage): array
+	{
 		$offset = $clientsPerPage * ($pageNumber - 1);
 		$clients = $this->mapper->findWithOffsetAndLimit($this->userId, $offset, $clientsPerPage);
 
@@ -219,7 +224,8 @@ class PageController extends Controller {
 	 *
 	 * Get the number of clients from the current user
 	 */
-	public function getNumberOfClients() {
+	public function getNumberOfClients()
+	{
 		$clientNumber = $this->mapper->count($this->userId);
 		return $clientNumber;
 	}
@@ -230,7 +236,8 @@ class PageController extends Controller {
 	 *
 	 * Searchs clients from the current user
 	 */
-	public function searchByName($name): array {
+	public function searchByName($name): array
+	{
 		$clients = $this->mapper->findByName($name, $this->userId);
 		$clientsArray = [];
 
@@ -247,9 +254,26 @@ class PageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * Get a specific client from the current user
+	 */
+	public function getClient(int $id)
+	{
+		try {
+			$client = $this->mapper->find($id, $this->userId);
+			return $client->jsonSerialize();
+		} catch (Exception $e) {
+			$this->handleException($e);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
 	 * Updates a client
 	 */
-	public function delete(int $id) {
+	public function delete(int $id)
+	{
 		try {
 			$client = $this->mapper->find($id, $this->userId);
 			$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
@@ -271,7 +295,8 @@ class PageController extends Controller {
 	 *
 	 * Get all sessions for a specific client
 	 */
-	public function getClientSessions(int $clientId): array {
+	public function getClientSessions(int $clientId): array
+	{
 		$client = $this->mapper->find($clientId, $this->userId);
 
 		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
@@ -337,7 +362,8 @@ class PageController extends Controller {
 	 *
 	 * Get next session for a specific client
 	 */
-	public function getClientNextSession(int $clientId) {
+	public function getClientNextSession(int $clientId)
+	{
 		$dateNow = new DateTime();
 		$client = $this->mapper->find($clientId, $this->userId);
 
@@ -408,7 +434,8 @@ class PageController extends Controller {
 	 *
 	 * Get last session for a specific client
 	 */
-	public function getClientLastSession(int $clientId) {
+	public function getClientLastSession(int $clientId)
+	{
 		$dateNow = new DateTime();
 
 		$sixWeeksAgo = new DateTime();
@@ -482,7 +509,8 @@ class PageController extends Controller {
 	 *
 	 * Updates the email on the sessions for a specific client
 	 */
-	public function updateClientSessionsEmail($client, string $oldEmail) {
+	public function updateClientSessionsEmail($client, string $oldEmail)
+	{
 		$calendarId = $this->caldavBackend->getCalendarByUri("principals/users/{$this->userId}", "personal")["id"];
 
 		$filters = [

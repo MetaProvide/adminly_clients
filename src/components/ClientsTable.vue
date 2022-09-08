@@ -296,7 +296,7 @@ select {
 }
 
 .table-footer {
-	box-shadow: 0px 0px 10px var(--adminly-grey);
+	box-shadow: 0px 0px 10px var(--adminly-box-shadow-color);
 	border-radius: 15px;
 	display: inline-flex;
 	background-color: white;
