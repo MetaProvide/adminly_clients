@@ -58,7 +58,7 @@ class ClientMapper extends QBMapper {
 	public function findAll(string $providerId) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('name', 'email', 'id')
+		$qb->select('name', 'email', 'id', 'phone_number')
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId))
