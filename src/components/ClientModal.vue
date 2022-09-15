@@ -129,8 +129,8 @@
 						<!-- <h3>Attachments</h3> -->
 					</div>
 				</div>
-				<div v-if="sessions.length" class="line"></div>
-				<div v-if="sessions.length" class="sessions">
+				<div v-if="showSessions" class="line"></div>
+				<div v-if="showSessions" class="sessions">
 					<h3>Sessions' Details</h3>
 					<div class="sessions-list">
 						<SessionCard
@@ -186,6 +186,9 @@ export default {
 		};
 	},
 	computed: {
+		showSessions() {
+			return !this.editMode && this.sessions.length > 0;
+		},
 		textAge() {
 			return this.client.age ? this.client.age + " Years Old" : "";
 		},
