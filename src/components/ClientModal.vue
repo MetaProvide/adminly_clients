@@ -6,21 +6,55 @@
 					<button v-if="editMode" @click="toggleEdit()">
 						Cancel
 					</button>
-					<button v-else class="svg edit-button" @click="editClient()"></button>
-					<button class="svg close-button" @click="toggleModal()"></button>
+					<button
+						v-else
+						class="svg edit-button"
+						@click="editClient()"
+					></button>
+					<button
+						class="svg close-button"
+						@click="toggleModal()"
+					></button>
 				</div>
 				<div class="client-info">
 					<div class="col w-60">
 						<div class="row">
-							<Avatar :username="client.name" :size="100" class="avatar"
-								:class="getAdminlyColor(client.name)" />
+							<Avatar
+								:username="client.name"
+								:size="100"
+								class="avatar"
+								:class="getAdminlyColor(client.name)"
+							/>
 							<div v-if="editMode" class="col ml-22">
-								<input v-model="client.name" placeholder="Name" class="name-input" required /><input
-									v-model="client.age" class="age-input" type="number" placeholder="Age" />
-								<input v-model="client.email" placeholder="Email" type="email" class="email" required />
-								<input v-model="client.phoneNumber" placeholder="Phone Number" type="tel"
-									class="phone" />
-								<input v-model="client.city" placeholder="City" class="city" />
+								<input
+									v-model="client.name"
+									placeholder="Name"
+									class="name-input"
+									required
+								/><input
+									v-model="client.age"
+									class="age-input"
+									type="number"
+									placeholder="Age"
+								/>
+								<input
+									v-model="client.email"
+									placeholder="Email"
+									type="email"
+									class="email"
+									required
+								/>
+								<input
+									v-model="client.phoneNumber"
+									placeholder="Phone Number"
+									type="tel"
+									class="phone"
+								/>
+								<input
+									v-model="client.city"
+									placeholder="City"
+									class="city"
+								/>
 								<TimezonePicker v-model="client.timezone" />
 							</div>
 							<div v-else class="col">
@@ -34,7 +68,10 @@
 									</div>
 									<div v-if="client.phoneNumber" class="row">
 										<span class="icon phone-icon"></span>
-										<a :href="'tel:' + client.phoneNumber">{{ client.phoneNumber }}</a>
+										<a
+											:href="'tel:' + client.phoneNumber"
+											>{{ client.phoneNumber }}</a
+										>
 									</div>
 								</div>
 								<div class="row" @dblclick="editClient()">
@@ -47,9 +84,16 @@
 						</div>
 
 						<h3 v-if="client.description || editMode">About</h3>
-						<textarea v-if="editMode" v-model="client.description" placeholder="Description"
-							class="client-description" />
-						<p v-else-if="client.description" @dblclick="editClient()">
+						<textarea
+							v-if="editMode"
+							v-model="client.description"
+							placeholder="Description"
+							class="client-description"
+						/>
+						<p
+							v-else-if="client.description"
+							@dblclick="editClient()"
+						>
 							{{ client.description }}
 						</p>
 					</div>
@@ -57,20 +101,27 @@
 						<h3 v-if="client.contacts || editMode">
 							Other Contacts
 						</h3>
-						<textarea v-if="editMode" v-model="client.contacts"
+						<textarea
+							v-if="editMode"
+							v-model="client.contacts"
 							placeholder="John Doe +460406280400, Jane Doe +441134960000"
-							title="John Doe +460406280400, Jane Doe +441134960000" class="contacts-list" />
+							title="John Doe +460406280400, Jane Doe +441134960000"
+							class="contacts-list"
+						/>
 						<div v-else @dblclick="editClient()">
 							<ul>
-								<li v-for="(contact, index) in contactsList" :key="index">
+								<li
+									v-for="(contact, index) in contactsList"
+									:key="index"
+								>
 									<a :href="'tel:' + linkfyPhone(contact)">{{
-									linkfyPhone(contact)
+										linkfyPhone(contact)
 									}}</a>
 									{{
-									contact.replace(
-									linkfyPhone(contact),
-									""
-									)
+										contact.replace(
+											linkfyPhone(contact),
+											""
+										)
 									}}
 								</li>
 							</ul>
@@ -82,7 +133,11 @@
 				<div v-if="showSessions" class="sessions">
 					<h3>Sessions' Details</h3>
 					<div class="sessions-list">
-						<SessionCard v-for="session in sessions" :key="session.id" :session="session" />
+						<SessionCard
+							v-for="session in sessions"
+							:key="session.id"
+							:session="session"
+						/>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -97,8 +152,12 @@
 				</div>
 			</div>
 		</Modal>
-		<ClientDeletion v-if="deleteModal" :client="client" @toggle-modal="toggleDeleteModal"
-			@update-clients="updateClients" />
+		<ClientDeletion
+			v-if="deleteModal"
+			:client="client"
+			@toggle-modal="toggleDeleteModal"
+			@update-clients="updateClients"
+		/>
 	</div>
 </template>
 
