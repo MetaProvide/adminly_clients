@@ -134,7 +134,7 @@ class ClientMapper extends QBMapper {
 		return $column;
 	}
 
-	public function listProviders(){
+	public function listProviders() {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('provider_id')
 				->from($this->getTableName())
