@@ -133,4 +133,16 @@ class ClientMapper extends QBMapper {
 		$result->closeCursor();
 		return $column;
 	}
+
+	public function listProviders() {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('provider_id')
+				->from($this->getTableName())
+				->groupBy('provider_id');
+
+		$result = $qb->executeQuery();
+		$column = $result->fetchAll();
+		$result->closeCursor();
+		return $column;
+	}
 }
