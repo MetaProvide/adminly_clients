@@ -45,7 +45,7 @@
 					<td>{{ formatDate(client.nextSession) }}</td>
 					<td>
 						<button
-							class="svg edit-button"
+							class="svg open-button"
 							@click="openClientModal(client.id)"
 						></button>
 						<button
