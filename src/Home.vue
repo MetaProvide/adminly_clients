@@ -81,8 +81,8 @@ main {
 	background-size: 1rem;
 }
 
-.edit-button {
-	background-image: url("../img/edit.svg");
+.open-button {
+	background-image: url("../img/open.svg");
 }
 
 .close-button {
