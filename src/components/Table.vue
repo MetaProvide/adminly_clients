@@ -130,9 +130,9 @@ export default {
 			return `adminly-avatar-${index}`;
 		},
 		getFirstAndLastName(fullName) {
-			fullName = fullName.split(" ");
-			const firstName = fullName[0];
-			const lastName = fullName.pop();
+			const fullNameArray = fullName.split(" ");
+			const firstName = fullNameArray[0];
+			const lastName = fullNameArray.pop();
 			return firstName === lastName
 				? firstName
 				: `${firstName} ${lastName}`;
