@@ -20,7 +20,7 @@
 						<div class="row">
 							<Avatar
 								v-if="col === 'name'"
-								:username="client.name"
+								:username="getFirstAndLastName(client.name)"
 								:size="30"
 								class="avatar"
 								:class="getAdminlyColor(client.name)"
@@ -128,6 +128,14 @@ export default {
 		getAdminlyColor(name) {
 			const index = name.length % 12;
 			return `adminly-avatar-${index}`;
+		},
+		getFirstAndLastName(fullName) {
+			const fullNameArray = fullName.split(" ");
+			const firstName = fullNameArray[0];
+			const lastName = fullNameArray.pop();
+			return firstName === lastName
+				? firstName
+				: `${firstName} ${lastName}`;
 		},
 	},
 };
