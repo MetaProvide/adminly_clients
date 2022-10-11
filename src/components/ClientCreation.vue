@@ -16,6 +16,7 @@
 						type="text"
 						placeholder="Full Name"
 						required
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="email"
@@ -23,24 +24,30 @@
 						type="email"
 						placeholder="Client Email"
 						required
+						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="phoneNumber"
 						v-model="phoneNumber"
 						type="tel"
 						placeholder="Phone Number"
+						pattern="(\+|(\+[1-9])?[0-9]*)"
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="city"
 						v-model="city"
 						type="text"
 						placeholder="City"
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="country"
 						v-model="country"
 						type="text"
 						placeholder="Country"
+						@keyup.enter="submitForm()"
 					/>
 					<h1 class="form-heading">About</h1>
 					<textarea
@@ -48,6 +55,7 @@
 						v-model="description"
 						type="text"
 						placeholder="Add Description"
+						@keyup.enter="submitForm()"
 					/>
 					<div class="modal-footer">
 						<button @click="toggleModal()">Cancel</button>
@@ -78,7 +86,6 @@ export default {
 	},
 	data() {
 		return {
-			modal: false,
 			errorModal: false,
 			name: "",
 			email: "",
@@ -89,33 +96,48 @@ export default {
 			errorMessage: "",
 		};
 	},
+	computed: {
+		isEmailValid() {
+			const emailRegex =
+				/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi; // eslint-disable-line
+			return this.email.match(emailRegex);
+		},
+		isPhoneValid() {
+			const phoneRegex = /\+|(\+[1-9])?[0-9]*/g; // eslint-disable-line
+			return (
+				this.phoneNumber.match(phoneRegex) || this.phoneNumber === ""
+			);
+		},
+	},
 	methods: {
 		submitForm() {
-			axios
-				.post("create", {
-					name: this.name,
-					email: this.email,
-					phoneNumber: this.phoneNumber,
-					city: this.city,
-					country: this.country,
-					description: this.description,
-				})
-				.then((response) => {
-					this.$emit("update-clients", true);
-					this.toggleModal();
-					this.name = "";
-					this.email = "";
-					this.city = "";
-					this.country = "";
-					this.phone = "";
-					this.description = "";
-				})
-				.catch((error) => {
-					this.errorMessage = error.response
-						? error.response.data
-						: error;
-					this.toggleErrorModal(this.errorMessage);
-				});
+			if (this.name && this.isEmailValid && this.isPhoneValid) {
+				axios
+					.post("create", {
+						name: this.name,
+						email: this.email,
+						phoneNumber: this.phoneNumber,
+						city: this.city,
+						country: this.country,
+						description: this.description,
+					})
+					.then((response) => {
+						this.$emit("update-clients", true);
+						this.toggleModal();
+						this.name = "";
+						this.email = "";
+						this.city = "";
+						this.country = "";
+						this.phone = "";
+						this.description = "";
+					})
+					.catch((error) => {
+						this.errorMessage = error.response
+							? error.response.data
+							: error;
+						this.toggleErrorModal(this.errorMessage);
+					});
+			}
 		},
 		toggleModal() {
 			this.$router.push({
