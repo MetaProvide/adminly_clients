@@ -1,3 +1,73 @@
 <template>
-	<router-view />
+	<main>
+		<!-- <Overview /> -->
+		<ClientsTable />
+	</main>
 </template>
+
+<script>
+import ClientsTable from "./components/ClientsTable";
+// import Overview from "./components/Overview";
+
+export default {
+	name: "App",
+	components: {
+		// Overview,
+		ClientsTable,
+	},
+};
+</script>
+<style scoped>
+main {
+	min-width: 90%;
+	padding: 20px;
+	display: flex;
+	align-self: flex-start;
+}
+</style>
+<style>
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.modal-footer button {
+	font-family: "Roc Grotesk", var(--font-face);
+}
+
+.modal-footer {
+	display: flex;
+}
+
+.app-adminly_clients {
+	background: linear-gradient(180deg, #ffffff 0%, #e4e5f8 100%);
+	justify-content: center;
+}
+
+.svg {
+	background-position: center;
+	background-repeat: no-repeat;
+	padding-inline: 1rem !important;
+}
+
+.icon::before {
+	content: "";
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0.25rem 0.6rem;
+	background-size: 1rem;
+}
+
+.open-button {
+	background-image: url("../img/open.svg");
+}
+
+.close-button {
+	background-image: url("../img/close.svg");
+}
+</style>

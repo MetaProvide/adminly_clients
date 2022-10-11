@@ -6,7 +6,10 @@
 				placeholder="Search Client"
 				@input="search"
 			/>
-			<ClientCreation @update-clients="updateClients(true)" />
+			<button class="create-btn" @click="toggleNewClientModal()">
+				<div class="svg add-client"></div>
+				<p>Add Client</p>
+			</button>
 		</div>
 		<Table
 			:key="currentPage"
@@ -60,18 +63,17 @@
 				</div>
 			</div>
 		</div>
+		<router-view @update-clients="updateClients" />
 	</div>
 </template>
 
 <script>
-import ClientCreation from "./ClientCreation";
 import { ClientsUtil } from "../utils";
 import Table from "./Table";
 import axios from "@nextcloud/axios";
 
 export default {
 	components: {
-		ClientCreation,
 		Table,
 	},
 	data() {
@@ -229,6 +231,11 @@ export default {
 				? (this.pagesVisited = [])
 				: this.pagesVisited.pop(this.currentPage);
 			this.getPage(this.currentPage);
+		},
+		toggleNewClientModal() {
+			this.$router.push({
+				path: "/new-client",
+			});
 		},
 	},
 };

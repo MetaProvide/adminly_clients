@@ -1,10 +1,6 @@
 <template>
 	<div>
-		<button class="create-btn" @click="toggleModal()">
-			<div class="svg add-client"></div>
-			<p>Add Client</p>
-		</button>
-		<Modal v-if="modal" id="create-modal" @close="toggleModal()">
+		<Modal id="create-modal" @close="toggleModal()">
 			<div class="modal-header">
 				<button
 					class="svg close-button"
@@ -13,7 +9,7 @@
 			</div>
 			<div class="modal-content">
 				<h1>New Client Information</h1>
-				<form @submit.prevent="submitForm">
+				<div>
 					<input
 						id="name"
 						v-model="name"
@@ -55,9 +51,11 @@
 					/>
 					<div class="modal-footer">
 						<button @click="toggleModal()">Cancel</button>
-						<button class="submit" type="submit">Submit</button>
+						<button class="submit" @click="submitForm()">
+							Submit
+						</button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</Modal>
 		<ErrorModal
@@ -120,7 +118,9 @@ export default {
 				});
 		},
 		toggleModal() {
-			this.modal = !this.modal;
+			this.$router.push({
+				path: "/",
+			});
 		},
 		toggleErrorModal() {
 			this.errorModal = !this.errorModal;
