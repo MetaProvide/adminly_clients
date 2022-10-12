@@ -2,8 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import { getRootUrl, generateUrl } from "@nextcloud/router";
 
-import Home from "./Home";
 import ClientModal from "./components/ClientModal";
+import ClientCreation from "./components/ClientCreation";
 
 Vue.use(Router);
 
@@ -23,15 +23,14 @@ const router = new Router({
 	base,
 	routes: [
 		{
-			path: "/",
-			component: Home,
-			children: [
-				{
-					path: "/client/:clientId",
-					name: "ClientModal",
-					component: ClientModal,
-				},
-			],
+			path: "/client/:clientId",
+			name: "ClientModal",
+			component: ClientModal,
+		},
+		{
+			path: "/new-client",
+			name: "ClientCreation",
+			component: ClientCreation,
 		},
 	],
 });

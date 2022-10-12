@@ -26,7 +26,8 @@ declare(strict_types=1);
  */
 
 return ['routes' => [
-	['name' => 'page#index', 'url' => '/client/{clientId}', 'verb' => 'GET', 'postfix' => 'direct.new'],
+	['name' => 'page#index', 'url' => '/client/{clientId}', 'verb' => 'GET', 'postfix' => 'edit.client'],
+	['name' => 'page#index', 'url' => '/new-client', 'verb' => 'GET', 'postfix' => 'new.client'],
 	['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 	['name' => 'page#create', 'url' => '/create', 'verb' => 'POST'],
 	['name' => 'page#update', 'url' => '/update', 'verb' => 'POST'],

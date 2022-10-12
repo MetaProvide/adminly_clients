@@ -6,7 +6,10 @@
 				placeholder="Search Client"
 				@input="search"
 			/>
-			<ClientCreation @update-clients="updateClients(true)" />
+			<button class="create-btn" @click="toggleNewClientModal()">
+				<div class="svg add-client"></div>
+				<p>Add Client</p>
+			</button>
 		</div>
 		<Table
 			:key="currentPage"
@@ -60,18 +63,17 @@
 				</div>
 			</div>
 		</div>
+		<router-view @update-clients="updateClients" />
 	</div>
 </template>
 
 <script>
-import ClientCreation from "./ClientCreation";
 import { ClientsUtil } from "../utils";
 import Table from "./Table";
 import axios from "@nextcloud/axios";
 
 export default {
 	components: {
-		ClientCreation,
 		Table,
 	},
 	data() {
@@ -230,6 +232,11 @@ export default {
 				: this.pagesVisited.pop(this.currentPage);
 			this.getPage(this.currentPage);
 		},
+		toggleNewClientModal() {
+			this.$router.push({
+				path: "/new-client",
+			});
+		},
 	},
 };
 </script>
@@ -365,5 +372,25 @@ select {
 	align-items: center;
 	flex: 1;
 	justify-content: flex-end;
+}
+
+.add-client {
+	width: 43px;
+	height: 34px;
+	padding: 0.7rem 0.7rem;
+	background-image: url("../../img/add-client.svg");
+}
+
+.create-btn {
+	background-color: white;
+	border: none;
+	display: flex;
+	box-shadow: 4px 4px 5px rgba(145, 149, 234, 0.3),
+		inset 0.1px 0.1px 3px rgba(145, 149, 234, 0.3);
+	border-radius: 6px;
+}
+
+.create-btn p {
+	align-self: center;
 }
 </style>

@@ -1,10 +1,6 @@
 <template>
 	<div>
-		<button class="create-btn" @click="toggleModal()">
-			<div class="svg add-client"></div>
-			<p>Add Client</p>
-		</button>
-		<Modal v-if="modal" id="create-modal" @close="toggleModal()">
+		<Modal id="create-modal" @close="toggleModal()">
 			<div class="modal-header">
 				<button
 					class="svg close-button"
@@ -13,13 +9,14 @@
 			</div>
 			<div class="modal-content">
 				<h1>New Client Information</h1>
-				<form @submit.prevent="submitForm">
+				<div>
 					<input
 						id="name"
 						v-model="name"
 						type="text"
 						placeholder="Full Name"
 						required
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="email"
@@ -27,24 +24,30 @@
 						type="email"
 						placeholder="Client Email"
 						required
+						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="phoneNumber"
 						v-model="phoneNumber"
 						type="tel"
 						placeholder="Phone Number"
+						pattern="(\+|(\+[1-9])?[0-9]*)"
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="city"
 						v-model="city"
 						type="text"
 						placeholder="City"
+						@keyup.enter="submitForm()"
 					/>
 					<input
 						id="country"
 						v-model="country"
 						type="text"
 						placeholder="Country"
+						@keyup.enter="submitForm()"
 					/>
 					<h1 class="form-heading">About</h1>
 					<textarea
@@ -52,12 +55,15 @@
 						v-model="description"
 						type="text"
 						placeholder="Add Description"
+						@keyup.enter="submitForm()"
 					/>
 					<div class="modal-footer">
 						<button @click="toggleModal()">Cancel</button>
-						<button class="submit" type="submit">Submit</button>
+						<button class="submit" @click="submitForm()">
+							Submit
+						</button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</Modal>
 		<ErrorModal
@@ -80,7 +86,6 @@ export default {
 	},
 	data() {
 		return {
-			modal: false,
 			errorModal: false,
 			name: "",
 			email: "",
@@ -91,36 +96,51 @@ export default {
 			errorMessage: "",
 		};
 	},
+	computed: {
+		isEmailValid() {
+			const emailRegex =
+				/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi; // eslint-disable-line
+			return emailRegex.test(this.email);
+		},
+		isPhoneValid() {
+			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
+			return phoneRegex.test(this.phoneNumber);
+		},
+	},
 	methods: {
 		submitForm() {
-			axios
-				.post("create", {
-					name: this.name,
-					email: this.email,
-					phoneNumber: this.phoneNumber,
-					city: this.city,
-					country: this.country,
-					description: this.description,
-				})
-				.then((response) => {
-					this.$emit("update-clients", true);
-					this.toggleModal();
-					this.name = "";
-					this.email = "";
-					this.city = "";
-					this.country = "";
-					this.phone = "";
-					this.description = "";
-				})
-				.catch((error) => {
-					this.errorMessage = error.response
-						? error.response.data
-						: error;
-					this.toggleErrorModal(this.errorMessage);
-				});
+			if (this.name && this.isEmailValid && this.isPhoneValid) {
+				axios
+					.post("create", {
+						name: this.name,
+						email: this.email,
+						phoneNumber: this.phoneNumber,
+						city: this.city,
+						country: this.country,
+						description: this.description,
+					})
+					.then((response) => {
+						this.$emit("update-clients", true);
+						this.toggleModal();
+						this.name = "";
+						this.email = "";
+						this.city = "";
+						this.country = "";
+						this.phone = "";
+						this.description = "";
+					})
+					.catch((error) => {
+						this.errorMessage = error.response
+							? error.response.data
+							: error;
+						this.toggleErrorModal(this.errorMessage);
+					});
+			}
 		},
 		toggleModal() {
-			this.modal = !this.modal;
+			this.$router.push({
+				path: "/",
+			});
 		},
 		toggleErrorModal() {
 			this.errorModal = !this.errorModal;
@@ -171,24 +191,6 @@ h1 {
 
 form div {
 	justify-content: center;
-}
-
-.create-btn {
-	display: flex;
-	box-shadow: 4px 4px 5px rgba(145, 149, 234, 0.3),
-		inset 0.1px 0.1px 3px rgba(145, 149, 234, 0.3);
-	border-radius: 6px;
-}
-
-.create-btn p {
-	align-self: center;
-}
-
-.add-client {
-	width: 43px;
-	height: 34px;
-	padding: 0.7rem 0.7rem;
-	background-image: url("../../img/add-client.svg");
 }
 
 button {
