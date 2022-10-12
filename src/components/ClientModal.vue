@@ -31,11 +31,13 @@
 									placeholder="Name"
 									class="name-input"
 									required
+									@keyup.enter="editClient()"
 								/><input
 									v-model="client.age"
 									class="age-input"
 									type="number"
 									placeholder="Age"
+									@keyup.enter="editClient()"
 								/>
 								<input
 									v-model="client.email"
@@ -43,17 +45,22 @@
 									type="email"
 									class="email"
 									required
+									pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
+									@keyup.enter="editClient()"
 								/>
 								<input
 									v-model="client.phoneNumber"
 									placeholder="Phone Number"
 									type="tel"
 									class="phone"
+									pattern="(\+|(\+[1-9])?[0-9]*)"
+									@keyup.enter="editClient()"
 								/>
 								<input
 									v-model="client.city"
 									placeholder="City"
 									class="city"
+									@keyup.enter="editClient()"
 								/>
 								<TimezonePicker v-model="client.timezone" />
 							</div>
@@ -201,6 +208,15 @@ export default {
 		contactsList() {
 			return this.client.contacts ? this.client.contacts.split(",") : "";
 		},
+		isEmailValid() {
+			const emailRegex =
+				/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi; // eslint-disable-line
+			return emailRegex.test(this.client.email);
+		},
+		isPhoneValid() {
+			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
+			return phoneRegex.test(this.client.phoneNumber);
+		},
 	},
 	async mounted() {
 		console.log(this.client);
@@ -222,10 +238,16 @@ export default {
 			this.editMode = !this.editMode;
 		},
 		async editClient() {
-			this.editMode = !this.editMode;
 			if (!this.editMode) {
+				this.toggleEdit();
+			} else if (
+				this.client.name &&
+				this.isEmailValid &&
+				this.isPhoneValid
+			) {
 				const res = await ClientsUtil.updateClient(this.client);
 				if (res.status === 200) {
+					this.toggleEdit();
 					this.$emit("update-clients", true);
 					this.sessions = await SessionsUtil.fetchSessions(
 						this.client.id
