@@ -41,6 +41,7 @@ button {
 	color: white;
 	display: flex;
 	align-items: center;
+	margin-inline: auto;
 }
 
 .modal-content {

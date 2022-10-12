@@ -100,13 +100,11 @@ export default {
 		isEmailValid() {
 			const emailRegex =
 				/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi; // eslint-disable-line
-			return this.email.match(emailRegex);
+			return emailRegex.test(this.email);
 		},
 		isPhoneValid() {
-			const phoneRegex = /\+|(\+[1-9])?[0-9]*/g; // eslint-disable-line
-			return (
-				this.phoneNumber.match(phoneRegex) || this.phoneNumber === ""
-			);
+			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
+			return phoneRegex.test(this.phoneNumber);
 		},
 	},
 	methods: {
