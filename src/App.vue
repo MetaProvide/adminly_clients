@@ -70,4 +70,8 @@ main {
 .close-button {
 	background-image: url("../img/close.svg");
 }
+
+.edit-button {
+	background-image: url("../img/edit.svg");
+}
 </style>
