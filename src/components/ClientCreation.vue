@@ -32,7 +32,7 @@
 						v-model="phoneNumber"
 						type="tel"
 						placeholder="Phone Number"
-						pattern="(\+|(\+[1-9])?[0-9]*)"
+						pattern="(\+|(\+[1-9])?[0-9].{3,})"
 						@keyup.enter="submitForm()"
 					/>
 					<input
@@ -104,7 +104,9 @@ export default {
 		},
 		isPhoneValid() {
 			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
-			return phoneRegex.test(this.phoneNumber);
+			return this.phoneNumber.length < 4 && this.phoneNumber.length > 0
+				? false
+				: phoneRegex.test(this.phoneNumber);
 		},
 	},
 	methods: {
