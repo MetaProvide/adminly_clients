@@ -53,6 +53,7 @@
 									placeholder="Phone Number"
 									type="tel"
 									class="phone"
+									minlength="4"
 									pattern="(\+|(\+[1-9])?[0-9]*)"
 									@keyup.enter="editClient()"
 								/>
@@ -215,7 +216,10 @@ export default {
 		},
 		isPhoneValid() {
 			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
-			return phoneRegex.test(this.client.phoneNumber);
+			return this.client.phoneNumber.length < 4 &&
+				this.client.phoneNumber.length > 0
+				? false
+				: phoneRegex.test(this.client.phoneNumber);
 		},
 	},
 	async mounted() {

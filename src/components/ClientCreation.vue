@@ -32,7 +32,8 @@
 						v-model="phoneNumber"
 						type="tel"
 						placeholder="Phone Number"
-						pattern="(\+|(\+[1-9])?[0-9].{3,})"
+						minlength="4"
+						pattern="(\+|(\+[1-9])?[0-9]*)"
 						@keyup.enter="submitForm()"
 					/>
 					<input
