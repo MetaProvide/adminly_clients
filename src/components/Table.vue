@@ -43,11 +43,15 @@
 					</td>
 					<td>{{ formatDate(client.lastSession) }}</td>
 					<td>{{ formatDate(client.nextSession) }}</td>
-					<td>
+					<td class="action-buttons">
 						<button
 							class="svg open-button"
 							@click="openClientModal(client.id)"
 						></button>
+						<a
+							class="svg email-button"
+							:href="'mailto:' + client.email"
+						></a>
 						<button
 							class="svg delete-button"
 							@click="deleteClientModal(client)"
@@ -196,5 +200,20 @@ table button {
 
 .delete-button {
 	background-image: url("../../img/trash.svg");
+}
+
+.email-button {
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	text-decoration: none;
+	color: initial;
+	padding: 6px 16px;
+	margin: 3px;
+	width: auto;
+}
+
+.action-buttons {
+	display: flex;
 }
 </style>

@@ -74,4 +74,8 @@ main {
 .edit-button {
 	background-image: url("../img/edit.svg");
 }
+
+.email-button {
+	background-image: url("../img/email-large.svg");
+}
 </style>
