@@ -203,11 +203,6 @@ table button {
 }
 
 .email-button {
-	-webkit-appearance: button;
-	-moz-appearance: button;
-	appearance: button;
-	text-decoration: none;
-	color: initial;
 	padding: 6px 16px;
 	margin: 3px;
 	width: auto;
