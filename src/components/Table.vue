@@ -216,4 +216,8 @@ table button {
 .action-buttons {
 	display: flex;
 }
+
+.svg {
+	transition: none;
+}
 </style>
