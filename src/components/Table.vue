@@ -203,7 +203,6 @@ table button {
 }
 
 .email-button {
-	padding: 6px 16px;
 	margin: 3px;
 	width: auto;
 }
