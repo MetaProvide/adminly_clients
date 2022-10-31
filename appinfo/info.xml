@@ -13,7 +13,7 @@
     <website>https://github.com/metaprovide/adminly_clients</website>
     <bugs>https://github.com/metaprovide/adminly_clients</bugs>
     <dependencies>
-        <nextcloud min-version="23" max-version="23"/>
+        <nextcloud min-version="24" max-version="24"/>
     </dependencies>
     <navigations>
       <navigation>
