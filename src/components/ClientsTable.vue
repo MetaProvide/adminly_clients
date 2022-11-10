@@ -241,10 +241,13 @@ export default {
 			});
 		},
 		async updateTableMetadata() {
-			this.tableContent = await ClientsUtil.fetchPage(
-				1,
-				this.clientsPerPage
-			);
+			if (this.totalClients === 0) {
+				this.currentPage = 1;
+				this.tableContent = await ClientsUtil.fetchPage(
+					1,
+					this.clientsPerPage
+				);
+			}
 			this.totalClients = await ClientsUtil.getTotalClients();
 			this.isTableEmpty = this.totalClients === 0;
 			this.totalClients = await ClientsUtil.getTotalClients();
