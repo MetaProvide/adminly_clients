@@ -227,15 +227,30 @@ export default {
 			}
 		},
 		updateClients(forceRefresh = false) {
-			forceRefresh
-				? (this.pagesVisited = [])
-				: this.pagesVisited.pop(this.currentPage);
+			if (forceRefresh) {
+				this.pagesVisited = [];
+				this.updateTableMetadata();
+			} else {
+				this.pagesVisited.pop(this.currentPage);
+			}
 			this.getPage(this.currentPage);
 		},
 		toggleNewClientModal() {
 			this.$router.push({
 				path: "/new-client",
 			});
+		},
+		async updateTableMetadata() {
+			this.tableContent = await ClientsUtil.fetchPage(
+				1,
+				this.clientsPerPage
+			);
+			this.totalClients = await ClientsUtil.getTotalClients();
+			this.isTableEmpty = this.totalClients === 0;
+			this.totalClients = await ClientsUtil.getTotalClients();
+			this.totalPages = Math.ceil(
+				this.totalClients / this.clientsPerPage
+			);
 		},
 	},
 };
