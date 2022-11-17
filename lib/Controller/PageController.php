@@ -160,12 +160,16 @@ class PageController extends Controller {
 			$client->setContacts($contacts);
 			$client->setPhoneNumber($phoneNumber);
 
-			if ($email) {
-				$oldEmail = $client->getEmail();
-				$client->setEmail(strtolower($email));
-				$this->updateClientSessionsEmail($client, $oldEmail);
-			}
+			$oldEmail = $client->getEmail();
 
+			if ($email && $oldEmail !== $email) {
+				if (!$this->mapper->findByEmail($email, $this->userId)) {
+					$client->setEmail(strtolower($email));
+					$this->updateClientSessionsEmail($client, $oldEmail);
+				} else {
+					return new JSONResponse("Client with email $email already exists", Http::STATUS_BAD_REQUEST);
+				}
+			}
 			return $this->mapper->update($client);
 		} catch (Exception $e) {
 			$this->handleException($e);

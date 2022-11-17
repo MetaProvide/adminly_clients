@@ -40,7 +40,9 @@ export const ClientsUtil = {
 					throw new Error("Error updating client");
 				return resp;
 			})
-			.catch((err) => console.error(err));
+			.catch((err) => {
+				return err;
+			});
 	},
 	fetchClients: async () => {
 		const url = "/apps/adminly_clients/get";
