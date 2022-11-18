@@ -151,14 +151,6 @@ class PageController extends Controller {
 	) {
 		try {
 			$client = $this->mapper->find($id, $this->userId);
-			$client->setName($name);
-			$client->setDescription($description);
-			$client->setTimezone($timezone);
-			$client->setCountry($country);
-			$client->setCity($city);
-			$client->setAge($age);
-			$client->setContacts($contacts);
-			$client->setPhoneNumber($phoneNumber);
 
 			$oldEmail = $client->getEmail();
 
@@ -170,6 +162,17 @@ class PageController extends Controller {
 					return new JSONResponse("Client with email $email already exists", Http::STATUS_BAD_REQUEST);
 				}
 			}
+
+			$client->setName($name);
+			$client->setDescription($description);
+			$client->setTimezone($timezone);
+			$client->setCountry($country);
+			$client->setCity($city);
+			$client->setAge($age);
+			$client->setContacts($contacts);
+			$client->setPhoneNumber($phoneNumber);
+
+
 			return $this->mapper->update($client);
 		} catch (Exception $e) {
 			$this->handleException($e);
