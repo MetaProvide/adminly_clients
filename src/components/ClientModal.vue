@@ -166,6 +166,11 @@
 			@toggle-modal="toggleDeleteModal"
 			@update-clients="updateClients"
 		/>
+		<ErrorModal
+			v-if="errorModal"
+			:message="errorMessage"
+			@toggle-modal="toggleErrorModal"
+		/>
 	</div>
 </template>
 
@@ -176,6 +181,7 @@ import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
 import SessionCard from "./SessionCard";
 import ClientDeletion from "./ClientDeletion";
 import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
+import ErrorModal from "./ErrorModal";
 
 export default {
 	components: {
@@ -184,13 +190,16 @@ export default {
 		SessionCard,
 		TimezonePicker,
 		ClientDeletion,
+		ErrorModal,
 	},
 	data() {
 		return {
 			sessions: [],
 			editMode: false,
 			deleteModal: false,
+			errorModal: false,
 			client: {},
+			errorMessage: "",
 		};
 	},
 	computed: {
@@ -256,6 +265,9 @@ export default {
 					this.sessions = await SessionsUtil.fetchSessions(
 						this.client.id
 					);
+				} else {
+					this.errorMessage = res.response ? res.response.data : res;
+					this.toggleErrorModal();
 				}
 			}
 		},
@@ -281,6 +293,9 @@ export default {
 			return firstName === lastName
 				? firstName
 				: `${firstName} ${lastName}`;
+		},
+		toggleErrorModal() {
+			this.errorModal = !this.errorModal;
 		},
 	},
 };
