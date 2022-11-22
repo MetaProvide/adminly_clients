@@ -2,28 +2,62 @@
 	<div>
 		<Modal id="create-modal" @close="toggleModal()">
 			<div class="modal-header">
-				<button class="svg close-button" @click="toggleModal()"></button>
+				<button
+					class="svg close-button"
+					@click="toggleModal()"
+				></button>
 			</div>
 			<div class="modal-content">
 				<h1>New Client Information</h1>
 				<div>
 					<input
-id="name" v-model="name" type="text" placeholder="Full Name" required
-						@keyup.enter="submitForm()" />
+						id="name"
+						v-model="name"
+						type="text"
+						placeholder="Full Name"
+						required
+						@keyup.enter="submitForm()"
+					/>
 					<input
-id="email" v-model="email" type="email" placeholder="Client Email" required
-						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)" @keyup.enter="submitForm()" />
+						id="email"
+						v-model="email"
+						type="email"
+						placeholder="Client Email"
+						required
+						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
+						@keyup.enter="submitForm()"
+					/>
 					<input
-id="phoneNumber" v-model="phoneNumber" type="tel" placeholder="Phone Number" minlength="4"
-						pattern="(\+|(\+[1-9])?[0-9]*)" @keyup.enter="submitForm()" />
-					<input id="city" v-model="city" type="text" placeholder="City" @keyup.enter="submitForm()" />
+						id="phoneNumber"
+						v-model="phoneNumber"
+						type="tel"
+						placeholder="Phone Number"
+						minlength="4"
+						pattern="(\+|(\+[1-9])?[0-9]*)"
+						@keyup.enter="submitForm()"
+					/>
 					<input
-id="country" v-model="country" type="text" placeholder="Country"
-						@keyup.enter="submitForm()" />
+						id="city"
+						v-model="city"
+						type="text"
+						placeholder="City"
+						@keyup.enter="submitForm()"
+					/>
+					<input
+						id="country"
+						v-model="country"
+						type="text"
+						placeholder="Country"
+						@keyup.enter="submitForm()"
+					/>
 					<h1 class="form-heading">About</h1>
 					<textarea
-id="description" v-model="description" type="text" placeholder="Add Description"
-						@keyup.enter="submitForm()" />
+						id="description"
+						v-model="description"
+						type="text"
+						placeholder="Add Description"
+						@keyup.enter="submitForm()"
+					/>
 					<div class="modal-footer">
 						<button @click="toggleModal()">Cancel</button>
 						<button class="submit" @click="submitForm()">
@@ -33,7 +67,11 @@ id="description" v-model="description" type="text" placeholder="Add Description"
 				</div>
 			</div>
 		</Modal>
-		<ErrorModal v-if="errorModal" :message="errorMessage" @toggle-modal="toggleErrorModal" />
+		<ErrorModal
+			v-if="errorModal"
+			:message="errorMessage"
+			@toggle-modal="toggleErrorModal"
+		/>
 	</div>
 </template>
 
