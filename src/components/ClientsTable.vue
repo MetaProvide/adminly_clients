@@ -1,22 +1,13 @@
 <template>
 	<div class="clients-table">
 		<div class="top-bar">
-			<input
-				v-model="searchName"
-				placeholder="Search Client"
-				@input="search"
-			/>
+			<input v-model="searchName" placeholder="Search Client" @input="search" />
 			<button class="create-btn" @click="toggleNewClientModal()">
 				<div class="svg add-client"></div>
 				<p>Add Client</p>
 			</button>
 		</div>
-		<Table
-			:key="currentPage"
-			:clients="tableContent"
-			:is-empty="isTableEmpty"
-			@update-clients="updateClients"
-		/>
+		<Table :key="currentPage" :clients="tableContent" :is-empty="isTableEmpty" @update-clients="updateClients" />
 		<div v-if="tableContent.length" class="table-footer">
 			<div class="left">
 				<div class="page-info">
@@ -27,29 +18,11 @@
 			</div>
 			<div v-if="!searchName" class="center">
 				<div class="table-nav">
-					<button
-						class="svg first-page-button"
-						@click="getFirstPage()"
-					></button>
-					<button
-						class="svg previous-button"
-						@click="previousPage()"
-					></button>
-					<input
-						v-model="goToPage"
-						:min="1"
-						:max="totalPages"
-						type="number"
-						@input="getPage(goToPage)"
-					/>
-					<button
-						class="svg next-button"
-						@click="nextPage()"
-					></button>
-					<button
-						class="svg last-page-button"
-						@click="getLastPage()"
-					></button>
+					<button class="svg first-page-button" @click="getFirstPage()"></button>
+					<button class="svg previous-button" @click="previousPage()"></button>
+					<input v-model="goToPage" :min="1" :max="totalPages" type="number" @input="getPage(goToPage)" />
+					<button class="svg next-button" @click="nextPage()"></button>
+					<button class="svg last-page-button" @click="getLastPage()"></button>
 				</div>
 			</div>
 			<div v-if="!searchName" class="right">
@@ -68,8 +41,8 @@
 </template>
 
 <script>
-import { ClientsUtil } from "../utils";
-import Table from "./Table";
+import { ClientsUtil } from "../utils.js";
+import Table from "./Table.vue";
 import axios from "@nextcloud/axios";
 
 export default {
@@ -107,17 +80,17 @@ export default {
 				const client = this.totalClients === 1 ? " client" : " clients";
 				return this.currentPage === this.totalPages
 					? firstClientOfPage +
-							" - " +
-							this.totalClients +
-							" of " +
-							this.totalClients +
-							client
+					" - " +
+					this.totalClients +
+					" of " +
+					this.totalClients +
+					client
 					: firstClientOfPage +
-							" - " +
-							this.currentPage * this.clientsPerPage +
-							" of " +
-							this.totalClients +
-							client;
+					" - " +
+					this.currentPage * this.clientsPerPage +
+					" of " +
+					this.totalClients +
+					client;
 			}
 		},
 		tableData() {

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import CardOverview from "./CardOverview";
+import CardOverview from "./CardOverview.vue";
 
 export default {
 	name: "Overview",

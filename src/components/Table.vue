@@ -19,24 +19,20 @@
 					<td v-for="col in columns" :key="col.label">
 						<div class="row">
 							<Avatar
-								v-if="col === 'name'"
-								:username="getFirstAndLastName(client.name)"
-								:size="30"
-								class="avatar"
-								:class="getAdminlyColor(client.name)"
-							/>
+v-if="col === 'name'" :username="getFirstAndLastName(client.name)" :size="30"
+								class="avatar" :class="getAdminlyColor(client.name)" />
 							<p v-if="col === 'timezone'">
 								{{
-									client.timezone
-										? timezoneWithUTC(client.timezone)
-										: ""
+										client.timezone
+											? timezoneWithUTC(client.timezone)
+											: ""
 								}}
 							</p>
 							<p v-else>
 								{{
-									client[col].length > 22
-										? client[col].slice(0, 22) + "..."
-										: client[col]
+										client[col].length > 22
+											? client[col].slice(0, 22) + "..."
+											: client[col]
 								}}
 							</p>
 						</div>
@@ -44,35 +40,23 @@
 					<td>{{ formatDate(client.lastSession) }}</td>
 					<td>{{ formatDate(client.nextSession) }}</td>
 					<td class="action-buttons">
-						<button
-							class="svg open-button"
-							@click="openClientModal(client.id)"
-						></button>
-						<a
-							class="svg email-button"
-							:href="'mailto:' + client.email"
-						></a>
-						<button
-							class="svg delete-button"
-							@click="deleteClientModal(client)"
-						></button>
+						<button class="svg open-button" @click="openClientModal(client.id)"></button>
+						<a class="svg email-button" :href="'mailto:' + client.email"></a>
+						<button class="svg delete-button" @click="deleteClientModal(client)"></button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<ClientDeletion
-			v-if="deleteModal"
-			:client="currentClient"
-			@toggle-modal="toggleDeleteModal"
-			@update-clients="updateClients(true)"
-		/>
+v-if="deleteModal" :client="currentClient" @toggle-modal="toggleDeleteModal"
+			@update-clients="updateClients(true)" />
 	</div>
 </template>
 
 <script>
 import Avatar from "vue-avatar";
-import ClientDeletion from "./ClientDeletion";
-import { TimezoneUtil } from "../utils";
+import ClientDeletion from "./ClientDeletion.vue";
+import { TimezoneUtil } from "../utils.js";
 import dayjs from "dayjs";
 
 export default {
@@ -151,7 +135,8 @@ table {
 	border-collapse: collapse;
 	box-shadow: 0px 0px 9px var(--adminly-box-shadow-color);
 	border-radius: 15px;
-	border-style: hidden; /* hide standard table (collapsed) border */
+	border-style: hidden;
+	/* hide standard table (collapsed) border */
 	background-color: white;
 	color: var(--adminly-dark-blue);
 }

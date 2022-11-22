@@ -6,63 +6,31 @@
 					<button v-if="editMode" @click="toggleEdit()">
 						Cancel
 					</button>
-					<button
-						v-else
-						class="svg edit-button"
-						@click="editClient()"
-					></button>
-					<button
-						class="svg close-button"
-						@click="toggleModal()"
-					></button>
+					<button v-else class="svg edit-button" @click="editClient()"></button>
+					<button class="svg close-button" @click="toggleModal()"></button>
 				</div>
 				<div class="client-info">
 					<div class="col w-60">
 						<div class="row">
 							<Avatar
-								:username="getFirstAndLastName(client.name)"
-								:size="100"
-								class="avatar"
-								:class="getAdminlyColor(client.name)"
-							/>
+:username="getFirstAndLastName(client.name)" :size="100" class="avatar"
+								:class="getAdminlyColor(client.name)" />
 							<div v-if="editMode" class="col ml-22">
 								<input
-									v-model="client.name"
-									placeholder="Name"
-									class="name-input"
-									required
-									@keyup.enter="editClient()"
-								/><input
-									v-model="client.age"
-									class="age-input"
-									type="number"
-									placeholder="Age"
-									@keyup.enter="editClient()"
-								/>
+v-model="client.name" placeholder="Name" class="name-input" required
+									@keyup.enter="editClient()" /><input
+v-model="client.age" class="age-input"
+									type="number" placeholder="Age" @keyup.enter="editClient()" />
 								<input
-									v-model="client.email"
-									placeholder="Email"
-									type="email"
-									class="email"
-									required
+v-model="client.email" placeholder="Email" type="email" class="email" required
 									pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
-									@keyup.enter="editClient()"
-								/>
+									@keyup.enter="editClient()" />
 								<input
-									v-model="client.phoneNumber"
-									placeholder="Phone Number"
-									type="tel"
-									class="phone"
-									minlength="4"
-									pattern="(\+|(\+[1-9])?[0-9]*)"
-									@keyup.enter="editClient()"
-								/>
+v-model="client.phoneNumber" placeholder="Phone Number" type="tel" class="phone"
+									minlength="4" pattern="(\+|(\+[1-9])?[0-9]*)" @keyup.enter="editClient()" />
 								<input
-									v-model="client.city"
-									placeholder="City"
-									class="city"
-									@keyup.enter="editClient()"
-								/>
+v-model="client.city" placeholder="City" class="city"
+									@keyup.enter="editClient()" />
 								<TimezonePicker v-model="client.timezone" />
 							</div>
 							<div v-else class="col">
@@ -76,10 +44,7 @@
 									</div>
 									<div v-if="client.phoneNumber" class="row">
 										<span class="icon phone-icon"></span>
-										<a
-											:href="'tel:' + client.phoneNumber"
-											>{{ client.phoneNumber }}</a
-										>
+										<a :href="'tel:' + client.phoneNumber">{{ client.phoneNumber }}</a>
 									</div>
 								</div>
 								<div class="row" @dblclick="editClient()">
@@ -93,15 +58,9 @@
 
 						<h3 v-if="client.description || editMode">About</h3>
 						<textarea
-							v-if="editMode"
-							v-model="client.description"
-							placeholder="Description"
-							class="client-description"
-						/>
-						<p
-							v-else-if="client.description"
-							@dblclick="editClient()"
-						>
+v-if="editMode" v-model="client.description" placeholder="Description"
+							class="client-description" />
+						<p v-else-if="client.description" @dblclick="editClient()">
 							{{ client.description }}
 						</p>
 					</div>
@@ -110,26 +69,20 @@
 							Other Contacts
 						</h3>
 						<textarea
-							v-if="editMode"
-							v-model="client.contacts"
+v-if="editMode" v-model="client.contacts"
 							placeholder="John Doe +460406280400, Jane Doe +441134960000"
-							title="John Doe +460406280400, Jane Doe +441134960000"
-							class="contacts-list"
-						/>
+							title="John Doe +460406280400, Jane Doe +441134960000" class="contacts-list" />
 						<div v-else @dblclick="editClient()">
 							<ul>
-								<li
-									v-for="(contact, index) in contactsList"
-									:key="index"
-								>
+								<li v-for="(contact, index) in contactsList" :key="index">
 									<a :href="'tel:' + linkfyPhone(contact)">{{
-										linkfyPhone(contact)
+											linkfyPhone(contact)
 									}}</a>
 									{{
-										contact.replace(
-											linkfyPhone(contact),
-											""
-										)
+											contact.replace(
+												linkfyPhone(contact),
+												""
+											)
 									}}
 								</li>
 							</ul>
@@ -141,11 +94,7 @@
 				<div v-if="showSessions" class="sessions">
 					<h3>Sessions' Details</h3>
 					<div class="sessions-list">
-						<SessionCard
-							v-for="session in sessions"
-							:key="session.id"
-							:session="session"
-						/>
+						<SessionCard v-for="session in sessions" :key="session.id" :session="session" />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -161,16 +110,9 @@
 			</div>
 		</Modal>
 		<ClientDeletion
-			v-if="deleteModal"
-			:client="client"
-			@toggle-modal="toggleDeleteModal"
-			@update-clients="updateClients"
-		/>
-		<ErrorModal
-			v-if="errorModal"
-			:message="errorMessage"
-			@toggle-modal="toggleErrorModal"
-		/>
+v-if="deleteModal" :client="client" @toggle-modal="toggleDeleteModal"
+			@update-clients="updateClients" />
+		<ErrorModal v-if="errorModal" :message="errorMessage" @toggle-modal="toggleErrorModal" />
 	</div>
 </template>
 
@@ -178,10 +120,10 @@
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
 import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
-import SessionCard from "./SessionCard";
-import ClientDeletion from "./ClientDeletion";
+import SessionCard from "./SessionCard.vue";
+import ClientDeletion from "./ClientDeletion.vue";
 import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
-import ErrorModal from "./ErrorModal";
+import ErrorModal from "./ErrorModal.vue";
 
 export default {
 	components: {
