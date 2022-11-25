@@ -198,10 +198,6 @@ table button {
 	margin-right: 0.7rem;
 }
 
-.delete-button {
-	background-image: url("../../img/trash.svg");
-}
-
 .email-button {
 	margin: 3px;
 	width: auto;
