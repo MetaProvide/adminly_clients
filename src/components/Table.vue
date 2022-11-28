@@ -203,6 +203,11 @@ table button {
 	width: auto;
 }
 
+.delete-button {
+	background-size: 19px;
+	background-position-y: 7px;
+}
+
 .action-buttons {
 	display: flex;
 }
