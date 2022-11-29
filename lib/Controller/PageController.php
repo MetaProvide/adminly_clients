@@ -334,7 +334,7 @@ class PageController extends Controller {
 		foreach ($events as $event) {
 			$eventData = Reader::read($event["calendardata"]);
 			$dtstart = $eventData->vevent->dtstart->jsonSerialize();
-			$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+			$date = $dtstart[1]->tzid ? new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid)) :  new DateTime($dtstart[3]);
 			$description = $eventData->vevent->description->jsonSerialize()[3];
 
 			$sessions[] = [
@@ -409,7 +409,7 @@ class PageController extends Controller {
 			foreach ($events as $event) {
 				$eventData = Reader::read($event["calendardata"]);
 				$dtstart = $eventData->vevent->dtstart->jsonSerialize();
-				$date = new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid));
+				$date = $dtstart[1]->tzid ? new DateTime($dtstart[3], new DateTimeZone($dtstart[1]->tzid)) :  new DateTime($dtstart[3]);
 
 				$sessionsDates[] = $date->format(DateTime::ISO8601);
 			}
