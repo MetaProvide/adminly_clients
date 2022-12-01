@@ -2,8 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import { getRootUrl, generateUrl } from "@nextcloud/router";
 
-import ClientModal from "./components/ClientModal";
-import ClientCreation from "./components/ClientCreation";
+import ClientModal from "./components/ClientModal.vue";
+import ClientCreation from "./components/ClientCreation.vue";
 
 Vue.use(Router);
 

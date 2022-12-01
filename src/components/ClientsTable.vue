@@ -11,7 +11,7 @@
 				<p>Add Client</p>
 			</button>
 		</div>
-		<Table
+		<AdminlyTable
 			:key="currentPage"
 			:clients="tableContent"
 			:is-empty="isTableEmpty"
@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import { ClientsUtil } from "../utils";
-import Table from "./Table";
+import { ClientsUtil } from "../utils.js";
+import AdminlyTable from "./AdminlyTable.vue";
 import axios from "@nextcloud/axios";
 
 export default {
 	components: {
-		Table,
+		AdminlyTable,
 	},
 	data() {
 		return {

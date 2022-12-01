@@ -78,7 +78,7 @@
 <script>
 import { Modal } from "@nextcloud/vue";
 import axios from "@nextcloud/axios";
-import ErrorModal from "./ErrorModal";
+import ErrorModal from "./ErrorModal.vue";
 
 export default {
 	components: {

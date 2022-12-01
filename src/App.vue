@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ClientsTable from "./components/ClientsTable";
+import ClientsTable from "./components/ClientsTable.vue";
 // import Overview from "./components/Overview";
 
 export default {

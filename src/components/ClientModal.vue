@@ -178,10 +178,10 @@
 import { Modal } from "@nextcloud/vue";
 import Avatar from "vue-avatar";
 import { SessionsUtil, ClientsUtil, TimezoneUtil } from "../utils.js";
-import SessionCard from "./SessionCard";
-import ClientDeletion from "./ClientDeletion";
-import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker";
-import ErrorModal from "./ErrorModal";
+import SessionCard from "./SessionCard.vue";
+import ClientDeletion from "./ClientDeletion.vue";
+import ErrorModal from "./ErrorModal.vue";
+import TimezonePicker from "@nextcloud/vue/dist/Components/TimezonePicker.js";
 
 export default {
 	components: {

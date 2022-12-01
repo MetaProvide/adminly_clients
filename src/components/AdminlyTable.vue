@@ -71,8 +71,8 @@
 
 <script>
 import Avatar from "vue-avatar";
-import ClientDeletion from "./ClientDeletion";
-import { TimezoneUtil } from "../utils";
+import ClientDeletion from "./ClientDeletion.vue";
+import { TimezoneUtil } from "../utils.js";
 import dayjs from "dayjs";
 
 export default {
@@ -151,7 +151,8 @@ table {
 	border-collapse: collapse;
 	box-shadow: 0px 0px 9px var(--adminly-box-shadow-color);
 	border-radius: 15px;
-	border-style: hidden; /* hide standard table (collapsed) border */
+	border-style: hidden;
+	/* hide standard table (collapsed) border */
 	background-color: white;
 	color: var(--adminly-dark-blue);
 }
