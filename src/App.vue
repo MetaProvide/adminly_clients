@@ -78,4 +78,8 @@ main {
 .email-button {
 	background-image: url("../img/email-large.svg");
 }
+
+.delete-button {
+	background-image: url("../img/trash.svg");
+}
 </style>
