@@ -15,18 +15,18 @@
 						v-model="name"
 						type="text"
 						placeholder="Full Name"
-						required
 						@keyup.enter="submitForm()"
 					/>
+					<strong v-if="!isNameValid && showInvalid">erro</strong>
 					<input
 						id="email"
 						v-model="email"
 						type="email"
 						placeholder="Client Email"
-						required
 						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
 						@keyup.enter="submitForm()"
 					/>
+					<strong v-if="!isEmailValid && showInvalid">erro</strong>
 					<input
 						id="phoneNumber"
 						v-model="phoneNumber"
@@ -36,6 +36,7 @@
 						pattern="(\+|(\+[1-9])?[0-9]*)"
 						@keyup.enter="submitForm()"
 					/>
+					<strong v-if="!isPhoneValid && showInvalid">erro</strong>
 					<input
 						id="city"
 						v-model="city"
@@ -95,9 +96,13 @@ export default {
 			country: "",
 			description: "",
 			errorMessage: "",
+			showInvalid: false,
 		};
 	},
 	computed: {
+		isNameValid() {
+			return this.name.length > 0;
+		},
 		isEmailValid() {
 			const emailRegex =
 				/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi; // eslint-disable-line
@@ -106,13 +111,13 @@ export default {
 		isPhoneValid() {
 			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
 			return this.phoneNumber.length < 4 && this.phoneNumber.length > 0
-				? false
-				: phoneRegex.test(this.phoneNumber);
+				? phoneRegex.test(this.phoneNumber)
+				: false;
 		},
 	},
 	methods: {
 		submitForm() {
-			if (this.name && this.isEmailValid && this.isPhoneValid) {
+			if (this.isNameValid && this.isEmailValid && this.isPhoneValid) {
 				axios
 					.post("create", {
 						name: this.name,
@@ -131,6 +136,7 @@ export default {
 						this.country = "";
 						this.phone = "";
 						this.description = "";
+						this.showInvalid = false;
 					})
 					.catch((error) => {
 						this.errorMessage = error.response
@@ -138,6 +144,8 @@ export default {
 							: error;
 						this.toggleErrorModal(this.errorMessage);
 					});
+			} else {
+				this.showInvalid = true;
 			}
 		},
 		toggleModal() {
