@@ -14,29 +14,38 @@
 						id="name"
 						v-model="name"
 						type="text"
+						:class="{ 'input-invalid': showNameInvalid }"
 						placeholder="Full Name"
 						@keyup.enter="submitForm()"
 					/>
-					<strong v-if="!isNameValid && showInvalid">erro</strong>
+					<small v-if="showNameInvalid" class="error-tag"
+						>Please enter the client's name</small
+					>
 					<input
 						id="email"
 						v-model="email"
 						type="email"
+						:class="{ 'input-invalid': showEmailInvalid }"
 						placeholder="Client Email"
 						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
 						@keyup.enter="submitForm()"
 					/>
-					<strong v-if="!isEmailValid && showInvalid">erro</strong>
+					<small v-if="showEmailInvalid" class="error-tag"
+						>Please enter a valid email address</small
+					>
 					<input
 						id="phoneNumber"
 						v-model="phoneNumber"
 						type="tel"
+						:class="{ 'input-invalid': showPhoneInvalid }"
 						placeholder="Phone Number"
 						minlength="4"
 						pattern="(\+|(\+[1-9])?[0-9]*)"
 						@keyup.enter="submitForm()"
 					/>
-					<strong v-if="!isPhoneValid && showInvalid">erro</strong>
+					<small v-if="showPhoneInvalid" class="error-tag"
+						>Please enter a valid phone number</small
+					>
 					<input
 						id="city"
 						v-model="city"
@@ -109,10 +118,19 @@ export default {
 			return emailRegex.test(this.email);
 		},
 		isPhoneValid() {
-			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
-			return this.phoneNumber.length < 4 && this.phoneNumber.length > 0
+			const phoneRegex = /^[0-9 .()\-+]*$/g; // eslint-disable-line
+			return this.phoneNumber.length > 4
 				? phoneRegex.test(this.phoneNumber)
 				: false;
+		},
+		showNameInvalid() {
+			return !this.isNameValid && this.showInvalid;
+		},
+		showEmailInvalid() {
+			return !this.isEmailValid && this.showInvalid;
+		},
+		showPhoneInvalid() {
+			return !this.isPhoneValid && this.showInvalid;
 		},
 	},
 	methods: {
@@ -218,5 +236,18 @@ button {
 
 .modal-footer {
 	margin-top: 2rem;
+	justify-content: flex-end;
+}
+
+.input-invalid {
+	border-color: red;
+}
+
+.input-invalid::placeholder {
+	color: rgba(255, 0, 0, 0.7);
+}
+
+.error-tag {
+	color: red;
 }
 </style>
