@@ -82,4 +82,16 @@ main {
 .delete-button {
 	background-image: url("../img/trash.svg");
 }
+
+.input-invalid {
+	border-color: red !important;
+}
+
+.input-invalid::placeholder {
+	color: rgba(255, 0, 0, 0.7);
+}
+
+.error-tag {
+	color: red;
+}
 </style>

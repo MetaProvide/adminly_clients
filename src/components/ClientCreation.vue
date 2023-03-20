@@ -238,16 +238,4 @@ button {
 	margin-top: 2rem;
 	justify-content: flex-end;
 }
-
-.input-invalid {
-	border-color: red;
-}
-
-.input-invalid::placeholder {
-	color: rgba(255, 0, 0, 0.7);
-}
-
-.error-tag {
-	color: red;
-}
 </style>

@@ -31,8 +31,13 @@
 									placeholder="Name"
 									class="name-input"
 									required
+									:class="{ 'input-invalid': !isNameValid }"
 									@keyup.enter="editClient()"
-								/><input
+								/>
+								<small v-if="!isNameValid" class="error-tag"
+									>Please enter the client's name</small
+								>
+								<input
 									v-model="client.age"
 									class="age-input"
 									type="number"
@@ -45,9 +50,13 @@
 									type="email"
 									class="email"
 									required
+									:class="{ 'input-invalid': !isEmailValid }"
 									pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
 									@keyup.enter="editClient()"
 								/>
+								<small v-if="!isEmailValid" class="error-tag"
+									>Please enter a valid email address</small
+								>
 								<input
 									v-model="client.phoneNumber"
 									placeholder="Phone Number"
@@ -55,8 +64,11 @@
 									class="phone"
 									minlength="4"
 									pattern="(\+|(\+[1-9])?[0-9]*)"
+									:class="{ 'input-invalid': !isPhoneValid }"
 									@keyup.enter="editClient()"
-								/>
+								/><small v-if="!isPhoneValid" class="error-tag"
+									>Please enter a valid phone number</small
+								>
 								<input
 									v-model="client.city"
 									placeholder="City"
@@ -153,7 +165,11 @@
 						<button @click="toggleDeleteModal()">
 							Delete Client
 						</button>
-						<button class="update" @click="editClient()">
+						<button
+							class="update"
+							:disabled="!areFieldsValid"
+							@click="editClient()"
+						>
 							Update
 						</button>
 					</div>
@@ -200,6 +216,7 @@ export default {
 			errorModal: false,
 			client: {},
 			errorMessage: "",
+			showInvalid: true,
 		};
 	},
 	computed: {
@@ -224,11 +241,16 @@ export default {
 			return emailRegex.test(this.client.email);
 		},
 		isPhoneValid() {
-			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
-			return this.client.phoneNumber.length < 4 &&
-				this.client.phoneNumber.length > 0
-				? false
-				: phoneRegex.test(this.client.phoneNumber);
+			const phoneRegex = /^[0-9 .()\-+]*$/g; // eslint-disable-line
+			return this.client.phoneNumber.length > 4
+				? phoneRegex.test(this.client.phoneNumber)
+				: false;
+		},
+		isNameValid() {
+			return this.client.name.length > 0;
+		},
+		areFieldsValid() {
+			return this.isEmailValid && this.isPhoneValid && this.isNameValid;
 		},
 	},
 	async mounted() {
@@ -484,11 +506,6 @@ li {
 h1,
 h3 {
 	color: var(--color-main-text);
-}
-
-input:focus,
-textarea:focus {
-	border-color: var(--adminly-blue) !important;
 }
 
 .info .row {
