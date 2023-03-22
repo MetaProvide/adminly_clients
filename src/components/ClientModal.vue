@@ -40,10 +40,13 @@
 								<input
 									v-model="client.age"
 									class="age-input"
-									type="number"
 									placeholder="Age"
+									:class="{ 'input-invalid': !isAgeValid }"
 									@keyup.enter="editClient()"
 								/>
+								<small v-if="!isAgeValid" class="error-tag"
+									>Please enter a valid age</small
+								>
 								<input
 									v-model="client.email"
 									placeholder="Email"
@@ -249,8 +252,17 @@ export default {
 		isNameValid() {
 			return this.client.name.length > 0;
 		},
+		isAgeValid() {
+			const ageRegex = /^[0-9]*$/g; // eslint-disable-line
+			return ageRegex.test(this.client.age);
+		},
 		areFieldsValid() {
-			return this.isEmailValid && this.isPhoneValid && this.isNameValid;
+			return (
+				this.isEmailValid &&
+				this.isPhoneValid &&
+				this.isNameValid &&
+				this.isAgeValid
+			);
 		},
 	},
 	async mounted() {
