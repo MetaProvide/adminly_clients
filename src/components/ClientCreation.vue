@@ -14,28 +14,38 @@
 						id="name"
 						v-model="name"
 						type="text"
+						:class="{ 'input-invalid': showNameInvalid }"
 						placeholder="Full Name"
-						required
 						@keyup.enter="submitForm()"
 					/>
+					<small v-if="showNameInvalid" class="error-tag"
+						>Please enter the client's name</small
+					>
 					<input
 						id="email"
 						v-model="email"
 						type="email"
+						:class="{ 'input-invalid': showEmailInvalid }"
 						placeholder="Client Email"
-						required
 						pattern="([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)"
 						@keyup.enter="submitForm()"
 					/>
+					<small v-if="showEmailInvalid" class="error-tag"
+						>Please enter a valid email address</small
+					>
 					<input
 						id="phoneNumber"
 						v-model="phoneNumber"
 						type="tel"
+						:class="{ 'input-invalid': showPhoneInvalid }"
 						placeholder="Phone Number"
 						minlength="4"
 						pattern="(\+|(\+[1-9])?[0-9]*)"
 						@keyup.enter="submitForm()"
 					/>
+					<small v-if="showPhoneInvalid" class="error-tag"
+						>Please enter a valid phone number</small
+					>
 					<input
 						id="city"
 						v-model="city"
@@ -95,24 +105,37 @@ export default {
 			country: "",
 			description: "",
 			errorMessage: "",
+			showInvalid: false,
 		};
 	},
 	computed: {
+		isNameValid() {
+			return this.name.length > 0;
+		},
 		isEmailValid() {
 			const emailRegex =
 				/([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi; // eslint-disable-line
 			return emailRegex.test(this.email);
 		},
 		isPhoneValid() {
-			const phoneRegex = /^[0-9 .()\-+,/]*$/g; // eslint-disable-line
-			return this.phoneNumber.length < 4 && this.phoneNumber.length > 0
-				? false
-				: phoneRegex.test(this.phoneNumber);
+			const phoneRegex = /^[0-9 .()\-+]*$/g; // eslint-disable-line
+			return this.phoneNumber.length > 4
+				? phoneRegex.test(this.phoneNumber)
+				: false;
+		},
+		showNameInvalid() {
+			return !this.isNameValid && this.showInvalid;
+		},
+		showEmailInvalid() {
+			return !this.isEmailValid && this.showInvalid;
+		},
+		showPhoneInvalid() {
+			return !this.isPhoneValid && this.showInvalid;
 		},
 	},
 	methods: {
 		submitForm() {
-			if (this.name && this.isEmailValid && this.isPhoneValid) {
+			if (this.isNameValid && this.isEmailValid && this.isPhoneValid) {
 				axios
 					.post("create", {
 						name: this.name,
@@ -131,6 +154,7 @@ export default {
 						this.country = "";
 						this.phone = "";
 						this.description = "";
+						this.showInvalid = false;
 					})
 					.catch((error) => {
 						this.errorMessage = error.response
@@ -138,6 +162,8 @@ export default {
 							: error;
 						this.toggleErrorModal(this.errorMessage);
 					});
+			} else {
+				this.showInvalid = true;
 			}
 		},
 		toggleModal() {
@@ -210,5 +236,6 @@ button {
 
 .modal-footer {
 	margin-top: 2rem;
+	justify-content: flex-end;
 }
 </style>
