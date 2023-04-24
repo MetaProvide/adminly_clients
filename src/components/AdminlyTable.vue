@@ -15,7 +15,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="client in clients" :key="client.username">
+				<tr
+					v-for="client in clients"
+					:key="client.username"
+					@dblclick="openClientModal(client.id)"
+				>
 					<td v-for="col in columns" :key="col.label">
 						<div class="row">
 							<Avatar
